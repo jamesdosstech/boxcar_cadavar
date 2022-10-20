@@ -1,32 +1,20 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { Route, Routes, Outlet} from 'react-router-dom';
+import ImageIcon from './components/image-icon/image-icon.component'
 
-import CommentItem from './components/comment-item/comment-item.component'
+import Splash from './routes/splash/splash.component';
+import Showroom from './routes/showroom/showroom.component';
+import Navigation from './routes/navigation/navigation.component'
 
 const App = () => {
-  const Title = 'Doosetrain';
-
-  const [userComments, setUserComments] = useState([]);
-
-  useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
-    .then((response) => response.json())
-    .then((comments) => {
-      console.log(comments);
-      setUserComments(comments)
-    })
-  },[])
-
-  // console.log({userComments});
 
   return (
-    <div className="App">
-      <h1>{Title}</h1>
-      <input />
-      <div>
-        <CommentItem userComments={userComments} />
-      </div>
-      
+    <div>
+      <Routes>
+        <Route path='/' element={<Navigation />}/>
+        <Route index element={<Splash />}/>
+        <Route path='/showroom' element={<Showroom />}/>
+      </Routes>
     </div>
   );
 }
