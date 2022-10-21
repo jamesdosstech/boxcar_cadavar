@@ -1,5 +1,8 @@
 import ImageIcon from '../../components/image-icon/image-icon.component'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
+import Button from '../../components/button/button.component';
+
 const Showroom = () => {
     const Title = 'Showroom'
     return (
@@ -8,7 +11,7 @@ const Showroom = () => {
             <ImageIcon />
             <div>
                 <Link to='/'>
-                    Back
+                    <Button>back</Button>
                 </Link>
             </div>        
         </div>

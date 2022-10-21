@@ -1,4 +1,5 @@
 import TrainIcon from '../../assets/train-icon.svg';
+import './image-icon.styles.scss';
 
 const ImageIcon = () => {
     return (

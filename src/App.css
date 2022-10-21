@@ -1,6 +1,10 @@
+* {
+  background-color: #122C0C;
+}
 .App {
   text-align: center;
   font-family: 'Press Start 2P';
+  color: white;
 }
 
 .App-logo {

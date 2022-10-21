@@ -1,0 +1,22 @@
+.button-container {
+    width: 372px;
+    height: 83.01px;
+    left: 570px;
+    top: 649px;
+
+    background: #9B0363;
+    border: 8px solid #35F0FD;
+    border-radius: 16px; 
+    
+    font-family: 'Press Start 2P';
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    color: #35F0FD;
+    cursor: pointer;
+
+    &:hover {
+        background-color: white;
+        color: black;
+    }
+}
