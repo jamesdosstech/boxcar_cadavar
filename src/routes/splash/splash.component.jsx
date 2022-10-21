@@ -1,11 +1,11 @@
 import './splash.styles.scss';
-import ImageIcon from '../../components/image-icon/image-icon.component'
-import { Link } from 'react-router-dom';
 
-import Button from '../../components/button/button.component'
+import { useCountdown } from '../../hooks/usecountdown.component'
 
-const Splash = () => {
-    const Title = 'Doosetrain';
+import SplashEnter from '../../components/splash-enter/splash-enter.component'
+import SplashTimer from '../../components/splash-timer/splash-timer.component'
+
+const Splash = ({targetDate}) => {
     const trainList = [
         {
             id: 0,
@@ -33,41 +33,33 @@ const Splash = () => {
         {
             id: 0,
             welcomeMessage: 'welcome to doosetrain, friends',
-            subtitle: 'live dj streams every friday.'
+            subtitle: 'live dj streams every friday'
         },
+        {
+            id: 1,
+            welcomeMessage: 'welcome to doosetrain, friends',
+            subtitle: "you're early! the next show starts in...",
+            reminder: 'see you friday!'
+        }
     ]
 
+    const [days, hours, minutes, seconds] = useCountdown(targetDate)
+    const date = new Date();
     return (
-        <div className="splash-container">
-            <div>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    {
-                        trainList.map((train) => {
-                            const { id, name } = train;
-                            return (
-                                <ImageIcon key={id} alt={`${name}`} />
-                            )
-                        })
-                    }
-                </div>
-                <div>
-                    <h1>
-                        {splashMessage[0].welcomeMessage}
-                    </h1>
-                    <p>
-                        {splashMessage[0].subtitle}
-                    </p>
-                </div>
-            </div>
-            <div>
-                <Link to='/showroom'>
-                    <Button>enter here</Button>
-                </Link>
-            </div>      
+        <div className='App'>
+            {
+                date.getDay() === 5 ?
+                <SplashEnter 
+                    message={splashMessage} trainList={trainList}
+                /> :
+                <SplashTimer 
+                    days={days}
+                    hours={hours}
+                    minutes={minutes}
+                    seconds={seconds}
+                    message={splashMessage} trainList={trainList}
+                />
+            }
         </div>
     )
 }

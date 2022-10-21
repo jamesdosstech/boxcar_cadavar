@@ -1,10 +1,10 @@
 import TrainIcon from '../../assets/train-icon.svg';
 import './image-icon.styles.scss';
 
-const ImageIcon = () => {
+const ImageIcon = ({alt}) => {
     return (
         <div className='image-icon-container'>
-            <img src={TrainIcon} />
+            <img alt={alt} src={TrainIcon} />
         </div>
     )
 }
