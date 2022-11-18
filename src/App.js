@@ -17,7 +17,7 @@ const App = () => {
   const actualNextFriday = nextFriday.getTime();  
 
   const timeAfterThreeDays = actualNextFriday;
-  
+
   return (
     <div>
       <Routes>
