@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import Splash from './routes/splash/splash.component';
 import Showroom from './routes/showroom/showroom.component';
 import Navigation from './routes/navigation/navigation.component'
+import SignIn from './routes/sign-in/sign-in.component'
 
 const App = () => {
   const date = new Date();
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='/' element={<Navigation />}/>
         <Route index element={<Splash targetDate={timeAfterThreeDays} />}/>
         <Route path='/showroom' element={<Showroom />}/>
+        <Route path='sign-in' element={<SignIn />}/>
       </Routes>
     </div>
   );
