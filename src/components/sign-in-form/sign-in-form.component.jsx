@@ -36,13 +36,21 @@ const SignUpForm = () => {
 
         try {
             resetFormFields();
-            const { user } = await signInAuthUserWithEmailAndPassword(email,password); 
+            const { user } = await signInAuthUserWithEmailAndPassword(
+                email,
+                password
+                ); 
             setCurrentUser(user);
         } catch(error) {
-            if(error.code === 'auth/email-already-in-use') {
-                alert('cannot create user, email already in use')
-            } else {
-                console.log('user create encountered an error ', error)
+            switch(error.code) {
+                case 'auth/wrong-password':
+                    alert('wrong password homie');
+                    break;
+                case 'auth/user-not-found':
+                    alert('you aint in the sys homie');
+                    break;
+                default:
+                    console.log(error);
             }
         }
     }
@@ -50,6 +58,7 @@ const SignUpForm = () => {
     const signInWithGoogle = async () => {
         const {user} = await signInWithGooglePopup();
         await createUserDocumentFromAuth(user);
+        setCurrentUser(user);
     }
     
     return (
@@ -65,7 +74,7 @@ const SignUpForm = () => {
                         name="email"
                         value={email}
                         onChange={handleChange}
-                        required
+                        // required
                     />
                 </div>
                 <div>
@@ -75,12 +84,12 @@ const SignUpForm = () => {
                         name="password"
                         value={password}
                         onChange={handleChange}
-                        required
+                        // required
                     />
                 </div>
                 <div className='buttons-container'>
                     <Button type='submit'>Sign In</Button>
-                    <Button type='button' onClick={signInWithGoogle}>Google</Button>
+                    <Button type='button' onClick={signInWithGoogle} buttonType='google'>Google</Button>
                 </div>
             </form>
         </div>
