@@ -1,5 +1,4 @@
 import './showroom.styles.scss';
-import { useState, useReducer } from 'react';
 
 import ImageIcon from '../../components/image-icon/image-icon.component'
 import { Link } from 'react-router-dom';

@@ -5,7 +5,8 @@ import {
     signInWithPopup,
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    signOut
 } from 'firebase/auth';
 
 import {
@@ -25,6 +26,7 @@ const firebaseConfig = {
     measurementId: "G-DSHDM3JS4Q"
   };
 
+// eslint-disable-next-line
 const firebaseApp = initializeApp(firebaseConfig)
 const provider = new GoogleAuthProvider();
 
@@ -73,5 +75,7 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
     return await signInWithEmailAndPassword(auth, email, password);
 }
+
+export const signOutUser = async () => await signOut(auth);
 
 

@@ -22,10 +22,11 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path='/' element={<Navigation />}/>
-        <Route index element={<Splash targetDate={timeAfterThreeDays} />}/>
-        <Route path='/showroom' element={<Showroom />}/>
-        <Route path='sign-in' element={<Authentication />}/>
+        <Route path='/' element={<Navigation />}>
+          <Route index element={<Splash targetDate={timeAfterThreeDays} />}/>
+          <Route path='/showroom' element={<Showroom />}/>
+          <Route path='sign-in' element={<Authentication />}/>
+        </Route>
       </Routes>
     </div>
   );

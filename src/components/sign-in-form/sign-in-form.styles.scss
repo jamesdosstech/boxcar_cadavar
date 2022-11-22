@@ -1,14 +1,22 @@
-.sign-up-container {
+.sign-in-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
+    margin-left: 14px;
 
-    h2 {
-        margin: 10px 0;
+    .sign-in-header {
+        font-family: 'Press Start 2P';
+        color: pink
     }
 
     .buttons-container {
         display: flex;
         justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    .sign-in-container {
+        padding-top: 25px;
     }
 }

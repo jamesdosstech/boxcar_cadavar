@@ -1,9 +1,15 @@
 .sign-up-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 400px;
+    padding-left: 14px;
 
-    h2 {
-        margin: 10px 0;
+    .sign-up-header {
+        font-family: 'Press Start 2P';
+        color: pink
+    }
+
+    .buttons-container {
+        max-width: 100%
     }
 }

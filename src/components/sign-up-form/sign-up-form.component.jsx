@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import './sign-up-form.styles.scss';
 
 import Button from '../button/button.component'
+import FormInput from '../../components/form-input/form-input.component';
 
 import {createAuthUserWithEmailAndPassword, createUserDocumentFromAuth} from '../../utils/firebase/firebase.utils'
 
-import FormInput from '../../components/form-input/form-input.component';
+import { UserContext } from '../../context/user/user.context';
 
 const defaultFormFields = {
     displayName: "",
@@ -19,6 +20,8 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {displayName, email, password, confirmPassword} = formFields;
     
+    const {setCurrentUser} = useContext(UserContext);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormFields({ ...formFields, [name]: value })
@@ -37,6 +40,7 @@ const SignUpForm = () => {
 
         try {
             const { user } = await createAuthUserWithEmailAndPassword(email,password);
+            setCurrentUser(user);
             await createUserDocumentFromAuth( user, { displayName });
             resetFormFields();
         } catch(error) {
@@ -49,9 +53,9 @@ const SignUpForm = () => {
     }
     
     return (
-        <div style={{color: "white"}}>
+        <div className='sign-up-container'>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className='sign-up-header'>
                     Sign Up Form
                 </div>
                 <div>
@@ -94,7 +98,7 @@ const SignUpForm = () => {
                         required
                     />
                 </div>
-                <div>
+                <div className='buttons-container'>
                     <Button type='submit'>Submit</Button>
                 </div>
             </form>
