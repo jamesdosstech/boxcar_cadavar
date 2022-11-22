@@ -20,7 +20,7 @@ const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
-    const { setCurrentUser } = useContext(UserContext);
+    // const { setCurrentUser } = useContext(UserContext);
     
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -40,7 +40,7 @@ const SignUpForm = () => {
                 email,
                 password
                 ); 
-            setCurrentUser(user);
+            // setCurrentUser(user);
         } catch(error) {
             switch(error.code) {
                 case 'auth/wrong-password':
@@ -56,9 +56,10 @@ const SignUpForm = () => {
     }
 
     const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
-        setCurrentUser(user);
+        // const {user} = await signInWithGooglePopup();
+        // await createUserDocumentFromAuth(user);
+        // setCurrentUser(user);
+        await signInWithGooglePopup();
     }
     
     return (

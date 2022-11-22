@@ -1,25 +1,22 @@
 import { Outlet, Link } from 'react-router-dom';
+import './navigation.styles.scss';
 import { Fragment, useContext } from 'react';
 
 import { UserContext } from '../../context/user/user.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 const Navigation = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   
-  const signOutHandler = async () => {
-    await signOutUser();
-    setCurrentUser(null);
-  }
   return (
     <>
-      <div>
+      <div className='navigation-container'>
       {
         currentUser ? (
-          <h1 onClick={signOutHandler}>SIGN OUT</h1>
+          <div className='red-dot' onClick={signOutUser}></div>
         ) : (
           <Link to='/sign-in'>
-            <h1>SIGN IN</h1>
+            <div className='green-dot'></div>
           </Link>
         )
       }

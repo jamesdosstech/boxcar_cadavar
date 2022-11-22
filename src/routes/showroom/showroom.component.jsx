@@ -30,12 +30,7 @@ const Showroom = () => {
             <div style={{display: "flex",justifyContent: "space-evenly"}}>
                 <StreamContainer />
                 <Comments comments={initialComments}/>
-            </div>    
-            <div>
-                <Link to='/'>
-                    <Button>back</Button>
-                </Link>
-            </div>        
+            </div>          
         </div>
     )
 }
