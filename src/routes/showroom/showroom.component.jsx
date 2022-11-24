@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+
 import './showroom.styles.scss';
 
 import ImageIcon from '../../components/image-icon/image-icon.component'
@@ -9,8 +11,11 @@ import CommentContainer from '../../components/comment-container/comment-contain
 
 import Button from '../../components/button/button.component';
 
+import { UserContext } from '../../context/user/user.context';
+
 const Showroom = () => {
     const Title = 'Showroom';
+    const { currentUser } = useContext(UserContext)
 
     // const initialComments = [
     //     {
@@ -28,7 +33,7 @@ const Showroom = () => {
             <h1>{Title}</h1>
             <ImageIcon />
             <div style={{display: "flex",justifyContent: "space-evenly"}}>
-                <CommentContainer />
+                <CommentContainer currentUser={currentUser}/>
                 <StreamContainer />
                 {/* <Comments comments={initialComments}/> */}              
             </div>          

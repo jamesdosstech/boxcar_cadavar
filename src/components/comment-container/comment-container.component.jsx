@@ -4,11 +4,12 @@ import { UserContext } from '../../context/user/user.context';
 import { MessagesContext } from '../../context/messages/messages.context'
 import {getMessagesAndDocuments} from '../../utils/firebase/firebase.utils'
 
-const CommentContainer = () => {
-    const { currentUser } = useContext(UserContext)
+const CommentContainer = ({ currentUser }) => {
     const { messagesMap } = useContext(MessagesContext);
 
-    // const { uid, displayName } = currentUser;
+    const { displayName } = currentUser
+
+    console.log('messagesMap: ', messagesMap);
 
     const [messages, setMessages] = useState(messagesMap);
 
@@ -23,8 +24,7 @@ const CommentContainer = () => {
 
         const trimmedMessage = newMessage.trim();
         if(trimmedMessage) {
-            const { messageRef } = getMessagesAndDocuments();
-            messageRef.add({
+            messagesMap.push({
                 text: trimmedMessage
             });
             setNewMessage('');
@@ -46,7 +46,7 @@ const CommentContainer = () => {
                 })
             }    
             </div>
-            <form onSubmit={() => {}}>
+            <form onSubmit={handleOnSubmit}>
                 <input
                     type='text'
                     value={newMessage}
