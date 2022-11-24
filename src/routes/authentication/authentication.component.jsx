@@ -12,7 +12,6 @@ import { useContext } from 'react';
 
 const Authentication = () => {
     const { currentUser } = useContext(UserContext);
-
     const date = new Date();
     const dateCopy = new Date(date.getTime());
     const nextFriday = new Date(

@@ -14,7 +14,11 @@ import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    getDocs,
+    collection,
+    query,
+    limit
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -85,4 +89,11 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
-
+export const getMessagesAndDocuments = async () => {
+    const messageRef = collection(db, 'messages');
+    const q = query(messageRef, limit(25));
+    
+    const querySnapshot = await getDocs(q);
+    console.log('message data: ', querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
+    return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
+}
