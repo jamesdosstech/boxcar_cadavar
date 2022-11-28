@@ -12,9 +12,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <MessagesProvider>
+        {/* <MessagesProvider> */}
           <App />  
-        </MessagesProvider>
+        {/* </MessagesProvider> */}
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

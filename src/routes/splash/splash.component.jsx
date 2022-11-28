@@ -48,7 +48,7 @@ const Splash = ({targetDate}) => {
     return (
         <div className='App'>
             {
-                date.getDay() === 0 ?
+                date.getDay() === 1 ?
                 <SplashEnter 
                     message={splashMessage} trainList={trainList}
                 /> :

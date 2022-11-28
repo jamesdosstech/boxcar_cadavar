@@ -20,7 +20,10 @@ import {
     query,
     limit,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    onSnapshot,
+    orderBy,
+    QuerySnapshot
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -91,15 +94,6 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);
 
-export const getMessagesAndDocuments = async () => {
-    const messageRef = collection(db, 'messages');
-    const q = query(messageRef, limit(25));
-    
-    const querySnapshot = await getDocs(q);
-    console.log('message data: ', querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
-    return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
-}
-
 export const sendMessage = async (user, text) => {
     try {
         await addDoc(collection(db, 'messages'), {
@@ -111,4 +105,21 @@ export const sendMessage = async (user, text) => {
     } catch (error) {
         console.error(error);
     }
+}
+
+export const getMessages = (callback) => {
+    return onSnapshot(
+        query(
+            collection(db, 'messages'),
+            orderBy('timestamp', 'desc'),
+            limit(10)
+        ),
+        (querySnapshot) => {
+            const messages = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            callback(messages);
+        }
+    )
 }

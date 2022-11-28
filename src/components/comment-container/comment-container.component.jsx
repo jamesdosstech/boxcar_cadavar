@@ -1,16 +1,27 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 import { MessagesContext } from '../../context/messages/messages.context'
-import {sendMessage} from '../../utils/firebase/firebase.utils'
+import {sendMessage} from '../../utils/firebase/firebase.utils';
+import {useMessages } from '../../hooks/useMessages.hook';
+import {UserContext} from '../../context/user/user.context'
+
+import './comment-container.styles.scss';
+
+const Message = ({ message, isOwnMessage }) => {
+    const { displayName, text } = message;
+    return (
+        <li className={['message', isOwnMessage && 'own-message'].join(' ')}>
+            <h4 className='sender'>{isOwnMessage ? 'You' : displayName}</h4>
+            <div>{text}</div>
+        </li>
+    )
+}
 
 const CommentContainer = ({ currentUser }) => {
-    const { messagesMap } = useContext(MessagesContext);
+    // const { messagesMap } = useContext(MessagesContext);
+    const messages = useMessages();
 
-    console.log('currentuser: ', currentUser)
-
-    console.log('messagesMap: ', messagesMap);
-
-    const [messages, setMessages] = useState(messagesMap);
+    const containerRef = useRef(null)
 
     const [newMessage, setNewMessage] = useState('');
 
@@ -24,22 +35,24 @@ const CommentContainer = ({ currentUser }) => {
         setNewMessage('');
     }
 
-    useEffect(() => {
-        const unsubscribe = setMessages(messagesMap);
-        return unsubscribe
-    },[messagesMap])
+    useLayoutEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    })
 
     return (
         <div>
-            <div>
+        <div className='message-list-container' >
+            <ul className='message-list'>
             {
-                messages && messages.map((message) => {
-                    return (
-                        <div key={message.id}>{message.text}</div>
-                    )
-                })
+                messages && messages.map((message) => (
+                    <Message key={message.id} message={message} isOwnMessage={message.uid === currentUser.uid}></Message>
+                ))
             }    
-            </div>
+            </ul>
+        </div>
+        <div>
             <form onSubmit={handleOnSubmit}>
                 <input
                     type='text'
@@ -54,6 +67,7 @@ const CommentContainer = ({ currentUser }) => {
                     Send
                 </button>
             </form>
+        </div>
         </div>
     )
 }
