@@ -18,7 +18,9 @@ import {
     getDocs,
     collection,
     query,
-    limit
+    limit,
+    addDoc,
+    serverTimestamp
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -96,4 +98,17 @@ export const getMessagesAndDocuments = async () => {
     const querySnapshot = await getDocs(q);
     console.log('message data: ', querySnapshot.docs.map(docSnapshot => docSnapshot.data()));
     return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
+}
+
+export const sendMessage = async (user, text) => {
+    try {
+        await addDoc(collection(db, 'messages'), {
+            uid: user.uid,
+            displayName: user.displayName,
+            text: text.trim(),
+            timestamp: serverTimestamp(),
+        })
+    } catch (error) {
+        console.error(error);
+    }
 }

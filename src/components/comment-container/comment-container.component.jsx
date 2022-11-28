@@ -1,13 +1,12 @@
 import { useContext, useState, useEffect } from 'react';
 
-import { UserContext } from '../../context/user/user.context';
 import { MessagesContext } from '../../context/messages/messages.context'
-import {getMessagesAndDocuments} from '../../utils/firebase/firebase.utils'
+import {sendMessage} from '../../utils/firebase/firebase.utils'
 
 const CommentContainer = ({ currentUser }) => {
     const { messagesMap } = useContext(MessagesContext);
 
-    const { displayName } = currentUser
+    console.log('currentuser: ', currentUser)
 
     console.log('messagesMap: ', messagesMap);
 
@@ -21,25 +20,20 @@ const CommentContainer = ({ currentUser }) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
-
-        const trimmedMessage = newMessage.trim();
-        if(trimmedMessage) {
-            messagesMap.push({
-                text: trimmedMessage
-            });
-            setNewMessage('');
-        }
+        sendMessage(currentUser, newMessage);
+        setNewMessage('');
     }
 
     useEffect(() => {
-        setMessages(messagesMap)
+        const unsubscribe = setMessages(messagesMap);
+        return unsubscribe
     },[messagesMap])
+
     return (
         <div>
             <div>
             {
                 messages && messages.map((message) => {
-                    console.log(message.text);
                     return (
                         <div key={message.id}>{message.text}</div>
                     )
