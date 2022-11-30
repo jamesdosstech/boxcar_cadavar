@@ -35,27 +35,27 @@ const CommentContainer = ({ currentUser }) => {
 
     return (
         <div style={{height:'438px'}}>
-        <div className='message-list-container' >
-            <ul className='message-list'>
-            {
-                messages && messages.map((message) => (
-                    <Message key={message.id} message={message} isOwnMessage={message.uid === currentUser.uid}></Message>
-                ))
-            }    
-            </ul>
-        </div>
-        <div >
-            <form className='input-container' onSubmit={handleOnSubmit}>
-                <input
-                    type='text'
-                    value={newMessage}
-                    onChange={handleOnChange}
-                    placeholder="Type your message enter"
-                    className='input-container'
-                />
-                <Button type='submit' style={{borderRadius:'0px',height:'42px',width: '64px', fontSize: '10px', border: 'none'}} disabled={!newMessage}>Send</Button>
-            </form>
-        </div>
+            <div className='message-list-container' >
+                <ul className='message-list'>
+                {
+                    messages && messages.map((message) => (
+                        <Message key={message.id} message={message} isOwnMessage={message.uid === currentUser.uid}></Message>
+                    ))
+                }    
+                </ul>
+            </div>
+            <div >
+                <form className='input-container' onSubmit={handleOnSubmit}>
+                    <input
+                        type='text'
+                        value={newMessage}
+                        onChange={handleOnChange}
+                        placeholder="Type your message enter"
+                        className='input-container'
+                    />
+                    <Button type='submit' style={{borderRadius:'0px',height:'42px',width: '64px', fontSize: '10px', border: 'none'}} disabled={!newMessage}>Send</Button>
+                </form>
+            </div>
         </div>
     )
 }
