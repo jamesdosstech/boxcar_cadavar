@@ -1,10 +1,10 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import './showroom.styles.scss';
 
 import ImageIcon from '../../components/image-icon/image-icon.component'
 
-import Comments from '../../components/comments/comments.component';
 
 import StreamContainer from '../../components/stream-container/stream-container.component';
 import CommentContainer from '../../components/comment-container/comment-container.component'
@@ -33,7 +33,13 @@ const Showroom = () => {
             <h1>{Title}</h1>
             <ImageIcon />
             <div style={{display: "flex",justifyContent: "space-evenly"}}>
-                <CommentContainer currentUser={currentUser}/>
+                {
+                    currentUser ? (
+                        <CommentContainer currentUser={currentUser}/>
+                    ) : (
+                        <Button ><Link to='/sign-in'>Sign In</Link></Button>
+                    )
+                }
                 <StreamContainer />
                 {/* <Comments comments={initialComments}/> */}              
             </div>          

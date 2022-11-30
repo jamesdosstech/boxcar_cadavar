@@ -1,11 +1,17 @@
 .message-list-container {
-    margin-bottom: 16px;
+    // margin-bottom: 16px;
+    width: 400px;
     flex: 1;
     overflow: scroll;
+    scrollbar-width: thin;
+}
+
+.message-list-container::-webkit-scrollbar {
+    display: none;
 }
 
 .message-list {
-    height: 450px;
+    height: 376px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -14,17 +20,35 @@
 .message {
     padding: 8px 16px;
     margin-bottom: 8px;
-    background: grey;
+    background: rgb(248, 203, 246);
     border-radius: 15px;
     text-align: left;
 }
 
 .own-message {
-    background: blue;
+    background: rgb(178, 208, 248);
     align-self: flex-end;
     text-align: right;
 }
 
 .sender {
     margin-bottom: 8px;
+}
+
+input[type=text] {
+    // background-color: black;
+    // color: white;
+    font-size: 16px;
+    width: 100%;
+    padding: 12px 20px;
+    // margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    background-color: black;
+    color: white;
+}
+
+.input-container {
+    display: flex;
+    justify-content: stretch;
 }

@@ -16,7 +16,10 @@ const Authentication = () => {
     const dateCopy = new Date(date.getTime());
     const nextFriday = new Date(
         dateCopy.setDate(
-        dateCopy.getDate() + ((7 - dateCopy.getDay() + 5) % 7 || 7)
+        dateCopy.getDate() + ((7 - dateCopy.getDay() + 5) % 7 || 7),
+        dateCopy.setHours(0),
+        dateCopy.setMinutes(0),
+        dateCopy.setSeconds(0)
         )
     );  
 

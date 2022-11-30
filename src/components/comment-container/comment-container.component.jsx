@@ -1,21 +1,13 @@
-import { useContext, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 
-import { MessagesContext } from '../../context/messages/messages.context'
+import Button from '../button/button.component'
+
 import {sendMessage} from '../../utils/firebase/firebase.utils';
 import {useMessages } from '../../hooks/useMessages.hook';
-import {UserContext} from '../../context/user/user.context'
 
 import './comment-container.styles.scss';
 
-const Message = ({ message, isOwnMessage }) => {
-    const { displayName, text } = message;
-    return (
-        <li className={['message', isOwnMessage && 'own-message'].join(' ')}>
-            <h4 className='sender'>{isOwnMessage ? 'You' : displayName}</h4>
-            <div>{text}</div>
-        </li>
-    )
-}
+import Message from '../message/message.component'
 
 const CommentContainer = ({ currentUser }) => {
     // const { messagesMap } = useContext(MessagesContext);
@@ -42,7 +34,7 @@ const CommentContainer = ({ currentUser }) => {
     })
 
     return (
-        <div>
+        <div style={{height:'438px'}}>
         <div className='message-list-container' >
             <ul className='message-list'>
             {
@@ -52,20 +44,16 @@ const CommentContainer = ({ currentUser }) => {
             }    
             </ul>
         </div>
-        <div>
-            <form onSubmit={handleOnSubmit}>
+        <div >
+            <form className='input-container' onSubmit={handleOnSubmit}>
                 <input
                     type='text'
                     value={newMessage}
                     onChange={handleOnChange}
                     placeholder="Type your message enter"
+                    className='input-container'
                 />
-                <button
-                    type='submit'
-                    disabled={!newMessage}
-                >
-                    Send
-                </button>
+                <Button type='submit' style={{borderRadius:'0px',height:'42px',width: '64px', fontSize: '10px', border: 'none'}} disabled={!newMessage}>Send</Button>
             </form>
         </div>
         </div>

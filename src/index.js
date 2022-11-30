@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom'
 import { UserProvider } from './context/user/user.context';
-import { MessagesProvider } from './context/messages/messages.context'
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -12,9 +11,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        {/* <MessagesProvider> */}
           <App />  
-        {/* </MessagesProvider> */}
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>
