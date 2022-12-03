@@ -4,7 +4,7 @@ import './sign-up-form.styles.scss';
 
 import Button from '../button/button.component'
 import FormInput from '../../components/form-input/form-input.component';
-
+import { updateProfile } from 'firebase/auth';
 import {createAuthUserWithEmailAndPassword, createUserDocumentFromAuth} from '../../utils/firebase/firebase.utils'
 
 // import { UserContext } from '../../context/user/user.context';
@@ -42,6 +42,9 @@ const SignUpForm = () => {
             const { user } = await createAuthUserWithEmailAndPassword(email,password);
             // setCurrentUser(user);
             await createUserDocumentFromAuth( user, { displayName });
+            await updateProfile(user, {
+                displayName: displayName
+            })
             resetFormFields();
         } catch(error) {
             if(error.code === 'auth/email-already-in-use') {
