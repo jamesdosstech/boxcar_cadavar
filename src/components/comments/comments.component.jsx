@@ -49,7 +49,7 @@ const Comments = ({ comments }) => {
                             <div 
                                 className="comment__text"
                                 style={{
-                                        fontSize: "10px",
+                                        fontSize: "14px",
                                         align: "left"
                                     }}
                             >
@@ -61,7 +61,7 @@ const Comments = ({ comments }) => {
                                     type: "REMOVE_COMMENT",
                                     payload: commentItem.id
                                 })}
-                                style={{fontSize: "6px"}}
+                                style={{fontSize: "12px"}}
                             >
                                 Delete
                             </div>
