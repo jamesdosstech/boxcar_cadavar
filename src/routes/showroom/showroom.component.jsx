@@ -30,9 +30,9 @@ const Showroom = () => {
 
     return (
         <div className="App">
-            <h1>{Title}</h1>
             <ImageIcon />
-            <div style={{display: "flex",justifyContent: "space-evenly"}}>
+            <div className='showroom-container'>                
+                <StreamContainer />
                 {
                     currentUser ? (
                         <CommentContainer currentUser={currentUser}/>
@@ -40,7 +40,6 @@ const Showroom = () => {
                         <Button ><Link to='/sign-in'>Sign In</Link></Button>
                     )
                 }
-                <StreamContainer />
                 {/* <Comments comments={initialComments}/> */}              
             </div>          
         </div>
