@@ -59,7 +59,7 @@ const SignUpForm = () => {
         <div className='sign-up-container'>
             <form onSubmit={handleSubmit}>
                 <div className='sign-up-header'>
-                    Sign Up Form
+                    Sign Up For Chat
                 </div>
                 <div>
                     <FormInput 
