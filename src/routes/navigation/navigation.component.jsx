@@ -16,7 +16,7 @@ const Navigation = () => {
       <div className='navigation-container'>
       <div>
         <Link to='/'>
-          <HomeIcon style={{height: '20px', paddingTop: '10px'}}/>
+          <HomeIcon style={{width: '33', height: '20px', paddingTop: '10px', paddingLeft: '10px'}}/>
         </Link>
       </div>
       {
