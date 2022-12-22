@@ -7,12 +7,13 @@ const StreamContainer = () => {
     return (
         <div className='stream-player-container'>
             <ReactPlayer 
+                sandbox="allow-presentation"
                 width="100%"
                 height="100%"
                 controls 
                 playing
                 url={streamURL}
-                // url="https://www.youtube.com/watch?v=QPPFM8NyuaQ"
+                // url="https://www.youtube.com/watch?v=2bIkwdIu0ws"
             />
         </div>
     )

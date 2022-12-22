@@ -33,11 +33,15 @@ const Showroom = () => {
             <ImageIcon />
             <div className='showroom-container'>                
                 <StreamContainer />
+                {/* <CommentContainer currentUser={currentUser} /> */}
                 {
                     currentUser ? (
                         <CommentContainer currentUser={currentUser}/>
                     ) : (
-                        <Button ><Link to='/sign-in'>Sign In</Link></Button>
+                        <>
+                        <CommentContainer currentUser={null}/>
+                        {/* <Button ><Link to='/sign-in'>Sign In</Link></Button> */}
+                        </>
                     )
                 }
                 {/* <Comments comments={initialComments}/> */}              

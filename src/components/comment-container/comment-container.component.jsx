@@ -29,32 +29,46 @@ const CommentContainer = ({ currentUser }) => {
 
     useLayoutEffect(() => {
         if (containerRef.current) {
-            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+            containerRef.current.scrollTop = containerRef.current.scrollIntoView({behavior: 'smooth'});
         }
     })
 
     return (
         <div style={{height:'438px'}}>
-            <div className='message-list-container' >
+            <div className='message-list-container' ref={containerRef} >
                 <ul className='message-list'>
-                {
+                {   currentUser ? (
                     messages && messages.map((message) => (
                         <Message key={message.id} message={message} isOwnMessage={message.uid === currentUser.uid}></Message>
+                    )) ) : (
+                    messages && messages.map((message) => (
+                        <Message key={message.id} message={message} ></Message>
                     ))
+                    )
                 }    
                 </ul>
             </div>
             <div >
-                <form className='input-container' onSubmit={handleOnSubmit}>
-                    <input
-                        type='text'
-                        value={newMessage}
-                        onChange={handleOnChange}
-                        placeholder="Type your message enter"
-                        className='input-container'
-                    />
-                    <Button type='submit' style={{borderRadius:'0px',height:'42px',width: '64px', fontSize: '10px', border: 'none'}} disabled={!newMessage}>Send</Button>
-                </form>
+                {
+                    currentUser ? (
+                    <div>
+                        <form className='input-container' onSubmit={handleOnSubmit}>
+                            <input
+                                type='text'
+                                value={newMessage}
+                                onChange={handleOnChange}
+                                placeholder="Type your message enter"
+                                className='input-container'
+                            />
+                            <Button type='submit' style={{borderRadius:'0px',height:'42px',width: '64px', fontSize: '10px', border: 'none'}} disabled={!newMessage}>Send</Button>
+                        </form>  
+                    </div>
+                    ) : (
+                        <>
+                        </>
+                    )
+                }
+                
             </div>
         </div>
     )
