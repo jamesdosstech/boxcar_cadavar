@@ -1,55 +1,77 @@
 .message-list-container {
-    // margin-bottom: 16px;
-    width: 400px;
-    flex: 1;
-    overflow: scroll;
-    scrollbar-width: thin;
+  // margin-bottom: 16px;
+  width: 400px;
+  flex: 1;
+  overflow: scroll;
+  scrollbar-width: thin;
 }
 
 .message-list-container::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .message-list {
-    height: 376px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  height: 376px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .message {
-    padding: 8px 10px;
-    margin-bottom: 8px;
-    background: rgb(248, 203, 246);
-    border-radius: 15px;
-    text-align: left;
+  padding: 8px 10px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  background: rgb(248, 203, 246);
+  border-radius: 15px;
+  text-align: left;
 }
 
 .own-message {
-    background: rgb(178, 208, 248);
-    align-self: flex-end;
-    text-align: right;
+  background: rgb(178, 208, 248);
+  align-self: flex-end;
+  text-align: right;
 }
 
 .sender {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
-input[type=text] {
-    // background-color: black;
-    // color: white;
-    font-size: 16px;
-    width: 100%;
-    padding: 12px 20px;
-    // margin: 8px 0;
-    box-sizing: border-box;
-    border: none;
-    // background-color: black;
-    border-bottom: 1px solid grey;
-    color: grey;
+input[type="text"] {
+  font-size: 16px;
+  width: 100%;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid grey;
+  color: grey;
 }
 
 .input-container {
+  display: flex;
+  justify-content: stretch;
+}
+
+.comment-container {
+  height: 438px;
+}
+
+@media only screen and (max-width: 500px) {
+  .message-list {
+    height: calc(100vh - 410px);
     display: flex;
-    justify-content: stretch;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .message-list-container {
+    // margin-bottom: 16px;
+    flex-grow: 1;
+    width: 100%;
+    flex: 1;
+    overflow: scroll;
+    scrollbar-width: thin;
+  }
+
+  .comment-container {
+    height: auto;
+  }
 }

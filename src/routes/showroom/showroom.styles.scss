@@ -1,10 +1,13 @@
 .showroom-container {
-    display: flex;
-    justify-content: space-evenly
+  display: flex;
+  justify-content: space-evenly;
+  //   height: 100vh;
+  margin: 15vh 15vw;
 }
 
 @media only screen and (max-width: 500px) {
-    .showroom-container {
-        display: block;
-    }
+  .showroom-container {
+    display: block;
+    margin: auto;
+  }
 }
