@@ -1,4 +1,5 @@
 import './authentication.styles.scss'
+import App from '../../App'
 
 import { Link } from 'react-router-dom';
 
@@ -12,26 +13,31 @@ import { useContext } from 'react';
 
 const Authentication = () => {
     const { currentUser } = useContext(UserContext);
-    const date = new Date();
-    const dateCopy = new Date(date.getTime());
-    const nextFriday = new Date(
-        dateCopy.setDate(
-        dateCopy.getDate() + ((7 - dateCopy.getDay() + 5) % 7 || 7),
-        dateCopy.setHours(0),
-        dateCopy.setMinutes(0),
-        dateCopy.setSeconds(0)
-        )
-    );  
+    // const date = new Date();
+    // const dateCopy = new Date(date.getTime());
+    // const nextFriday = new Date(
+    //     dateCopy.setDate(
+    //     dateCopy.getDate() + ((7 - dateCopy.getDay() + 5) % 7 || 7),
+    //     dateCopy.setHours(0),
+    //     dateCopy.setMinutes(0),
+    //     dateCopy.setSeconds(0)
+    //     )
+    // );  
 
-    const actualNextFriday = nextFriday.getTime();  
+    // const actualNextFriday = nextFriday.getTime();  
 
-    const timeAfterThreeDays = actualNextFriday;
+    // const timeAfterThreeDays = actualNextFriday;
     return (
         <>
             {
                 currentUser ? (
-                    <div>
-                        <Splash targetDate={timeAfterThreeDays} />   
+                    <div className='authentication-container'>
+                        <div>You have successfully logged in</div>
+                        <div>
+                            <Link to={'/'}>
+                                Back
+                            </Link>
+                        </div>
                     </div>
                 ) : (
                     <div className='authentication-container'>

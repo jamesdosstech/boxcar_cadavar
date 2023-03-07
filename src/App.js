@@ -5,6 +5,7 @@ import Splash from "./routes/splash/splash.component";
 import Showroom from "./routes/showroom/showroom.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
+import UnderConstruction from "./components/under-construction/under-contstruction.component";
 
 const trainList = [
   {
@@ -72,6 +73,7 @@ const App = () => {
           />
           <Route path="/showroom" element={<Showroom />} />
           <Route path="sign-in" element={<Authentication />} />
+          <Route path='shop' element={<UnderConstruction />}/>
         </Route>
       </Routes>
     </div>

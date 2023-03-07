@@ -16,15 +16,15 @@ const Splash = ({ targetDate, trainList, data }) => {
       id: 1,
       welcomeMessage: "welcome to doosetrain, friends",
       subtitle: "you're early! the next show starts in...",
-      reminder: "see you friday!",
+      reminder: "see you Sunday!",
     },
   ];
 
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  console.log(`days ${days} and hours ${hours}`);
+  // console.log(`days ${days} and hours ${hours}`);
   return (
     <div className="App">
-      {days === 6 || (days === 5 && hours >= 12) ? (
+      {days === 6 || (days === 5 && hours <= 12) ? (
         <SplashEnter message={data} trainList={trainList} />
       ) : (
         <SplashTimer
