@@ -24,7 +24,7 @@ const Splash = ({ targetDate, trainList, data }) => {
   // console.log(`days ${days} and hours ${hours}`);
   return (
     <div className="App">
-      {days === 6 || (days === 5 && hours <= 12) ? (
+      {days === 7 || (days === 1 && hours <= 12) ? (
         <SplashEnter message={data} trainList={trainList} />
       ) : (
         <SplashTimer
