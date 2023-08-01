@@ -3,7 +3,8 @@ import './stream-container.styles.scss'
 
 const StreamContainer = () => {
     // eslint-disable-next-line
-    const streamURL = "https://59a84134ac4b.us-east-1.playback.live-video.net/api/video/v1/us-east-1.325129419930.channel.Y1nWGWV3vMee.m3u8"
+    const streamURL = "https://player.twitch.tv/?channel=d22setrain&parent=doosetrain.com"
+    // const streamURL = "https://59a84134ac4b.us-east-1.playback.live-video.net/api/video/v1/us-east-1.325129419930.channel.Y1nWGWV3vMee.m3u8"
     return (
         <div className='stream-player-container'>
             <ReactPlayer 
