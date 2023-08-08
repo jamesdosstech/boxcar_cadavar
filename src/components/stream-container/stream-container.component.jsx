@@ -21,8 +21,8 @@ const StreamContainer = () => {
                 frameborder="0"
                 allowfullscreen="true"
                 scrolling="no"
-                height="378"
-                width="620"
+                height="100%"
+                width="100%"
               ></iframe>
         </div>
     )

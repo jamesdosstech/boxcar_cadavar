@@ -33,7 +33,7 @@ const splashMessage = [
   {
     id: 0,
     welcomeMessage: "welcome to doosetrain, friends",
-    subtitle: "live dj streams every friday",
+    subtitle: "live dj streams every Tuesday",
   },
   {
     id: 1,
