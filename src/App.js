@@ -6,6 +6,8 @@ import Showroom from "./routes/showroom/showroom.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import UnderConstruction from "./components/under-construction/under-contstruction.component";
+import SignUpForm from "./components/sign-up-form/sign-up-form.component";
+import ResetPassword from "./routes/forgot-password/ResetPassword";
 
 const trainList = [
   {
@@ -72,6 +74,7 @@ const App = () => {
             }
           />
           <Route path="/showroom" element={<Showroom />} />
+          <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
           <Route path='shop' element={<UnderConstruction />}/>
         </Route>

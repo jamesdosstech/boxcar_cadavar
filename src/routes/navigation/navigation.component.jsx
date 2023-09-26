@@ -18,8 +18,8 @@ const Navigation = () => {
           <Link to="/">
             <HomeIcon
               style={{
-                width: "33",
-                height: "20px",
+                width: "30%",
+                height: "30%",
                 paddingTop: "10px",
                 paddingLeft: "10px",
               }}

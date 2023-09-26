@@ -8,6 +8,7 @@ import FormInput from '../../components/form-input/form-input.component';
 import { UserContext } from '../../context/user/user.context';
 
 import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.utils';
+import { Link } from 'react-router-dom';
 
 const defaultFormFields = {
     displayName: "",
@@ -16,7 +17,7 @@ const defaultFormFields = {
     confirmPassword: ""
 }
 
-const SignUpForm = () => {
+const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {email, password} = formFields;
 
@@ -97,4 +98,4 @@ const SignUpForm = () => {
     )
 }
 
-export default SignUpForm
+export default SignInForm

@@ -50,6 +50,7 @@ const DisplayNameInput = () => {
               value={displayName}
               onChange={handleChange}
               required
+              maxLength={15}
             />
             <Button>Submit</Button>
           </form>
