@@ -1,33 +1,90 @@
+// .navigation-container {
+//     display: flex;
+//     flex-direction: row;
+
+//     .nav-col {
+//         margin: auto;
+//     }
+
+//     .navigation-left {
+//         background-color: blue;
+//         // flex-direction: column;
+//         // float: left;
+//     }
+
+//     .navigation-right {
+//         background-color: red
+//     }
+    
+//     .red-dot {
+//         width: 40px;
+//     height: 40px;
+//     border-radius: 50%;
+//     background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(242,74,74,1) 15%, rgba(252,70,107,0) 20%);
+//     }
+
+//     .green-dot {
+//         width: 40px;
+//     height: 40px;
+//     border-radius: 50%;
+//     background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(103,242,74,1) 15%, rgba(103,242,74,0) 20%);
+//     }
+// }
 .navigation-container {
     display: flex;
     flex-direction: row;
-
+  
     .nav-col {
-        margin: auto;
+      margin: auto;
     }
-
-    .navigation-left {
-        background-color: blue;
-        // flex-direction: column;
-        // float: left;
+  
+    &.light {
+      // Light mode styles
+      background-color: white; // Set your light background color
+      color: pink; // Set your text color for light mode
+  
+      // Additional styles for light mode
+      // For example:
+      // .navigation-left {
+      //   background-color: blue;
+      // }
+  
+      // .navigation-right {
+      //   background-color: red;
+      // }
+  
+      // .red-dot {
+      //   // Your styles for red-dot in light mode
+      // }
+  
+      // .green-dot {
+      //   // Your styles for green-dot in light mode
+      // }
     }
-
-    .navigation-right {
-        background-color: red
+  
+    &.dark {
+      // Dark mode styles
+      background-color: black; // Set your dark background color
+      color: green; // Set your text color for dark mode
+  
+      // Additional styles for dark mode
+      // For example:
+      // .navigation-left {
+      //   background-color: dark-blue;
+      // }
+  
+      // .navigation-right {
+      //   background-color: dark-red;
+      // }
+  
+      // .red-dot {
+      //   // Your styles for red-dot in dark mode
+      // }
+  
+      // .green-dot {
+      //   // Your styles for green-dot in dark mode
+      // }
     }
-    
-    .red-dot {
-        width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(242,74,74,1) 15%, rgba(252,70,107,0) 20%);
-    }
-
-    .green-dot {
-        width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(103,242,74,1) 15%, rgba(103,242,74,0) 20%);
-    }
-}
+  }
+  
 

@@ -7,34 +7,39 @@ import ImageIcon from '../image-icon/image-icon.component'
 
 const SplashEnter = ({message, trainList}) => {
     return (
-        <div className="splash-container">
-            <div className="splash-message-container">
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    {
-                        trainList.map((train) => {
-                            const { id, name } = train;
-                            return (
-                                <ImageIcon key={id} alt={`${name}`} />
-                            )
-                        })
-                    }
-                </div>
-                <div>
+        <div className="container-fluid">
+            {/* <div className="row">
+                {
+                    trainList.map((train) => {
+                        const { id, name } = train;
+                        return (
+                            <div className='col-sm'>
+                            <ImageIcon key={id} alt={`${name}`} />
+
+                            </div>
+                        )
+                    })
+                }
+            </div> */}
+            <div className='row'>
+                <h1>
+                    {message[0].welcomeMessage}
+                </h1>
+                <p>
+                    {message[0].subtitle}
+                </p>
+            </div>
+                {/* <div>
                     <h1>
                         {message[0].welcomeMessage}
                     </h1>
                     <p>
                         {message[0].subtitle}
                     </p>
-                </div>
-            </div>
+                </div> */}
             <div>
-                <Link to='/showroom'>
-                    <Button>enter here</Button>
+                <Link className='btn btn-dark' to='/showroom'>
+                    Enter Here
                 </Link>
             </div>      
         </div>

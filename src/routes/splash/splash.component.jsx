@@ -23,7 +23,7 @@ const Splash = ({ targetDate, trainList, data }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
   // console.log(`days ${days} and hours ${hours}`);
   return (
-    <div className="App">
+    <div>
       {/* {days === 6 || (days === 5 && hours <= 12) ? (
         <SplashEnter message={data} trainList={trainList} />
       ) : (
