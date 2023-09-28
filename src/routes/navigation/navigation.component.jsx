@@ -63,7 +63,7 @@ const Navigation = () => {
                 <Link className="nav-item nav-link" to="/showroom">Showroom</Link>
               </div>
               <div>
-                {currentUser?.email === adminEmail && <Link className="nav-item nav-link" to="/admin">Admin</Link>}
+                {currentUser && currentUser.email === adminEmail && <Link className="nav-item nav-link" to="/admin">Admin</Link>}
               </div>
               { currentUser && (
                   <div className="nav-item dropdown">
