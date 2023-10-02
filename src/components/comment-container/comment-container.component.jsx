@@ -38,7 +38,7 @@ const CommentContainer = ({ currentUser }) => {
   return (
     <div className="comment-container">
       <div className="message-list-container" ref={containerRef}>
-        <ul className="message-list">
+        <div className="message-list">
           {currentUser
             ? messages &&
               messages.map((message) => (
@@ -52,7 +52,7 @@ const CommentContainer = ({ currentUser }) => {
               messages.map((message) => (
                 <Message key={message.id} message={message}></Message>
               ))}
-        </ul>
+        </div>
       </div>
       <div>
         {currentUser ? (

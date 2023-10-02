@@ -76,8 +76,8 @@ const App = () => {
           <Route path="/showroom" element={<Showroom />} />
           <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
-          <Route path='shop' element={<UnderConstruction />}/>
-          <Route path='admin' element={<UnderConstruction />}/>
+          <Route path='shop' element={<UnderConstruction />} />
+          <Route path='admin' element={<UnderConstruction />} />
         </Route>
       </Routes>
     </div>

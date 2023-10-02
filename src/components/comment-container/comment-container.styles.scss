@@ -1,6 +1,7 @@
 .message-list-container {
   // margin-bottom: 16px;
-  width: 400px;
+  // width: 400px;
+  // margin-top: 10px;
   flex: 1;
   overflow: scroll;
   scrollbar-width: thin;
@@ -21,6 +22,8 @@
   padding: 8px 10px;
   margin-right: 8px;
   margin-bottom: 8px;
+  margin-top: 8px;
+
   background: rgb(248, 203, 246);
   border-radius: 15px;
   text-align: left;

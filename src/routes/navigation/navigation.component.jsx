@@ -54,7 +54,7 @@ const Navigation = () => {
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div className="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <div>
                 <Link className="nav-item nav-link" to="/shop">Shop</Link>
@@ -80,7 +80,7 @@ const Navigation = () => {
                           onChange={handleChange}
                           required
                           maxLength={15}
-                          placeholder={currentUser && `${currentUser?.displayName}`}
+                          placeholder={'change your display'}
                           aria-label="Change Username" 
                         />
                         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Submit</button>
