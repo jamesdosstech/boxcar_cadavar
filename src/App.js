@@ -6,8 +6,13 @@ import Showroom from "./routes/showroom/showroom.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Authentication from "./routes/authentication/authentication.component";
 import UnderConstruction from "./components/under-construction/under-contstruction.component";
-import SignUpForm from "./components/sign-up-form/sign-up-form.component";
 import ResetPassword from "./routes/forgot-password/ResetPassword";
+import Dashboard from "./routes/dashboard/Dashboard";
+import DBHome from "./components/DBSections/DBHome";
+import DBOrders from "./components/DBSections/DBOrders";
+import DBItems from "./components/DBSections/DBItems";
+import DBNewItems from "./components/DBSections/DBNewItems";
+import DBUsers from "./components/DBSections/DBUsers";
 
 const trainList = [
   {
@@ -77,7 +82,14 @@ const App = () => {
           <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
           <Route path='shop' element={<UnderConstruction />} />
-          <Route path='admin' element={<UnderConstruction />} />
+          <Route path='admin' element={<Dashboard />} >
+            <Route path='Home' element={<DBHome />} />
+            <Route path='Orders' element={<DBOrders />} />
+            <Route path='Products' element={<DBItems />} />
+            <Route path='NewProducts' element={<DBNewItems />} />
+            <Route path='Users' element={<DBUsers />} />
+          </Route>
+          {/* this may not work */}
         </Route>
       </Routes>
     </div>
