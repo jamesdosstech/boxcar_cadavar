@@ -3,7 +3,7 @@ import { UserContext } from '../../context/user/user.context'
 
 const DBHeader = () => {
     const {currentUser} = useContext(UserContext)
-    console.log(currentUser)
+    // console.log(currentUser)
   return (
     <div>
         <p>Welcome to Doosetrain Shop! 

@@ -82,7 +82,7 @@ const App = () => {
           <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
           <Route path='shop' element={<UnderConstruction />} />
-          <Route path='admin' element={<Dashboard />} >
+          <Route path='admin/*' element={<Dashboard />} >
             <Route path='Home' element={<DBHome />} />
             <Route path='Orders' element={<DBOrders />} />
             <Route path='Products' element={<DBItems />} />
