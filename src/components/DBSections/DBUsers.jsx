@@ -34,7 +34,6 @@ const DBUsers = () => {
         <tbody>
           {
             listUsers.map((user) => {
-              // console.log(user, ' user')
               return (
                   <tr key={user.id}>
                     <td>{user.displayName}</td>

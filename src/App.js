@@ -13,6 +13,8 @@ import DBOrders from "./components/DBSections/DBOrders";
 import DBItems from "./components/DBSections/DBItems";
 import DBNewItems from "./components/DBSections/DBNewItems";
 import DBUsers from "./components/DBSections/DBUsers";
+import Doosetrain_store from "./routes/store/Doosetrain_store";
+import Checkout from "./routes/checkout/checkout.component";
 
 const trainList = [
   {
@@ -81,7 +83,7 @@ const App = () => {
           <Route path="/showroom" element={<Showroom />} />
           <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
-          <Route path='shop' element={<UnderConstruction />} />
+          <Route path='shop' element={<Doosetrain_store />} />
           <Route path='admin/*' element={<Dashboard />} >
             <Route path='Home' element={<DBHome />} />
             <Route path='Orders' element={<DBOrders />} />
@@ -89,6 +91,7 @@ const App = () => {
             <Route path='NewProducts' element={<DBNewItems />} />
             <Route path='Users' element={<DBUsers />} />
           </Route>
+          <Route path="checkout" element={<Checkout />} />
           {/* this may not work */}
         </Route>
       </Routes>

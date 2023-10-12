@@ -4,7 +4,6 @@ import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase
 import { addDoc, collection } from 'firebase/firestore';
 
 const DBNewItems = () => {
-  // console.log(storage,' Storage');
   const [productName, setProductName] = useState('');
   const [productPrice, setProductPrice] = useState(0);
   const [productDesc, setProductDescription] = useState('');
@@ -18,12 +17,10 @@ const DBNewItems = () => {
   const addProduct = (e) => {
     e.preventDefault();
     const file = e.target[0].files[0];
-    // console.log(file);
     if(file && types.includes(file.type)){
       setProductImg(file);
       uploadFile(file);
       setError('');
-      console.log(productImg, productName, productPrice)
     }
     else {
       setProductImg(null);
