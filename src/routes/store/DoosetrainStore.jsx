@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import { db } from '../../utils/firebase/firebase.utils';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { useProductsContext } from '../../context/product/product.context';
-import './Doosetrain_store.styles.scss';
+import './DoosetrainStore.styles.scss';
 import ProductCard from '../../components/ProductCard/ProductCard.component';
 
-const Doosetrain_store = () => {
+const DoosetrainStore = () => {
     const {productsMap, loading} = useProductsContext();
     return (
         <div>
@@ -27,4 +27,4 @@ const Doosetrain_store = () => {
     )
 }
 
-export default Doosetrain_store
+export default DoosetrainStore
