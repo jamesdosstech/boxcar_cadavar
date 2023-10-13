@@ -7,6 +7,7 @@ import DBUsers from './DBUsers';
 
 import DBHome from './DBHome'
 import { Routes, Route } from 'react-router-dom'
+import ProductEdit from '../../routes/ProductEdit/ProductEdit'
 
 const DBRightSection = () => {
   return (
@@ -16,9 +17,10 @@ const DBRightSection = () => {
         <Routes>
             <Route path='/Home' element={<DBHome />}/>
             <Route path='/Orders' element={<DBOrders />}/>
-            <Route path='/Products' element={<DBItems />}/>
+            <Route path='/Products' element={<DBItems />} />
             <Route path='/NewProducts' element={<DBNewItems />}/>
             <Route path='/Users' element={<DBUsers />}/>
+            <Route path='/Products/:id' element={<ProductEdit />} />
         </Routes>
       </div>
     </div>

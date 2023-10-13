@@ -8,9 +8,14 @@ export function useProductsContext() {
     return useContext(ProductsContext)
 }
 
+// export const editProductInfo = () => {
+
+// }
+
 export const ProductsProvider = ({children, collectionName}) => {
     const [productsMap, setProductsMap] = useState([]);
     const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         const getProductsMap = async () => {
             const q = collection(db, collectionName);

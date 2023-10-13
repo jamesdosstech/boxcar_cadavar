@@ -1,17 +1,20 @@
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
+import { db } from "../../utils/firebase/firebase.utils";
 
 export const addCartItems = (cartItems, productToAdd) => {
     console.log(
         cartItems, ' cartItems_var ',
         productToAdd, ' productToAddVar '
     )
-    const existingCartItems = cartItems.find(
+        const existingCartItems = cartItems.find(
         (cartItem) => cartItem.id === productToAdd.id
     );
     // If found, increment quantity
+    // debugger;
     if (existingCartItems) {
         if (productToAdd.ProductQuant > existingCartItems.quantity) {
-            console.log('existingCartItem_var ', existingCartItems)
+            // console.log('existingCartItem_var ', existingCartItems)
             return cartItems.map((cartItem) =>
                 cartItem.id === productToAdd.id
                 ? { ...cartItem, quantity: cartItem.quantity + 1 }
@@ -63,9 +66,10 @@ export const CartProvider = ({children}) => {
     },[cartItems]);
 
     useEffect(() => {
-        const newCartTotal = cartItems.reduce((total, cartItem) => total + cartItem.quantity * cartItem.price, 0);
+        const newCartTotal = cartItems.reduce((total, cartItem) => 
+            total + cartItem.quantity * cartItem.ProductPrice, 0);
         setCartTotal(newCartTotal)
-    }, [cartItems])
+    }, [cartItems]);
 
     const addItemstoCart = (productToAdd) => {
         setCartItems(addCartItems(cartItems, productToAdd))
