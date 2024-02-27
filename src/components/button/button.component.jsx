@@ -2,7 +2,8 @@ import './button.styles.scss'
 
 const BUTTON_TYPE_CLASSES = {
     splash: 'splash-enter',
-    google: 'google-sign-in'
+    google: 'google-sign-in',
+    submit: ''
 }
 
 const Button = ({ children, buttonType, ...otherProps }) => {

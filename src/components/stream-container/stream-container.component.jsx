@@ -19,7 +19,7 @@ const StreamContainer = () => {
         // url="https://www.youtube.com/watch?v=2bIkwdIu0ws"
       /> */}
       <iframe
-        src="https://player.twitch.tv/?channel=d22setrain&parent=doosetrain.com"
+        src="https://player.twitch.tv/?channel=d22setrain&parent=localhost"
         frameborder="0"
         allowfullscreen="true"
         scrolling="no"

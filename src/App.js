@@ -58,9 +58,20 @@ const App = () => {
   const dayAndHourOfShow = nextFriday.getTime();
 
   return (
-    <div>
+    <div className="App">
       <Routes>
-        <Route path="/" element={<Navigation />}>
+        <Route
+          index
+          element={
+            <Splash
+              data={splashMessage}
+              trainList={trainList}
+              targetDate={dayAndHourOfShow}
+            />
+          }
+        />
+        {/* <Route path="/" element={<Authentication />} /> */}
+        {/* <Route path="/" element={<Navigation />}>
           <Route
             index
             element={
@@ -74,7 +85,7 @@ const App = () => {
           <Route path="/showroom" element={<Showroom />} />
           <Route path="sign-in" element={<Authentication />} />
           <Route path='shop' element={<UnderConstruction />}/>
-        </Route>
+        </Route> */}
       </Routes>
     </div>
   );

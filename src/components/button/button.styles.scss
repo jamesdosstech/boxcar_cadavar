@@ -1,31 +1,29 @@
 .button-container {
-    width: 372px;
-    height: 83.01px;
-    left: 570px;
-    top: 649px;
+  // width: 372px;
+  // height: 83.01px;
+  // left: 570px;
+  // top: 649px;
+  background-color: rgba($color: #000000, $alpha: 0);
+  border: 2px solid cyan;
+  border-radius: 16px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  color: cyan;
+  cursor: pointer;
 
-    background: rgb(186, 86, 211);
-    border: 8px solid #35F0FD;
-    border-radius: 16px; 
-    
-    font-family: 'Press Start 2P';
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 28px;
-    color: #35fd6a;
-    cursor: pointer;
+  &:hover {
+    border: cyan;
+    background-color: cyan;
+    color: black;
+  }
 
-    &:hover {
-        background-color: white;
-        color: black;
-    }
+  &.google-sign-in {
+    background-color: #4285f4;
+    color: white;
+  }
 
-    &.google-sign-in {
-        background-color: #4285f4;
-        color: white;
-    }
-
-    &.splash-enter {
-        background: #9B0363;
-    }
+  &.splash-enter {
+    background: #9b0363;
+  }
 }
