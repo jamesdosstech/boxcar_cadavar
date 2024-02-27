@@ -1,13 +1,20 @@
+
+
 .showroom-container {
-  display: flex;
-  justify-content: space-evenly;
-  //   height: 100vh;
-  margin: 15vh 15vw;
+  // display: flex;
+  // justify-content: space-evenly;
+  // //   height: 100vh;
+  // margin: 15vh 15vw;
+  display: block;
+    margin: 0em 1em 0em 1em;
+    
+    
 }
 
 @media only screen and (max-width: 500px) {
   .showroom-container {
     display: block;
+    padding-top:5%;
     margin: auto;
   }
 }
