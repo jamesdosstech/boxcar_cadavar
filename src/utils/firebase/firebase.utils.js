@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import {
   getAuth,
   signInWithRedirect,
@@ -27,6 +27,8 @@ import {
   QuerySnapshot,
 } from "firebase/firestore";
 
+import { getStorage } from "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAsxtaefK62L21AezkX6S4sDCRj90lU7DQ",
   authDomain: "doosetrain-52f13.firebaseapp.com",
@@ -48,7 +50,15 @@ const firebaseConfig = {
 // };
 
 // eslint-disable-next-line
-const firebaseApp = initializeApp(firebaseConfig);
+// const firebaseApp = initializeApp(firebaseConfig)
+
+export const doosetrainApp =
+  getApps.length > 0 ? getApp() : initializeApp(firebaseConfig);
+
+// storage
+
+export const storage = getStorage(doosetrainApp);
+
 const googleProvider = new GoogleAuthProvider();
 
 export const auth = getAuth();
@@ -90,15 +100,12 @@ export const createUserDocumentFromAuth = async (
   return userDocRef;
 };
 
-export const updateUserName = async (newName) => {
-  try {
-    await updateProfile(auth.currentUser, {
-      displayName: newName,
+export const updateUserName = () =>
+  updateProfile(auth.currentUser, { displayName: "Jane Q. User" })
+    .then(() => {})
+    .catch((error) => {
+      console.log(error);
     });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -142,3 +149,5 @@ export const getMessages = (callback) => {
     }
   );
 };
+
+// export const storage = getStorage(firebaseApp)

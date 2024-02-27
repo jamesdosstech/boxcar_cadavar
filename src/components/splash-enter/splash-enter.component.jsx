@@ -22,11 +22,13 @@ const SplashEnter = ({ message, trainList }) => {
           })}
         </div>
         <div>
-          <h1>{message[0].welcomeMessage}</h1>
+          <h1 style={{ color: "white", fontFamily: "Oxanium" }}>
+            {message[0].welcomeMessage}
+          </h1>
           <p>{message[0].subtitle}</p>
         </div>
       </div>
-      <div>
+      <div style={{ color: "white", fontFamily: "Oxanium" }}>
         This Page is Under Construction
         {/* <Link to='/showroom'>
                     <Button>enter here</Button>
