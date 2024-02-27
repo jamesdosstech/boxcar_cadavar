@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { UserContext } from "../../context/user/user.context";
 import FormInput from "../form-input/form-input.component";
 import { auth } from "../../utils/firebase/firebase.utils";
-import { onAuthStateChanged, updateProfile } from "firebase/auth";
+import { updateProfile } from "firebase/auth";
 import "./display-name-input.styles.scss";
 import Button from "../button/button.component";
 
@@ -18,7 +18,7 @@ const DisplayNameInput = () => {
   const { displayName } = formFields;
 
   //firebase logic
-  console.log(auth.currentUser.displayName);
+  // console.log(auth.currentUser.displayName);
 
   const toggleChangeName = () => {
     setDrop(!drop);
