@@ -18,6 +18,8 @@ import Checkout from "./routes/checkout/checkout.component";
 import { useContext } from "react";
 import { UserContext } from "./context/user/user.context";
 import ProductEdit from "./routes/ProductEdit/ProductEdit";
+import UserNameSignIn from "./components/usernameSignIn/usernameSignIn.component";
+import { DisplayNameContext } from "./context/displayName/DisplayName.context";
 const trainList = [
   {
     id: 0,
@@ -68,38 +70,30 @@ const App = () => {
 
   const dayAndHourOfShow = nextFriday.getTime();
 
-  const { currentUser } = useContext(UserContext);
+  const { displayName } = useContext(DisplayNameContext);
 
   return (
     <div className="App">
       <Routes>
-        <Route
-          index
-          element={
-            <Splash
-              data={splashMessage}
-              trainList={trainList}
-              targetDate={dayAndHourOfShow}
+        {!displayName ? (
+          <Route path="/" element={<UserNameSignIn />} />
+        ) : (
+          <Route path="/" element={<Navigation />}>
+            <Route
+              index
+              element={
+                <Splash
+                  displayName={displayName}
+                  data={splashMessage}
+                  trainList={trainList}
+                  targetDate={dayAndHourOfShow}
+                />
+              }
             />
-          }
-        />
-        {/* <Route path="/" element={<Authentication />} /> */}
-        {/* <Route path="/" element={<Navigation />}>
-          <Route
-            index
-            element={
-              <Splash
-                data={splashMessage}
-                trainList={trainList}
-                targetDate={dayAndHourOfShow}
-              />
-            }
-          />
-          <Route path="/showroom" element={<Showroom />} />
-          <Route path="/pass-reset" element={<ResetPassword />} />
-          <Route path="sign-in" element={<Authentication />} />
-          <Route path='shop' element={<UnderConstruction />}/>
-        </Route> */}
+            <Route path="/showroom" element={<Showroom />} />
+            <Route path="shop" element={<UnderConstruction />} />
+          </Route>
+        )}
       </Routes>
     </div>
   );

@@ -5,7 +5,7 @@ import { useCountdown } from "../../hooks/usecountdown.component";
 import SplashEnter from "../../components/splash-enter/splash-enter.component";
 import SplashTimer from "../../components/splash-timer/splash-timer.component";
 
-const Splash = ({ targetDate, trainList, data }) => {
+const Splash = ({ targetDate, trainList, data, displayName }) => {
   const splashMessage = [
     {
       id: 0,
@@ -36,7 +36,11 @@ const Splash = ({ targetDate, trainList, data }) => {
           trainList={trainList}
         />
       )} */}
-      <SplashEnter message={data} trainList={trainList} />
+      <SplashEnter
+        message={data}
+        trainList={trainList}
+        displayName={displayName}
+      />
     </div>
   );
 };

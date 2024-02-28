@@ -1,21 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom'
-import { UserProvider } from './context/user/user.context';
-import reportWebVitals from './reportWebVitals';
-import { ProductsProvider } from './context/product/product.context';
-import { CartProvider, ShoppingCartProvider } from './context/shoppingCart/shoppingCart.context';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
+import { DisplayNameProvider } from "./context/displayName/DisplayName.context";
+import { UserProvider } from "./context/user/user.context";
+import reportWebVitals from "./reportWebVitals";
+import { ProductsProvider } from "./context/product/product.context";
+import {
+  CartProvider,
+  ShoppingCartProvider,
+} from "./context/shoppingCart/shoppingCart.context";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <ProductsProvider collectionName={'Products'}>
+        <ProductsProvider collectionName={"Products"}>
           <CartProvider>
-            <App />
+            <DisplayNameProvider>
+              <App />
+            </DisplayNameProvider>
           </CartProvider>
         </ProductsProvider>
       </UserProvider>

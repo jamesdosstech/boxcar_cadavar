@@ -15,16 +15,16 @@ import {
 
 const defaultFormFields = {
   displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+  // email: "",
+  // password: "",
+  // confirmPassword: "",
 };
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const { email, password } = formFields;
+  const { email, password, displayName } = formFields;
 
-  // const { setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -40,11 +40,13 @@ const SignUpForm = () => {
 
     try {
       resetFormFields();
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-      // setCurrentUser(user);
+      const user = sessionStorage.setItem("user", formFields.displayName);
+      // const { user } = await signInAuthUserWithEmailAndPassword(
+      //   email,
+      //   password
+      // );
+      setCurrentUser(user);
+      console.log(`Hello ${user}`);
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -82,9 +84,9 @@ const SignUpForm = () => {
         <div>
           <FormInput
             // type="email"
-            label="Email"
-            name="email"
-            value={email}
+            label="displayName"
+            name="displayName"
+            value={displayName}
             onChange={handleChange}
             // required
           />

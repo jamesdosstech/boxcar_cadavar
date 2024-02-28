@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Button from "../button/button.component";
 import ImageIcon from "../image-icon/image-icon.component";
 
-const SplashEnter = ({ message, trainList }) => {
+const SplashEnter = ({ message, trainList, displayName }) => {
   return (
     <div className="splash-container">
       <div className="splash-message-container">
@@ -29,7 +29,7 @@ const SplashEnter = ({ message, trainList }) => {
         </div>
       </div>
       <div style={{ color: "white", fontFamily: "Oxanium" }}>
-        This Page is Under Construction
+        Sorry {displayName}, This Page is Under Construction
         {/* <Link to='/showroom'>
                     <Button>enter here</Button>
                 </Link> */}
