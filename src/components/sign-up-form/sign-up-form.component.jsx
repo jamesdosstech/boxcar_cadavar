@@ -56,7 +56,15 @@ const SignUpForm = () => {
     }
     
     return (
-        <div className='sign-up-container'>
+        <div 
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                // minHeight: "100vh",
+            }}
+        >
             <form onSubmit={handleSubmit}>
                 <div className='sign-up-header'>
                     Sign Up For Chat

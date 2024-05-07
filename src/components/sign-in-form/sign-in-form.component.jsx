@@ -74,11 +74,11 @@ const SignUpForm = () => {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        minHeight: "100vh",
+        // minHeight: "100vh",
       }}
     >
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <div className="sign-in-header">Login</div>
+        <div style={{color: 'hotpink'}} className="sign-in-header">Login</div>
         <div>
           <FormInput
             // type="email"
@@ -89,7 +89,7 @@ const SignUpForm = () => {
             // required
           />
         </div>
-        {/* <div>
+        <div>
           <FormInput
             // type="password"
             label="Password"
@@ -98,10 +98,11 @@ const SignUpForm = () => {
             onChange={handleChange}
             // required
           />
-        </div> */}
+        </div>
         <div className="buttons-container">
-          <Button type="submit">Sign In</Button>
-          {/* <Button type='button' onClick={signInWithGoogle} buttonType='google'>Google</Button> */}
+          <div>
+            <Button type="submit">Sign In</Button>  
+          </div>
         </div>
       </form>
     </div>
