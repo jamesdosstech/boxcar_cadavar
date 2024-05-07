@@ -29,10 +29,13 @@ const SplashEnter = ({ message, trainList }) => {
         </div>
       </div>
       <div style={{ color: "white", fontFamily: "Oxanium" }}>
-        This Page is Under Construction
-        {/* <Link to='/showroom'>
-                    <Button>enter here</Button>
-                </Link> */}
+        This site is currently under construction. Plans for this page is to become a full fledge store. Look out for future updates.
+        In the meantime we will continue to stream on Tuesday's.
+        <div>
+          <Link to='/showroom'>
+              <Button>Enter Showroom</Button>
+          </Link>  
+        </div>
       </div>
     </div>
   );
