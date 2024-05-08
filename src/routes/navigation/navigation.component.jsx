@@ -7,6 +7,8 @@ import { ReactComponent as HomeIcon } from "../../assets/train-icon.svg";
 import { UserContext } from "../../context/user/user.context";
 import { auth, signOutUser } from "../../utils/firebase/firebase.utils";
 import { updateProfile } from "firebase/auth";
+import CartDropDown from "../../components/cart-dropdown/cart-dropdown.component";
+import { ShoppingCartContext } from "../../context/shoppingCart/shoppingCart.context";
 
 const defaultFormFields = {
   displayName: "",
@@ -16,9 +18,12 @@ const Navigation = () => {
   // const adminEmail = process.env.REACT_APP_ADMIN_EMAIL
   const adminEmail = "doosetrain@gmail.com";
   const { currentUser } = useContext(UserContext);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName } = formFields;
+
+  const { cartCount } = useContext(ShoppingCartContext);
 
   //firebase logic
   // console.log(auth);
@@ -26,6 +31,11 @@ const Navigation = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
+  };
+
+  const setDropDown = () => {
+    setIsCartOpen(!isCartOpen);
+    console.log(isCartOpen, "set to new status");
   };
 
   const handleSubmit = async (e) => {
@@ -123,7 +133,30 @@ const Navigation = () => {
                   </div>
                 </div>
               )}
-
+              <div>
+                <div className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    id="shopDropdownMenuLink"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i style={{ color: "white" }} className="bi bi-cart">
+                      {cartCount}
+                    </i>
+                  </a>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="shopDropdownMenuLink"
+                  >
+                    <div className="container-fluid">
+                      <CartDropDown />
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div>
                 {currentUser ? (
                   <Link className="nav-item nav-link" onClick={signOutUser}>
