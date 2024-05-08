@@ -17,7 +17,7 @@ import DoosetrainStore from "./routes/store/DoosetrainStore";
 import Checkout from "./routes/checkout/checkout.component";
 import { useContext } from "react";
 import { UserContext } from "./context/user/user.context";
-import ProductEdit from './routes/ProductEdit/ProductEdit'
+import ProductEdit from "./routes/ProductEdit/ProductEdit";
 const trainList = [
   {
     id: 0,
@@ -68,7 +68,7 @@ const App = () => {
 
   const dayAndHourOfShow = nextFriday.getTime();
 
-  const { currentUser } = useContext(UserContext)
+  const { currentUser } = useContext(UserContext);
 
   return (
     <div>
@@ -87,12 +87,23 @@ const App = () => {
           <Route path="/showroom" element={<Showroom />} />
           <Route path="/pass-reset" element={<ResetPassword />} />
           <Route path="sign-in" element={<Authentication />} />
-          <Route path='shop' element={<DoosetrainStore />} />
-          <Route path='admin/*' element={currentUser && currentUser.email === process.env.REACT_APP_ADMIN_EMAIL ? <Dashboard /> : <Navigate to='/sign-in' />} />
+          <Route path="shop" element={<DoosetrainStore />} />
+          <Route
+            path="admin/*"
+            element={
+              currentUser && currentUser.email === "doosetrain@gmail.com" ? (
+                <Dashboard />
+              ) : (
+                <Navigate to="/sign-in" />
+              )
+            }
+          />
+
+          {/* <Route path='admin/*' element={currentUser && currentUser.email === process.env.REACT_APP_ADMIN_EMAIL ? <Dashboard /> : <Navigate to='/sign-in' />} /> */}
           <Route path="checkout" element={<Checkout />} />
         </Route>
       </Routes>
-    </div >
+    </div>
   );
 };
 
