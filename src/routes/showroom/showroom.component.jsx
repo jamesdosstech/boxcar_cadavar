@@ -1,43 +1,36 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, lazy, Suspense } from "react";
 import "./showroom.styles.scss";
-import StreamContainer from "../../components/stream-container/stream-container.component";
 import CommentContainer from "../../components/comment-container/comment-container.component";
 import { UserContext } from "../../context/user/user.context";
 
-const Showroom = () => {
-  const Title = "Showroom";
-  const { currentUser } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
+const LazyStreamContainer = lazy(() =>
+  import("../../components/stream-container/stream-container.component")
+);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000)
-  },[])
+const LazyCommentContainer = lazy(() =>
+  import("../../components/comment-container/comment-container.component")
+);
+
+const Showroom = () => {
+  const { currentUser } = useContext(UserContext);
   return (
     <div className="App">
-      {
-        loading ? (
-          <div>
-            Loading
-          </div>
+      <div className="showroom-container">
+        <Suspense fallback={<div>Loading... Doosez</div>}>
+          <LazyStreamContainer />
+        </Suspense>
+        {currentUser ? (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LazyCommentContainer currentUser={currentUser} />
+          </Suspense>
         ) : (
-        <div className="showroom-container">
-          <StreamContainer />
-          {/* <CommentContainer currentUser={currentUser} /> */}
-          {currentUser ? (
-            <CommentContainer currentUser={currentUser} />
-          ) : (
-            <>
-              <CommentContainer currentUser={null} />
-              {/* <Button ><Link to='/sign-in'>Sign In</Link></Button> */}
-            </>
-          )}
-          {/* <Comments comments={initialComments}/> */}
-        </div>    
-        )
-      }
-      
+          <>
+            <Suspense fallback={<div>Loading...</div>}>
+              <LazyCommentContainer currentUser={null} />
+            </Suspense>
+          </>
+        )}
+      </div>
     </div>
   );
 };

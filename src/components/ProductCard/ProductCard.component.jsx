@@ -7,15 +7,16 @@ const ProductCard = ({ product }) => {
   const { addItemstoCart, cartItems } = useContext(ShoppingCartContext);
   const addProductToCart = () => addItemstoCart(product);
   const {
-    id,
+    // id,
     ProductImg,
     ProductName,
-    ProductDesc,
+    // ProductDesc,
     ProductPrice,
-    ProductQuant,
-    quantity,
+    // ProductQuant,
+    // quantity,
   } = product;
-  console.log("This is ", product);
+  // read product
+  // console.log("This is ", product);
   useEffect(() => {
     if (product.ProductQuant && cartItems) {
       const cartItem = cartItems.find((item) => item.id === product.id);
