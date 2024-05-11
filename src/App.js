@@ -71,7 +71,7 @@ const App = () => {
   const { currentUser } = useContext(UserContext);
 
   return (
-    <div>
+    <div style={{ height: "auto" }}>
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route
