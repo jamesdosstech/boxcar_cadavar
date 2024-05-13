@@ -17,6 +17,7 @@ const defaultFormFields = {
 const Navigation = () => {
   // const adminEmail = process.env.REACT_APP_ADMIN_EMAIL
   const adminEmail = "doosetrain@gmail.com";
+  const [isNavBarOpen, setIsNavBarOpen] = useState(false);
   const { currentUser } = useContext(UserContext);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -27,6 +28,8 @@ const Navigation = () => {
 
   //firebase logic
   // console.log(auth);
+
+  const setNavBarStatus = () => setIsNavBarOpen(!isNavBarOpen);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -70,6 +73,7 @@ const Navigation = () => {
             aria-controls="navbarNav"
             aria-expanded="false"
             aria-label="Toggle navigation"
+            onClick={setNavBarStatus}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -79,18 +83,34 @@ const Navigation = () => {
           >
             <div className="navbar-nav">
               <div>
-                <Link className="nav-item nav-link" to="/shop">
+                <Link
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbarNavAltMarkup"
+                  className="nav-item nav-link"
+                  to="/shop"
+                  // onClick={setNavBarStatus}
+                >
                   Shop
                 </Link>
               </div>
               <div>
-                <Link className="nav-item nav-link" to="/showroom">
+                <Link
+                  className="nav-item nav-link"
+                  to="/showroom"
+                  data-toggle="collapse"
+                  data-target="#navbarNavAltMarkup"
+                >
                   Showroom
                 </Link>
               </div>
               <div>
                 {currentUser && currentUser.email === adminEmail && (
-                  <Link className="nav-item nav-link" to="/admin">
+                  <Link
+                    className="nav-item nav-link"
+                    to="/admin"
+                    data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup"
+                  >
                     Admin
                   </Link>
                 )}

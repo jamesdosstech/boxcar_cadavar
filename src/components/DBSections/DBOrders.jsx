@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -9,37 +9,54 @@ function OrdersPage() {
   }, []);
 
   return (
-    <div>
-      <h1>Orders</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Order Number</th>
-            <th>Order Date</th>
-            <th>Products Ordered</th>
-            <th>Customer Name</th>
-            <th>Shipping Address</th>
-            <th>Shipping Cost</th>
-            <th>Contact Information</th>
-            <th>Total Price</th>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Order Number</th>
+          <th>Order Date</th>
+          <th>Products Ordered</th>
+          <th>Customer Name</th>
+          <th>Shipping Address</th>
+          <th>Shipping Cost</th>
+          <th>Contact Information</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {orders.map((order) => (
+          <tr key={order.orderNumber}>
+            <td>{order.orderNumber}</td>
+            <td>{order.orderDate}</td>
+            <td>{order.productsOrdered}</td>
+            <td>{order.customerName}</td>
+            <td>{order.shippingAddress}</td>
+            <td>{order.shippingCost}</td>
+            <td>{order.contactInfo}</td>
+            <td>{order.totalPrice}</td>
           </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.orderNumber}>
-              <td>{order.orderNumber}</td>
-              <td>{order.orderDate}</td>
-              <td>{order.productsOrdered}</td>
-              <td>{order.customerName}</td>
-              <td>{order.shippingAddress}</td>
-              <td>{order.shippingCost}</td>
-              <td>{order.contactInfo}</td>
-              <td>{order.totalPrice}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
+    // <div>
+    //   <h1>Orders</h1>
+    //   <table>
+    //     <thead>
+    //       <tr>
+    //         <th>Order Number</th>
+    //         <th>Order Date</th>
+    //         <th>Products Ordered</th>
+    //         <th>Customer Name</th>
+    //         <th>Shipping Address</th>
+    //         <th>Shipping Cost</th>
+    //         <th>Contact Information</th>
+    //         <th>Total Price</th>
+    //       </tr>
+    //     </thead>
+    //     <tbody>
+
+    //     </tbody>
+    //   </table>
+    // </div>
   );
 }
 
