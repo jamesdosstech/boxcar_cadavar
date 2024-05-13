@@ -1,0 +1,17 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    justify-content: space-around; /* Or any other value depending on how you want them to be spaced */
+  }
+  
+  .card {
+    width: calc(20% - 20px);
+    margin: 20px; /* Adjust as needed */
+  }
+
+  @media (max-width: 768px) {
+    .card {
+        width: calc(33.33% - 20px);
+    }
+  }

@@ -19,6 +19,7 @@ const DBRightSection = () => {
         <Route path="/NewProducts" element={<DBNewItems />} />
         <Route path="/Users" element={<DBUsers />} />
         <Route path="/Products/:id" element={<ProductEdit />} />
+        <Route path="" element={<DBHome />} />
       </Routes>
     </div>
   );

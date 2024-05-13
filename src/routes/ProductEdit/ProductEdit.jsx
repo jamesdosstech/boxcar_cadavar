@@ -81,7 +81,8 @@ const ProductEdit = () => {
   };
 
   return (
-    <div className="card">
+    <div className="container">
+      <div className="card" style={{width: '100%'}}>
       <div className="card-header">
         <h2>{product.ProductName}</h2>
       </div>
@@ -91,6 +92,7 @@ const ProductEdit = () => {
           <input
             type="text"
             id="ProductName"
+            className="form-control"
             name="ProductName"
             placeholder={product.ProductName || editedProduct.ProductName}
             value={editedProduct.ProductName}
@@ -144,6 +146,8 @@ const ProductEdit = () => {
         )}
       </div>
     </div>
+    </div>
+    
   );
 };
 

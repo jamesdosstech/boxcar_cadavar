@@ -22,7 +22,7 @@ const DBUsers = () => {
   }, [])
 
   return (
-    <div>
+    <div data-bs-theme="dark">
       <h2>DBUsers</h2>
       <table className="table">
         <thead>
