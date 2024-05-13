@@ -130,7 +130,9 @@ const Navigation = () => {
                   <div
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdownMenuLink"
+                    data-bs-theme="dark"
                   >
+                    <div className="container">
                     <form className="form-inline" onSubmit={handleSubmit}>
                       <input
                         className="form-control mr-sm-2"
@@ -149,11 +151,13 @@ const Navigation = () => {
                       >
                         Submit
                       </button>
-                    </form>
+                    </form>  
+                    </div>
+                    
                   </div>
                 </div>
               )}
-              <div>
+              <div data-bs-theme="dark">
                 <div className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
