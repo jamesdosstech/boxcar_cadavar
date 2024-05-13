@@ -4,7 +4,8 @@ const DBHome = () => {
   return (
     <div
       className="container-fluid d-flex flex-column"
-      style={{ backgroundColor: "white" }}
+      // style={{ backgroundColor: "white" }}
+      data-bs-theme="dark"
     >
       <div className="row flex-grow-1">
         <div className="col">
