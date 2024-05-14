@@ -84,8 +84,8 @@ const Navigation = () => {
             <div className="navbar-nav">
               <div>
                 <Link
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarNavAltMarkup"
+                  // data-bs-toggle="collapse"
+                  // data-bs-target="#navbarNavAltMarkup"
                   className="nav-item nav-link"
                   to="/shop"
                   // onClick={setNavBarStatus}
@@ -97,8 +97,8 @@ const Navigation = () => {
                 <Link
                   className="nav-item nav-link"
                   to="/showroom"
-                  data-toggle="collapse"
-                  data-target="#navbarNavAltMarkup"
+                  // data-toggle="collapse"
+                  // data-target="#navbarNavAltMarkup"
                 >
                   Showroom
                 </Link>
@@ -108,8 +108,8 @@ const Navigation = () => {
                   <Link
                     className="nav-item nav-link"
                     to="/admin"
-                    data-toggle="collapse"
-                    data-target="#navbarNavAltMarkup"
+                    // data-toggle="collapse"
+                    // data-target="#navbarNavAltMarkup"
                   >
                     Admin
                   </Link>

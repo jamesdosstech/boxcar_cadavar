@@ -18,6 +18,8 @@ import Checkout from "./routes/checkout/checkout.component";
 import { useContext } from "react";
 import { UserContext } from "./context/user/user.context";
 import ProductEdit from "./routes/ProductEdit/ProductEdit";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./utils/stripe/stripe.utils";
 const trainList = [
   {
     id: 0,
@@ -100,7 +102,7 @@ const App = () => {
           />
 
           {/* <Route path='admin/*' element={currentUser && currentUser.email === process.env.REACT_APP_ADMIN_EMAIL ? <Dashboard /> : <Navigate to='/sign-in' />} /> */}
-          <Route path="checkout" element={<Checkout />} />
+          <Route path="checkout" element={<Elements stripe={stripePromise} ><Checkout /></Elements>} />
         </Route>
       </Routes>
     </div>
