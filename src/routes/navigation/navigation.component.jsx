@@ -17,9 +17,10 @@ const defaultFormFields = {
 const Navigation = () => {
   // const adminEmail = process.env.REACT_APP_ADMIN_EMAIL
   const adminEmail = "doosetrain@gmail.com";
+
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-  const { currentUser } = useContext(UserContext);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const { currentUser, setCurrentUser, updateUserContext } =
+    useContext(UserContext);
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName } = formFields;
@@ -36,17 +37,28 @@ const Navigation = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
-  const setDropDown = () => {
-    setIsCartOpen(!isCartOpen);
-    console.log(isCartOpen, "set to new status");
-  };
-
   const handleSubmit = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
+    try {
+      if (auth.currentUser) {
+        console.log(auth.currentUser);
+        await updateProfile(auth.currentUser, {
+          displayName: displayName,
+        });
+
+        updateUserContext({
+          ...auth.currentUser,
+          displayName: displayName,
+        });
+        console.log("displayName is on display");
+      }
+    } catch (error) {
+      console.error("error updating display name:", error);
+    }
     console.log("submit");
-    await updateProfile(auth.currentUser, {
-      displayName: displayName,
-    });
+    // await updateProfile(auth.currentUser, {
+    //   displayName: displayName,
+    // });
   };
 
   return (
@@ -59,8 +71,6 @@ const Navigation = () => {
                 width: "30%",
                 height: "30%",
                 paddingRight: "5px",
-                // paddingTop: "10px",
-                // paddingLeft: "10px",
               }}
             />
             Doosetrain
@@ -94,23 +104,13 @@ const Navigation = () => {
                 </Link>
               </div>
               <div>
-                <Link
-                  className="nav-item nav-link"
-                  to="/showroom"
-                  // data-toggle="collapse"
-                  // data-target="#navbarNavAltMarkup"
-                >
+                <Link className="nav-item nav-link" to="/showroom">
                   Showroom
                 </Link>
               </div>
               <div>
                 {currentUser && currentUser.email === adminEmail && (
-                  <Link
-                    className="nav-item nav-link"
-                    to="/admin"
-                    // data-toggle="collapse"
-                    // data-target="#navbarNavAltMarkup"
-                  >
+                  <Link className="nav-item nav-link" to="/admin">
                     Admin
                   </Link>
                 )}
@@ -133,27 +133,26 @@ const Navigation = () => {
                     data-bs-theme="dark"
                   >
                     <div className="container">
-                    <form className="form-inline" onSubmit={handleSubmit}>
-                      <input
-                        className="form-control mr-sm-2"
-                        type="search"
-                        name="displayName"
-                        value={displayName}
-                        onChange={handleChange}
-                        required
-                        maxLength={15}
-                        placeholder={"change your display"}
-                        aria-label="Change Username"
-                      />
-                      <button
-                        className="btn btn-outline-success my-2 my-sm-0"
-                        type="submit"
-                      >
-                        Submit
-                      </button>
-                    </form>  
+                      <form className="form-inline" onSubmit={handleSubmit}>
+                        <input
+                          className="form-control mr-sm-2"
+                          type="search"
+                          name="displayName"
+                          value={displayName}
+                          onChange={handleChange}
+                          required
+                          maxLength={15}
+                          placeholder={"change your display"}
+                          aria-label="Change Username"
+                        />
+                        <button
+                          className="btn btn-outline-success my-2 my-sm-0"
+                          type="submit"
+                        >
+                          Submit
+                        </button>
+                      </form>
                     </div>
-                    
                   </div>
                 </div>
               )}

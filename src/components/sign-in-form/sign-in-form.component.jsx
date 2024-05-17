@@ -24,7 +24,7 @@ const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  // const { setCurrentUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -44,7 +44,7 @@ const SignUpForm = () => {
         email,
         password
       );
-      // setCurrentUser(user);
+      setCurrentUser(user);
     } catch (error) {
       switch (error.code) {
         case "auth/wrong-password":
@@ -78,7 +78,9 @@ const SignUpForm = () => {
       }}
     >
       <form autoComplete="off" onSubmit={handleSubmit}>
-        <div style={{color: 'hotpink'}} className="sign-in-header">Login</div>
+        <div style={{ color: "hotpink" }} className="sign-in-header">
+          Login
+        </div>
         <div>
           <FormInput
             // type="email"
@@ -101,7 +103,7 @@ const SignUpForm = () => {
         </div>
         <div className="buttons-container">
           <div>
-            <Button type="submit">Sign In</Button>  
+            <Button type="submit">Sign In</Button>
           </div>
         </div>
       </form>
