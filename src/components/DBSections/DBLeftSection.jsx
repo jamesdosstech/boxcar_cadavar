@@ -8,18 +8,9 @@ const DBLeftSection = () => {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary ">
         <div className="container">
-          <Link to="/" className="navbar-brand">
-            <HomeIcon
-              style={{
-                width: "30%",
-                height: "30%",
-                paddingRight: "5px",
-                // paddingTop: "10px",
-                // paddingLeft: "10px",
-              }}
-            />
+          <div className="navbar-brand">
             Admin
-          </Link>
+          </div>
           <button
             className="navbar-toggler"
             type="button"
@@ -29,7 +20,7 @@ const DBLeftSection = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="bi bi-chevron-expand"></span>
           </button>
           <div
             className="collapse navbar-collapse justify-content-end"
