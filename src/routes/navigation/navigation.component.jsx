@@ -15,8 +15,7 @@ const defaultFormFields = {
 };
 
 const Navigation = () => {
-  // const adminEmail = process.env.REACT_APP_ADMIN_EMAIL
-  const adminEmail = "doosetrain@gmail.com";
+  const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
 
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
   const { currentUser, setCurrentUser, updateUserContext } =
@@ -56,9 +55,6 @@ const Navigation = () => {
       console.error("error updating display name:", error);
     }
     console.log("submit");
-    // await updateProfile(auth.currentUser, {
-    //   displayName: displayName,
-    // });
   };
 
   return (
