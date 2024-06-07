@@ -10,8 +10,8 @@ const StreamContainer = () => {
   return (
     <div className="stream-player-container">
       <iframe
-        src="https://player.twitch.tv/?channel=d22setrain&parent=localhost"
-        // src="https://player.twitch.tv/?channel=d22setrain&parent=doosetrain.com"
+        // src="https://player.twitch.tv/?channel=d22setrain&parent=localhost"
+        src="https://player.twitch.tv/?channel=d22setrain&parent=doosetrain.com"
         // frameborder="0"
         allowFullScreen={true}
         height="378"
