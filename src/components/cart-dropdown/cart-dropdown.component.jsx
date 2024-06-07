@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { ShoppingCartContext } from '../../context/shoppingCart/shoppingCart.context'
 import CartItem from './cart-item/cart-item.component'
 import { useNavigate } from 'react-router-dom'
+import Button from '../button/button.component'
 
 const CartDropdown = () => {
   const {cartItems} = useContext(ShoppingCartContext)
@@ -24,7 +25,7 @@ const CartDropdown = () => {
           })
         }
       </div>
-      <button onClick={goToCheckoutHandler}>Go to Checkout</button>
+      <Button onClick={goToCheckoutHandler}>Go to Checkout</Button>
     </div>
     
   )

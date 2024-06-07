@@ -5,7 +5,15 @@
     color: black;
     padding-top: 15%;
 
-    .splash-message-container {
-        padding-bottom: 10%;
+    .splash-icon {
+        display: "flex";
+        align-items: "center";
+        justify-content: "center";
     }
 }
+
+// .splash-icon {
+//     display: "flex";
+//     align-items: "center";
+//     justify-content: "center";
+// }
