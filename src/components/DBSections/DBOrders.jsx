@@ -9,7 +9,7 @@ function OrdersPage() {
   }, []);
 
   return (
-    <table class="table" data-bs-theme="dark">
+    <table className="table" data-bs-theme="dark">
       <thead>
         <tr>
           <th>Order Number</th>

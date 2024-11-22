@@ -1,72 +1,51 @@
 import "./authentication.styles.scss";
-
 import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
 
 import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
 import SignInForm from "../../components/sign-in-form/sign-in-form.component";
-
-import Splash from "../../routes/splash/splash.component";
+import Button from "../../components/button/button.component";
 
 import { UserContext } from "../../context/user/user.context";
-import { useContext, useState } from "react";
-import Button from "../../components/button/button.component";
 
 const Authentication = () => {
   const { currentUser } = useContext(UserContext);
   const [isNewUser, setIsNewUser] = useState(false);
 
-  const onSignUpChange = () => {
-    setIsNewUser(!isNewUser)
-  }
-  // const date = new Date();
-  // const dateCopy = new Date(date.getTime());
-  // const nextFriday = new Date(
-  //     dateCopy.setDate(
-  //     dateCopy.getDate() + ((7 - dateCopy.getDay() + 5) % 7 || 7),
-  //     dateCopy.setHours(0),
-  //     dateCopy.setMinutes(0),
-  //     dateCopy.setSeconds(0)
-  //     )
-  // );
+  const toggleUserMode = () => {
+    setIsNewUser((prevMode) => !prevMode);
+  };
 
-  // const actualNextFriday = nextFriday.getTime();
-
-  // const timeAfterThreeDays = actualNextFriday;
   return (
-    <>
+    <div className="authentication-container">
       {currentUser ? (
-        <div className="authentication-container">
-          <div style={{color: 'hotpink'}}>You are successfully logged in</div>
-          <div>
-            <Link to={"/"}>Back</Link>
+        <div className="authentication-logged-in">
+          <div aria-live="polite" className="logged-in-message">
+            You are successfully logged in.
           </div>
+          <Link to="/" className="back-link">
+            Back to Home
+          </Link>
         </div>
       ) : (
-        <div
-        // className="authentication-container"
-        > {
-          isNewUser ? (
-            <>
-            <div style={{color: 'white', textAlign: 'center'}}>
-              Are you currently a user? Sign in here.
-              <Button onClick={onSignUpChange}>Sign In</Button>
-            </div>
-            <SignUpForm />
-            </>
-            
-          ) : (
-            <>
-              <div style={{color: 'white', textAlign: 'center'}}>
-                If you are not a current user sign up here.
-                <Button onClick={onSignUpChange}>Sign Up</Button>
-              </div>
-              <SignInForm/> 
-            </>
-          )
-        }
+        <div className="authentication-forms">
+          <div className="authentication-toggle">
+            {isNewUser ? (
+              <>
+                <p>Already a user? Sign in here:</p>
+                <Button onClick={toggleUserMode}>Sign In</Button>
+              </>
+            ) : (
+              <>
+                <p>New user? Sign up here:</p>
+                <Button onClick={toggleUserMode}>Sign Up</Button>
+              </>
+            )}
+          </div>
+          {isNewUser ? <SignUpForm /> : <SignInForm />}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

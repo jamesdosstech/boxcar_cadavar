@@ -1,192 +1,126 @@
 import { Outlet, Link } from "react-router-dom";
-import "./navigation.styles.scss";
 import { useContext, useState } from "react";
-
+import './navigation.styles.scss';
 import { ReactComponent as HomeIcon } from "../../assets/train-icon.svg";
-
 import { UserContext } from "../../context/user/user.context";
 import { auth, signOutUser } from "../../utils/firebase/firebase.utils";
 import { updateProfile } from "firebase/auth";
-import CartDropDown from "../../components/cart-dropdown/cart-dropdown.component";
 import { ShoppingCartContext } from "../../context/shoppingCart/shoppingCart.context";
-
-const defaultFormFields = {
-  displayName: "",
-};
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component"; // Importing CartDropdown
 
 const Navigation = () => {
-  const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
-
+  const adminEmail = 'doosetrain@gmail.com';
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-  const { currentUser, setCurrentUser, updateUserContext } =
-    useContext(UserContext);
-
-  const [formFields, setFormFields] = useState(defaultFormFields);
-  const { displayName } = formFields;
-
+  const [displayName, setDisplayName] = useState("");
+  const [isCartOpen, setIsCartOpen] = useState(false);  // Manage dropdown state here
+  const { currentUser, updateUserContext } = useContext(UserContext);
   const { cartCount } = useContext(ShoppingCartContext);
 
-  //firebase logic
-  // console.log(auth);
-
-  const setNavBarStatus = () => setIsNavBarOpen(!isNavBarOpen);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormFields({ ...formFields, [name]: value });
-  };
+  const toggleNavBar = () => setIsNavBarOpen((prev) => !prev);
+  const toggleCartDropdown = () => setIsCartOpen((prev) => !prev);  // Toggle cart dropdown visibility
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (auth.currentUser) {
-        console.log(auth.currentUser);
-        await updateProfile(auth.currentUser, {
-          displayName: displayName,
-        });
-
-        updateUserContext({
-          ...auth.currentUser,
-          displayName: displayName,
-        });
-        console.log("displayName is on display");
+    if (auth.currentUser) {
+      try {
+        await updateProfile(auth.currentUser, { displayName });
+        updateUserContext({ ...auth.currentUser, displayName });
+      } catch (error) {
+        console.error("Error updating display name:", error);
       }
-    } catch (error) {
-      console.error("error updating display name:", error);
     }
-    console.log("submit");
   };
+
+  const AdminLink = () =>
+    currentUser?.email === adminEmail && (
+      <Link className="nav-item nav-link" to="/admin">
+        Admin
+      </Link>
+    );
+
+  const UserDropdown = () =>
+    currentUser && (
+      <div className="nav-item dropdown">
+        <button
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {currentUser.displayName || "User"}
+        </button>
+        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <form className="form-inline" onSubmit={handleSubmit}>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Change display name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              maxLength={15}
+              required
+            />
+            <button className="btn btn-outline-success" type="submit">
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    );
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            <HomeIcon
-              style={{
-                width: "30%",
-                height: "30%",
-                paddingRight: "5px",
-              }}
-            />
+            <HomeIcon className="icon" />
             Doosetrain
           </Link>
           <button
             className="navbar-toggler"
             type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNav"
-            aria-expanded="false"
             aria-label="Toggle navigation"
-            onClick={setNavBarStatus}
+            onClick={toggleNavBar}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
           <div
-            className="collapse navbar-collapse justify-content-end"
-            id="navbarNavAltMarkup"
+            className={`collapse navbar-collapse ${isNavBarOpen ? "show" : ""}`}
           >
-            <div className="navbar-nav">
-              <div>
-                <Link
-                  // data-bs-toggle="collapse"
-                  // data-bs-target="#navbarNavAltMarkup"
-                  className="nav-item nav-link"
-                  to="/shop"
-                  // onClick={setNavBarStatus}
+            <div className="navbar-nav" style={{ position: "relative" }}> {/* Apply relative positioning here */}
+              <Link className="nav-item nav-link" to="/shop">
+                Shop
+              </Link>
+              <Link className="nav-item nav-link" to="/showroom">
+                Showroom
+              </Link>
+              <AdminLink />
+              <UserDropdown />
+              <div className="nav-item">
+                <button
+                  className="nav-link"
+                  aria-expanded={isCartOpen ? "true" : "false"}
+                  onClick={toggleCartDropdown}  // Toggle cart dropdown visibility
                 >
-                  Shop
-                </Link>
-              </div>
-              <div>
-                <Link className="nav-item nav-link" to="/showroom">
-                  Showroom
-                </Link>
-              </div>
-              <div>
-                {currentUser && currentUser.email === adminEmail && (
-                  <Link className="nav-item nav-link" to="/admin">
-                    Admin
-                  </Link>
+                  <i className="bi bi-cart">{cartCount}</i> {/* Cart Count */}
+                </button>
+
+                {isCartOpen && (
+                  <div className="cart-dropdown-container">
+                    <CartDropdown /> {/* Cart dropdown content */}
+                  </div>
                 )}
               </div>
-              {currentUser && (
-                <div className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    {currentUser && currentUser.displayName}
-                  </a>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdownMenuLink"
-                    data-bs-theme="dark"
-                  >
-                    <div className="container">
-                      <form className="form-inline" onSubmit={handleSubmit}>
-                        <input
-                          className="form-control mr-sm-2"
-                          type="search"
-                          name="displayName"
-                          value={displayName}
-                          onChange={handleChange}
-                          required
-                          maxLength={15}
-                          placeholder={"change your display"}
-                          aria-label="Change Username"
-                        />
-                        <button
-                          className="btn btn-outline-success my-2 my-sm-0"
-                          type="submit"
-                        >
-                          Submit
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
+              {currentUser ? (
+                <Link className="nav-item nav-link" to="/" onClick={signOutUser}>
+                  Sign Out
+                </Link>
+              ) : (
+                <Link className="nav-item nav-link" to="/sign-in">
+                  Sign In
+                </Link>
               )}
-              <div data-bs-theme="dark">
-                <div className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle"
-                    href="#"
-                    id="shopDropdownMenuLink"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i style={{ color: "white" }} className="bi bi-cart">
-                      {cartCount}
-                    </i>
-                  </a>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="shopDropdownMenuLink"
-                  >
-                    <div className="container-fluid">
-                      <CartDropDown />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                {currentUser ? (
-                  <Link className="nav-item nav-link" onClick={signOutUser}>
-                    Sign Out
-                  </Link>
-                ) : (
-                  <Link className="nav-item nav-link" to="/sign-in">
-                    <div>Sign In</div>
-                  </Link>
-                )}
-              </div>
             </div>
           </div>
         </div>

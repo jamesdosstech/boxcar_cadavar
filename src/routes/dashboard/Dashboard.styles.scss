@@ -1,0 +1,103 @@
+/* Cotton Candy Theme Colors */
+$cotton-candy-dark: #2C2C2C;  /* Dark background */
+$cotton-candy-pink: #FFB6C1;  /* Soft pastel pink */
+$cotton-candy-blue: #B3D9FF;  /* Soft pastel blue */
+$cotton-candy-lavender: #D1A6FF;  /* Soft lavender */
+$white: #FFFFFF;  /* White for text and highlights */
+$dark-text: #2E2E2E;  /* Text color for high contrast */
+$focus-color: #FFB6C1;  /* Light pink for focus */
+
+
+/* Dashboard Layout */
+.dashboard-wrapper {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling */
+  background-color: $cotton-candy-dark; /* Dark background */
+}
+
+$top-navbar-height: 100px;
+
+.sidebar {
+  width: 250px; /* Sidebar width */
+  background-color: $cotton-candy-pink; /* Sidebar background */
+  color: $dark-text; /* Dark text for contrast */
+  position: relative; /* Fixed sidebar */
+  top: 0; /* Position below the top navbar */
+  left: 0;
+  padding: 20px;
+  overflow-y: auto; /* Enable scrolling if sidebar content exceeds height */
+  z-index: 1000; /* Ensure sidebar is above content */
+}
+
+.sidebar .navbar {
+  padding: 0;
+}
+
+.sidebar .navbar-nav {
+  display: flex;
+  flex-direction: column; /* Stack nav items vertically */
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.sidebar .nav-item {
+  margin: 15px 0;
+}
+
+.sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: $dark-text;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar .nav-link:hover {
+  background-color: $cotton-candy-lavender;
+  color: $white;
+}
+
+.sidebar .nav-link:focus {
+  outline: 3px solid $focus-color; /* Focus indicator for ADA compliance */
+}
+
+.content {
+  padding: 20px;
+  width: calc(100% - 250px); /* Full width minus sidebar */
+  background-color: $white; /* White background for content */
+  color: $dark-text; /* Dark text for readability */
+  overflow-y: auto; /* Content should be scrollable if needed */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column; /* Stack sidebar and content vertically */
+  }
+
+  .sidebar {
+    position: relative; /* Sidebar will no longer be fixed */
+    width: 100%; /* Sidebar takes full width */
+    height: auto;
+    padding: 10px;
+  }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .sidebar .navbar-nav {
+    flex-direction: row; /* Horizontally stack links on small screens */
+    overflow-x: auto;
+    justify-content: space-between;
+  }
+
+  .sidebar .nav-link {
+    padding: 10px 15px;
+    margin-right: 10px;
+  }
+}

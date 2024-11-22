@@ -1,19 +1,55 @@
-.splash-container {
-    height: 100vh;
-    text-align: center;
-    font-family: 'Press Start 2P';
-    color: black;
-    padding-top: 15%;
+// .splash-container {
+//     height: 100vh;
+//     text-align: center;
+//     font-family: 'Press Start 2P';
+//     color: black;
+//     padding-top: 15%;
 
-    .splash-icon {
-        display: "flex";
-        align-items: "center";
-        justify-content: "center";
-    }
-}
-
-// .splash-icon {
-//     display: "flex";
-//     align-items: "center";
-//     justify-content: "center";
+//     .splash-icon {
+//         display: "flex";
+//         align-items: "center";
+//         justify-content: "center";
+//     }
 // }
+
+// // .splash-icon {
+// //     display: "flex";
+// //     align-items: "center";
+// //     justify-content: "center";
+// // }
+.splash-container {
+    .train-list {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 10px;
+    }
+  
+    .message-container {
+      text-align: center;
+      margin: 0 10px;
+    }
+  
+    .welcome-message {
+      color: white;
+      font-family: Oxanium, sans-serif;
+    }
+  
+    .subtitle {
+      color: white;
+    }
+  
+    .info-text {
+      color: white;
+      font-family: Oxanium, sans-serif;
+      margin: 0 10px;
+  
+      p {
+        margin-bottom: 1rem;
+      }
+  
+      a {
+        text-decoration: none;
+      }
+    }
+  }

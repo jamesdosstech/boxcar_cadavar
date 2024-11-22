@@ -17,258 +17,202 @@ const initialAddressState = {
 
 const Checkout = () => {
   const { cartItems, cartTotal } = useContext(ShoppingCartContext);
-  console.log(cartTotal);
-  const elements = useElements();
   const stripe = useStripe();
-  const [billingAddress, setBillingAddress] = useState({
-    ...initialAddressState,
-  });
-  const [shippingAddress, setShippingAddress] = useState({
-    ...initialAddressState,
-  });
+  const elements = useElements();
+
+  const [billingAddress, setBillingAddress] = useState({ ...initialAddressState });
+  const [shippingAddress, setShippingAddress] = useState({ ...initialAddressState });
   const [recipientName, setRecipientName] = useState("");
   const [nameOnCard, setNameOnCard] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleAddressChange = (e, setAddress) => {
+    const { name, value } = e.target;
+    setAddress((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCountryChange = (value, setAddress) => {
+    setAddress((prev) => ({ ...prev, country: value }));
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // const cardElement = elements.getElement('card');
+    if (!stripe || !elements) return;
 
-    if (
-      // !shippingAddress.line1 || !shippingAddress.city || !shippingAddress.state || !shippingAddress.postal_code || !shippingAddress.country ||
-      // !billingAddress.line1 || !billingAddress.city || !billingAddress.state || !billingAddress.postal_code || !billingAddress.country ||
-      // !recipientName || !nameOnCard ||
-      !stripe ||
-      !elements
-    ) {
-      return;
-    }
+    setLoading(true);
 
-    const billingCountry = countryList.getCode(billingAddress.country);
-    const shippingCountry = countryList.getCode(shippingAddress.country);
+    try {
+      const billingCountry = countryList.getCode(billingAddress.country);
+      const response = await fetch("/.netlify/functions/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: cartTotal * 100 }),
+      }).then((res) => res.json());
 
-    const response = await fetch("/.netlify/functions/create-payment-intent", {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: cartTotal * 100 }),
-    }).then((res) => res.json());
-
-    console.log("Response: ", response);
-
-    const {
-      paymentIntent: { client_secret },
-    } = response;
-
-    const paymentResult = await stripe.confirmCardPayment(client_secret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: nameOnCard,
-          address: {
-            city: billingAddress.address,
-            line1: billingAddress.line1,
-            line2: billingAddress.line2 ? billingAddress.line2 : undefined,
-            postal_code: billingAddress.postal_code,
-            country: billingCountry,
+      const clientSecret = response?.paymentIntent?.client_secret;
+      const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: nameOnCard,
+            address: {
+              ...billingAddress,
+              country: billingCountry,
+            },
           },
         },
-      },
-    });
+      });
 
-    if (paymentResult.error) {
-      alert(JSON.stringify(paymentResult.error));
-    } else {
-      if (paymentResult.paymentIntent.status === "succeeded") {
-        alert("payment successful");
+      if (paymentResult.error) {
+        alert(`Payment failed: ${paymentResult.error.message}`);
+      } else if (paymentResult.paymentIntent.status === "succeeded") {
+        alert("Payment successful!");
       }
+    } catch (error) {
+      alert("An error occurred during payment processing.");
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const handleShipping = (e) => {
-    const { name, value } = e.target;
-    setShippingAddress({
-      ...shippingAddress,
-      [name]: value,
-    });
-  };
-
-  const handleBilling = (e) => {
-    const { name, value } = e.target;
-    setBillingAddress({
-      ...billingAddress,
-      [name]: value,
-    });
-  };
-
-  const configCardElement = {
-    iconStyle: "solid",
-    style: {
-      base: {
-        fontSize: "16px",
-      },
-    },
-    hidePostalCode: true,
   };
 
   return (
     <div className="checkout-container">
-      <div className="checkout-header">
-        <div className="header-block">
-          <span>Product</span>
+      <h1>Checkout</h1>
+
+      <div className="checkout-items">
+        <div className="checkout-header">
+          <div className="header-block"><span>Product</span></div>
+          <div className="header-block"><span>Description</span></div>
+          <div className="header-block"><span>Quantity</span></div>
+          <div className="header-block"><span>Price</span></div>
+          <div className="header-block"><span>Remove</span></div>
         </div>
-        <div className="header-block">
-          <span>Description</span>
-        </div>
-        <div className="header-block">
-          <span>Quantity</span>
-        </div>
-        <div className="header-block">
-          <span>Price</span>
-        </div>
-        <div className="header-block">
-          <span>Remove</span>
-        </div>
+        {cartItems.map((item) => <CheckoutItem key={item.id} cartItem={item} />)}
+        <div className="checkout-total">Total: ${cartTotal.toFixed(2)}</div>
       </div>
-      {cartItems.map((cartItem) => {
-        return <CheckoutItem key={cartItem.id} cartItem={cartItem} />;
-      })}
-      <span className="total">Total: ${cartTotal}</span>
-      <div className="paymentDetails">
+
+      <div className="checkout-form">
         <form onSubmit={handleFormSubmit}>
-          <div className="group">
+          <div className="form-section">
             <h2>Shipping Address</h2>
             <input
-              required
               type="text"
               placeholder="Recipient Name"
-              name="recipeientName"
+              name="recipientName"
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="Line 1"
-              value={shippingAddress.line1}
               name="line1"
-              onChange={(e) => handleShipping(e)}
+              value={shippingAddress.line1}
+              onChange={(e) => handleAddressChange(e, setShippingAddress)}
+              required
             />
             <input
               type="text"
               placeholder="Line 2"
-              value={shippingAddress.line2}
               name="line2"
-              onChange={(e) => handleShipping(e)}
+              value={shippingAddress.line2}
+              onChange={(e) => handleAddressChange(e, setShippingAddress)}
             />
             <input
-              required
               type="text"
               placeholder="City"
-              value={shippingAddress.city}
               name="city"
-              onChange={(e) => handleShipping(e)}
+              value={shippingAddress.city}
+              onChange={(e) => handleAddressChange(e, setShippingAddress)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="State"
-              value={shippingAddress.state}
               name="state"
-              onChange={(e) => handleShipping(e)}
+              value={shippingAddress.state}
+              onChange={(e) => handleAddressChange(e, setShippingAddress)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="Postal Code"
-              value={shippingAddress.postal_code}
               name="postal_code"
-              onChange={(e) => handleShipping(e)}
+              value={shippingAddress.postal_code}
+              onChange={(e) => handleAddressChange(e, setShippingAddress)}
+              required
             />
             <CountryDropdown
-              required
-              valueType="short"
               value={shippingAddress.country}
-              onChange={(val) =>
-                handleShipping({
-                  target: {
-                    name: "country",
-                    value: val,
-                  },
-                })
-              }
+              onChange={(val) => handleCountryChange(val, setShippingAddress)}
+              required
             />
           </div>
-          <div className="group">
+
+          <div className="form-section">
             <h2>Billing Address</h2>
             <input
-              required
               type="text"
-              placeholder="Recipient Name"
+              placeholder="Name on Card"
               value={nameOnCard}
-              name="nameOnCard"
               onChange={(e) => setNameOnCard(e.target.value)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="Line 1"
-              value={billingAddress.line1}
               name="line1"
-              onChange={(e) => handleBilling(e)}
+              value={billingAddress.line1}
+              onChange={(e) => handleAddressChange(e, setBillingAddress)}
+              required
             />
             <input
               type="text"
               placeholder="Line 2"
-              value={billingAddress.line2}
               name="line2"
-              onChange={(e) => handleBilling(e)}
+              value={billingAddress.line2}
+              onChange={(e) => handleAddressChange(e, setBillingAddress)}
             />
             <input
-              required
               type="text"
               placeholder="City"
-              value={billingAddress.city}
               name="city"
-              onChange={(e) => handleBilling(e)}
+              value={billingAddress.city}
+              onChange={(e) => handleAddressChange(e, setBillingAddress)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="State"
-              value={billingAddress.state}
               name="state"
-              onChange={(e) => handleBilling(e)}
+              value={billingAddress.state}
+              onChange={(e) => handleAddressChange(e, setBillingAddress)}
+              required
             />
             <input
-              required
               type="text"
               placeholder="Postal Code"
-              value={billingAddress.postal_code}
               name="postal_code"
-              onChange={(e) => handleBilling(e)}
+              value={billingAddress.postal_code}
+              onChange={(e) => handleAddressChange(e, setBillingAddress)}
+              required
             />
             <CountryDropdown
-              required
-              valueType="short"
               value={billingAddress.country}
-              onChange={(val) =>
-                handleBilling({
-                  target: {
-                    name: "country",
-                    value: val,
-                  },
-                })
-              }
+              onChange={(val) => handleCountryChange(val, setBillingAddress)}
+              required
             />
           </div>
-          <div className="group">
+
+          <div className="form-section">
             <h2>Card Details</h2>
-            <CardElement options={configCardElement} />
+            <CardElement options={{ style: { base: { fontSize: "16px" } } }} />
           </div>
-          <div>
-            <button>Submit</button>
-          </div>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Processing..." : "Submit"}
+          </button>
         </form>
       </div>
     </div>

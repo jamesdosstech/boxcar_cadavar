@@ -6,27 +6,23 @@ import SplashEnter from "../../components/splash-enter/splash-enter.component";
 import SplashTimer from "../../components/splash-timer/splash-timer.component";
 
 const Splash = ({ targetDate, trainList, data }) => {
-  const splashMessage = [
-    {
-      id: 0,
-      welcomeMessage: "welcome to doosetrain, friends",
-      subtitle: "live dj streams every friday",
-    },
-    {
-      id: 1,
-      welcomeMessage: "welcome to doosetrain, friends",
-      subtitle: "you're early! the next show starts in...",
-      reminder: "see you Sunday!",
-    },
-  ];
+    const [days, hours, minutes, seconds] = useCountdown(targetDate);
+   // Define the splash messages directly inside the component
+   const splashMessage = days === 0 ? 
+   {
+     welcomeMessage: "You're early! The next show starts in...",
+     subtitle: "See you Sunday!",
+   } : 
+   {
+     welcomeMessage: "Welcome to Doosetrain, friends",
+     subtitle: "Live DJ streams every Friday",
+   };
 
-  const [days, hours, minutes, seconds] = useCountdown(targetDate);
+
   // console.log(`days ${days} and hours ${hours}`);
   return (
     <div className="App">
-      {/* {days === 6 ? (
-        <SplashEnter message={data} trainList={trainList} />
-      ) : (
+      {days === 0 ? (
         <SplashTimer
           days={days}
           hours={hours}
@@ -35,8 +31,9 @@ const Splash = ({ targetDate, trainList, data }) => {
           message={splashMessage}
           trainList={trainList}
         />
-      )} */}
-      <SplashEnter message={data} trainList={trainList} />
+      ) : (
+        <SplashEnter message={data} trainList={trainList} />
+      )}
     </div>
   );
 };

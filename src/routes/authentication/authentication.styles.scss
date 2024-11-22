@@ -1,13 +1,54 @@
-// .authentication-container {
-//   // display: flex;
-//   // width: 900px;
-//   // justify-content: space-between;
-//   // margin: 30px auto;
-// }
+.authentication-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
 
-@media (max-width: 600px) {
-  // .authentication-container {
-  //   flex-direction: column;
-  //   height: 100vh;
-  // }
+.authentication-logged-in {
+  text-align: center;
+
+  .logged-in-message {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: hotpink;
+  }
+
+  .back-link {
+    color: #007bff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.authentication-forms {
+  max-width: 400px;
+  text-align: center;
+
+  .authentication-toggle {
+    margin-bottom: 20px;
+
+    p {
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
 }

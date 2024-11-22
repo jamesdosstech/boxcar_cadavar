@@ -1,3 +1,51 @@
+.cart-dropdown-container {
+  position: absolute;
+  width: 240px;
+  max-height: 340px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  background-color: white;
+  top: 90px;
+  right: 40px;
+  z-index: 9999; /* Ensure it's above other elements */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better visibility */
+  border-radius: 8px; /* Rounded corners for a smoother look */
+
+  .empty-message {
+    font-size: 18px;
+    color: #888; /* Softer color for the empty message */
+    margin: 50px auto;
+    text-align: center;
+  }
+
+  .cart-items {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    margin-bottom: 10px; /* Spacing between items and button */
+    max-height: 240px;
+  }
+
+  button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #FFB6C1; /* Matching cotton candy theme */
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #D1A6FF; /* Hover effect */
+    }
+  }
+}
+
+
 // .navigation-container {
 //     display: flex;
 //     flex-direction: row;
