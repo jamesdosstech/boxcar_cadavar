@@ -1,23 +1,50 @@
-import { Outlet, Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import './navigation.styles.scss';
+import { Link } from "react-router-dom";
+import { useContext, useState, useEffect, useRef } from "react";
+import "./navigation.styles.scss"; // Custom styles
 import { ReactComponent as HomeIcon } from "../../assets/train-icon.svg";
 import { UserContext } from "../../context/user/user.context";
 import { auth, signOutUser } from "../../utils/firebase/firebase.utils";
 import { updateProfile } from "firebase/auth";
 import { ShoppingCartContext } from "../../context/shoppingCart/shoppingCart.context";
-import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component"; // Importing CartDropdown
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 const Navigation = () => {
-  const adminEmail = 'doosetrain@gmail.com';
-  const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-  const [displayName, setDisplayName] = useState("");
-  const [isCartOpen, setIsCartOpen] = useState(false);  // Manage dropdown state here
+  const adminEmail = "doosetrain@gmail.com";
   const { currentUser, updateUserContext } = useContext(UserContext);
   const { cartCount } = useContext(ShoppingCartContext);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [displayName, setDisplayName] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Track menu toggle state
+  const cartDropdownRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Detect if it's mobile
 
-  const toggleNavBar = () => setIsNavBarOpen((prev) => !prev);
-  const toggleCartDropdown = () => setIsCartOpen((prev) => !prev);  // Toggle cart dropdown visibility
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleCartDropdown = (e) => {
+    if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return;
+    setIsCartOpen((prev) => !prev);
+  };
+
+  const handleMenuToggle = (e) => {
+    if (isMobile) {
+      setIsMenuOpen((prev) => !prev);
+    }
+  };
+
+  const handleOutsideClick = (event) => {
+    if (cartDropdownRef.current && !cartDropdownRef.current.contains(event.target)) {
+      setIsCartOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,102 +58,80 @@ const Navigation = () => {
     }
   };
 
-  const AdminLink = () =>
-    currentUser?.email === adminEmail && (
-      <Link className="nav-item nav-link" to="/admin">
-        Admin
-      </Link>
-    );
-
-  const UserDropdown = () =>
-    currentUser && (
-      <div className="nav-item dropdown">
-        <button
-          className="nav-link dropdown-toggle"
-          href="#"
-          id="navbarDropdownMenuLink"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          {currentUser.displayName || "User"}
-        </button>
-        <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <form className="form-inline" onSubmit={handleSubmit}>
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Change display name"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              maxLength={15}
-              required
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Submit
-            </button>
-          </form>
-        </div>
+  const UserDropdown = () => (
+    <div className="user-dropdown">
+      <button className="nav-link">{currentUser.displayName || "User"}</button>
+      <div className="dropdown-menu">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Change display name"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            maxLength={15}
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
       </div>
-    );
+    </div>
+  );
+
+  const CartIcon = () => (
+    <div className="cart-icon" ref={cartDropdownRef}>
+      <button
+        className="nav-link"
+        aria-haspopup="true"
+        aria-expanded={isCartOpen}
+        onClick={toggleCartDropdown}
+        onKeyDown={toggleCartDropdown}
+      >
+        <i className="bi bi-cart"></i>
+        {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+      </button>
+      {isCartOpen && <CartDropdown />}
+    </div>
+  );
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
-          <Link to="/" className="navbar-brand">
-            <HomeIcon className="icon" />
-            Doosetrain
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            aria-label="Toggle navigation"
-            onClick={toggleNavBar}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div
-            className={`collapse navbar-collapse ${isNavBarOpen ? "show" : ""}`}
-          >
-            <div className="navbar-nav" style={{ position: "relative" }}> {/* Apply relative positioning here */}
-              <Link className="nav-item nav-link" to="/shop">
-                Shop
-              </Link>
-              <Link className="nav-item nav-link" to="/showroom">
-                Showroom
-              </Link>
-              <AdminLink />
-              <UserDropdown />
-              <div className="nav-item">
-                <button
-                  className="nav-link"
-                  aria-expanded={isCartOpen ? "true" : "false"}
-                  onClick={toggleCartDropdown}  // Toggle cart dropdown visibility
-                >
-                  <i className="bi bi-cart">{cartCount}</i> {/* Cart Count */}
-                </button>
-
-                {isCartOpen && (
-                  <div className="cart-dropdown-container">
-                    <CartDropdown /> {/* Cart dropdown content */}
-                  </div>
-                )}
-              </div>
-              {currentUser ? (
-                <Link className="nav-item nav-link" to="/" onClick={signOutUser}>
-                  Sign Out
-                </Link>
-              ) : (
-                <Link className="nav-item nav-link" to="/sign-in">
-                  Sign In
-                </Link>
-              )}
-            </div>
-          </div>
+    <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
+      <div className="navbar-container">
+        <div className="navbar-brand">
+          <HomeIcon
+            className={`icon ${isMenuOpen ? "spinning" : ""}`}
+            onClick={handleMenuToggle}
+          />
+          <Link className="custom-link" to="/">Doosetrain</Link>
         </div>
-      </nav>
-      <Outlet />
-    </>
+
+        {/* Desktop view */}
+        <div className="navbar-menu">
+          <Link to="/shop" className="nav-link">Shop</Link>
+          <Link to="/showroom" className="nav-link">Showroom</Link>
+          {currentUser?.email === adminEmail && (
+            <Link to="/admin" className="nav-link">Admin</Link>
+          )}
+          {currentUser && <UserDropdown />}
+          <CartIcon />
+          <Link to={currentUser ? "/" : "/sign-in"} className="nav-link" onClick={currentUser ? signOutUser : undefined}>
+            {currentUser ? "Sign Out" : "Sign In"}
+          </Link>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="mobile-menu">
+          <Link to="/shop" className="nav-link" onClick={handleMenuToggle}>Shop</Link>
+          <Link to="/showroom" className="nav-link" onClick={handleMenuToggle}>Showroom</Link>
+          {currentUser?.email === adminEmail && (
+            <Link to="/admin" className="nav-link" onClick={handleMenuToggle}>Admin</Link>
+          )}
+          {currentUser && <UserDropdown />}
+          <CartIcon />
+        </div>
+      )}
+    </nav>
   );
 };
 

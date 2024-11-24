@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { db, storage } from '../../utils/firebase/firebase.utils'
-import { getDownloadURL, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { addDoc, collection } from 'firebase/firestore';
 
 const DBNewItems = () => {
@@ -26,9 +26,6 @@ const DBNewItems = () => {
       setProductImg(null);
       setError('Please select a valid image type png or jpeg')
     }
-    
-    // const imageRef = ref(storage, `images/${productImg.name}`);
-
   }
 
   const uploadFile = (file) => {
@@ -64,26 +61,30 @@ const DBNewItems = () => {
           document.getElementById('file').value = '';
         }).catch(err => setError(err.message))
       })
-    }
-    )
+    })
   }
 
   return (
-    <div className="container" data-bs-theme="dark">
-      <div className="card mx-auto" style={{width: '100%'}}>
-        <div className="card-header">
-          <h2>Db New Items</h2>
+    <div className="container" data-bs-theme="dark" style={{ backgroundColor: '#0f0f0f', color: '#f0f0f0' }}>
+      <div className="card mx-auto" style={{width: '100%', backgroundColor: '#1a1a1a', borderRadius: '10px' }}>
+        <div className="card-header" style={{ backgroundColor: '#ff66b2', color: '#fff', borderRadius: '10px 10px 0 0' }}>
+          <h2>Add New Product</h2>
         </div>
         <div className="card-body">
           <form autoComplete="off" className="form-group" onSubmit={addProduct}>
             <div className="mb-3">
-              <label htmlFor="file" className="form-label">
+              <label htmlFor="file" className="form-label" style={{ color: '#ff66b2' }}>
                 Product Image
               </label>
-              <input id="file" type="file" className="form-control" />
+              <input 
+                id="file" 
+                type="file" 
+                className="form-control" 
+                style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
+              />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="product-name" className="form-label">
+              <label htmlFor="product-name" className="form-label" style={{ color: '#ff66b2' }}>
                 Product Name
               </label>
               <input
@@ -93,10 +94,11 @@ const DBNewItems = () => {
                 required
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
+                style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="product-price" className="form-label">
+              <label htmlFor="product-price" className="form-label" style={{ color: '#ff66b2' }}>
                 Product Price
               </label>
               <input
@@ -106,10 +108,11 @@ const DBNewItems = () => {
                 required
                 value={productPrice}
                 onChange={(e) => setProductPrice(e.target.value)}
+                style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="quantity" className="form-label">
+              <label htmlFor="quantity" className="form-label" style={{ color: '#ff66b2' }}>
                 Quantity
               </label>
               <input
@@ -119,10 +122,11 @@ const DBNewItems = () => {
                 required
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
+                style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="product-desc" className="form-label">
+              <label htmlFor="product-desc" className="form-label" style={{ color: '#ff66b2' }}>
                 Description
               </label>
               <input
@@ -132,18 +136,40 @@ const DBNewItems = () => {
                 required
                 value={productDesc}
                 onChange={(e) => setProductDescription(e.target.value)}
+                style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
-              Add
+            <button 
+              type="submit" 
+              className="btn" 
+              style={{
+                backgroundColor: '#ff66b2', 
+                color: '#fff', 
+                border: 'none', 
+                padding: '10px 20px', 
+                cursor: 'pointer', 
+                transition: 'background-color 0.3s ease',
+                borderRadius: '5px'
+              }}
+            >
+              Add Product
             </button>
           </form>
-          {progress > 0 && <h3>Uploaded {progress} %</h3>}
-          {error && <span>{error}</span>}
+          {progress > 0 && (
+            <div className="progress mt-3" style={{ backgroundColor: '#555' }}>
+              <div 
+                className="progress-bar" 
+                style={{ width: `${progress}%`, backgroundColor: '#ff66b2' }}
+              >
+                {progress}%
+              </div>
+            </div>
+          )}
+          {error && <span style={{ color: 'red', marginTop: '10px' }}>{error}</span>}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default DBNewItems
+export default DBNewItems;

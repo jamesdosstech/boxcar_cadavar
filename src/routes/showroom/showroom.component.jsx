@@ -15,19 +15,18 @@ const Showroom = () => {
   const { currentUser } = useContext(UserContext);
 
   return (
-    <div className="App">
+    <>
       <div className="showroom-container">
         {/* Lazy load StreamContainer */}
-        <Suspense fallback={<div>Loading... Doosez</div>}>
+        <Suspense fallback={<div className="loading-screen">Loading the Stream... Please Hang Tight!</div>}>
           <LazyStreamContainer />
         </Suspense>
 
-        {/* Conditionally render LazyCommentContainer based on currentUser */}
-        <Suspense fallback={<div>Loading comments...</div>}>
+        <Suspense fallback={<div className="loading-screen">Preparing the Chatroom... Please Wait!</div>}>
           <LazyCommentContainer currentUser={currentUser} />
         </Suspense>
       </div>
-    </div>
+    </>
   );
 };
 

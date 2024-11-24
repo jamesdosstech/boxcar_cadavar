@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, NavLink } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Dashboard.styles.scss";
-// const DBHeader = lazy(() => import("../../components/DBHeader"));
+
+// Lazy load components for better performance
 const DBOrders = lazy(() => import("../../components/DBSections/DBOrders"));
 const DBItems = lazy(() => import("../../components/DBSections/DBItems"));
 const DBNewItems = lazy(() => import("../../components/DBSections/DBNewItems"));
@@ -27,19 +28,29 @@ const Dashboard = () => {
           <i className="bi bi-gear-fill me-2"></i> Admin Dashboard
         </div>
         <ul className="navbar-nav">
-          {navLinks.map(({ path, label }) => (
-            <li className="nav-item" key={label}>
-              <Link to={path} className="nav-link">
+          {navLinks.map(({ path, label, icon }) => (
+            <li className="nav-item" key={path}>
+              <NavLink
+                to={path}
+                className="nav-link"
+                activeClassName="active"
+                aria-label={label}
+              >
+                <i className={`bi ${icon} me-2`} aria-hidden="true"></i>
                 {label}
-              </Link>
+              </NavLink>
             </li>
           ))}
         </ul>
       </div>
 
       {/* Content */}
-      <div className="content">
-        <Suspense fallback={<div>Loading...</div>}>
+      <div className="dashboard-content">
+        <div className="dashboard-header">
+          <h1>Admin Dashboard</h1>
+        </div>
+
+        <Suspense fallback={<div role="status" aria-live="polite"><p>Loading, please wait...</p></div>}>
           <Routes>
             <Route index element={<DBHome />} />
             <Route path="/Orders" element={<DBOrders />} />
@@ -51,39 +62,6 @@ const Dashboard = () => {
         </Suspense>
       </div>
     </div>
-    // <div className="dashboard-wrapper">
-    //   <div className="sidebar">
-    //     <nav className="navbar">
-    //       <div className="navbar-brand">
-    //         <i className="bi bi-gear-fill me-2"></i>
-    //         Admin
-    //       </div>
-    //       <ul className="navbar-nav">
-    //         {navLinks.map(({ path, label, icon }) => (
-    //           <li className="nav-item" key={label}>
-    //             <Link to={path} className="nav-link">
-    //               <i className={`bi ${icon} me-2`} aria-hidden="true"></i>
-    //               {label}
-    //             </Link>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </nav>
-    //   </div>
-    //   <div className="content">
-    //     <Suspense fallback={<div>Loading...</div>}>
-    //       <Routes>
-    //         <Route index element={<DBHome />} />
-    //         <Route path="/Orders" element={<DBOrders />} />
-    //         <Route path="/Products" element={<DBItems />} />
-    //         <Route path="/NewProducts" element={<DBNewItems />} />
-    //         <Route path="/Users" element={<DBUsers />} />
-    //         <Route path="/Products/:id" element={<ProductEdit />} />
-    //         <Route path="" element={<DBHome />} />
-    //       </Routes>
-    //     </Suspense>
-    //   </div>
-    // </div>
   );
 };
 

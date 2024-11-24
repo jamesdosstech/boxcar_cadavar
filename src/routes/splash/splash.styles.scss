@@ -1,0 +1,140 @@
+.App {
+    background-color: #121212;
+    color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .splash-timer-container {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  }
+  
+  .splash-date-display-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .date-display-container {
+    margin: 0 10px;
+  }
+  
+  .date-item-text {
+    font-size: 3rem;
+    color: #ff66cc;
+  }
+  
+  .date-time-text {
+    font-size: 1rem;
+    color: #cccccc;
+  }
+  
+  .splash-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .train-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .message-container {
+    margin: 30px 0;
+  }
+  
+  .welcome-message {
+    font-size: 2rem;
+    color: #ff66cc;
+    position: relative;
+  }
+  
+  .glitch {
+    color: #ff66cc;
+    position: relative;
+    font-weight: bold;
+    animation: glitch-animation 1s infinite linear;
+  }
+  
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to left, #ff66cc, #00ff99);
+    clip-path: inset(0 0 0 0);
+    z-index: -1;
+    animation: glitch-anim-before 1s infinite linear;
+  }
+  
+  .glitch::after {
+    animation: glitch-anim-after 1s infinite linear;
+  }
+  
+  @keyframes glitch-animation {
+    0% {
+      transform: translateX(0);
+    }
+    10% {
+      transform: translateX(-5px);
+    }
+    20% {
+      transform: translateX(5px);
+    }
+    30% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes glitch-anim-before {
+    0% {
+      clip-path: inset(0 0 0 0);
+    }
+    50% {
+      clip-path: inset(0 0 0 0);
+    }
+    100% {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  
+  @keyframes glitch-anim-after {
+    0% {
+      clip-path: inset(0 0 0 0);
+    }
+    50% {
+      clip-path: inset(0 0 0 0);
+    }
+    100% {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  
+  .subtitle {
+    font-size: 1.2rem;
+    color: #cccccc;
+  }
+  
+  .info-text {
+    font-size: 1rem;
+    color: #cccccc;
+  }
+  
+  .info-text p {
+    margin: 10px 0;
+  }
+  

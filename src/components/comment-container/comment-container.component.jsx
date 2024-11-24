@@ -1,12 +1,8 @@
 import { useState, useLayoutEffect, useRef } from "react";
-
 import Button from "../button/button.component";
-
 import { sendMessage } from "../../utils/firebase/firebase.utils";
 import { useMessages } from "../../hooks/useMessages.hook";
-
 import "./comment-container.styles.scss";
-
 import Message from "../message/message.component";
 
 const CommentContainer = ({ currentUser }) => {
@@ -30,27 +26,27 @@ const CommentContainer = ({ currentUser }) => {
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
-  }, [messages]); // Run effect whenever messages change
+  }, [messages]);
 
   return (
     <div className="comment-container">
       <div className="message-list-container" ref={containerRef}>
-      <div className="message-list">
-        {messages && messages.length > 0 ? (
-          messages.map((message) => {
-            const isOwnMessage = currentUser && message.uid === currentUser.uid;
-            return (
-              <Message
-                key={message.id}
-                message={message}
-                isOwnMessage={isOwnMessage}
-              />
-            );
-          })
-        ) : (
-          <p className="empty-state">No messages yet. Start the conversation!</p>
-        )}
-      </div>
+        <div className="message-list">
+          {messages && messages.length > 0 ? (
+            messages.map((message) => {
+              const isOwnMessage = currentUser && message.uid === currentUser.uid;
+              return (
+                <Message
+                  key={message.id}
+                  message={message}
+                  isOwnMessage={isOwnMessage}
+                />
+              );
+            })
+          ) : (
+            <p className="empty-state">No messages yet. Start the conversation!</p>
+          )}
+        </div>
       </div>
       <div>
         {currentUser && (

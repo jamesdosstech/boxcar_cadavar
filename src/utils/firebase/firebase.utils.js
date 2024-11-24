@@ -1,9 +1,7 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
+import { firebaseConfig } from "../../constants";
 import {
   getAuth,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -16,54 +14,43 @@ import {
   doc,
   getDoc,
   setDoc,
-  getDocs,
-  collection,
-  query,
-  limit,
   addDoc,
   serverTimestamp,
   onSnapshot,
+  query,
   orderBy,
-  QuerySnapshot,
+  limit,
+  collection, // Added this import
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAsxtaefK62L21AezkX6S4sDCRj90lU7DQ",
-  authDomain: "doosetrain-52f13.firebaseapp.com",
-  projectId: "doosetrain-52f13",
-  storageBucket: "doosetrain-52f13.appspot.com",
-  messagingSenderId: "279844528484",
-  appId: "1:279844528484:web:4d55f1956b7de676c49a71",
-  measurementId: "G-DSHDM3JS4Q",
-};
-
-// eslint-disable-next-line
-// const firebaseApp = initializeApp(firebaseConfig)
-
+// Initialize Firebase app
 export const doosetrainApp =
   getApps.length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// storage
-
+// Firebase services
+export const auth = getAuth();
+export const db = getFirestore();
 export const storage = getStorage(doosetrainApp);
 
-const googleProvider = new GoogleAuthProvider();
+// User authentication functions
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
 
-export const auth = getAuth();
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+};
 
-export const db = getFirestore();
+export const signOutUser = async () => await signOut(auth);
 
-googleProvider.setCustomParameters({
-  prompt: "select_account",
-});
+export const onAuthStateChangedListener = (callback) =>
+  onAuthStateChanged(auth, callback);
 
-export const signInWithGooglePopup = () =>
-  signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
-
+// User document functions
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
@@ -84,36 +71,20 @@ export const createUserDocumentFromAuth = async (
         ...additionalInformation,
       });
     } catch (error) {
-      console.log("error", error.message);
+      console.log("Error creating user document:", error.message);
     }
   }
   return userDocRef;
 };
 
-export const updateUserName = () =>
-  updateProfile(auth.currentUser, { displayName: "Jane Q. User" })
+export const updateUserName = (newName) =>
+  updateProfile(auth.currentUser, { displayName: newName })
     .then(() => { })
     .catch((error) => {
-      console.log(error);
+      console.log("Error updating user profile:", error);
     });
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
-
-  return await createUserWithEmailAndPassword(auth, email, password);
-};
-
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
-
-  return await signInWithEmailAndPassword(auth, email, password);
-};
-
-export const signOutUser = async () => await signOut(auth);
-
-export const onAuthStateChangedListener = (callback) =>
-  onAuthStateChanged(auth, callback);
-
+// Messaging functions
 export const sendMessage = async (user, text) => {
   try {
     await addDoc(collection(db, "messages"), {
@@ -123,7 +94,7 @@ export const sendMessage = async (user, text) => {
       timestamp: serverTimestamp(),
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error sending message:", error);
   }
 };
 
@@ -139,5 +110,3 @@ export const getMessages = (callback) => {
     }
   );
 };
-
-// export const storage = getStorage(firebaseApp)

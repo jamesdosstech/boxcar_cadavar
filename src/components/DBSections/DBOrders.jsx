@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import './DBOrders.styles.scss'
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
 
@@ -9,54 +9,39 @@ function OrdersPage() {
   }, []);
 
   return (
-    <table className="table" data-bs-theme="dark">
-      <thead>
-        <tr>
-          <th>Order Number</th>
-          <th>Order Date</th>
-          <th>Products Ordered</th>
-          <th>Customer Name</th>
-          <th>Shipping Address</th>
-          <th>Shipping Cost</th>
-          <th>Contact Information</th>
-          <th>Total Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orders.map((order) => (
-          <tr key={order.orderNumber}>
-            <td>{order.orderNumber}</td>
-            <td>{order.orderDate}</td>
-            <td>{order.productsOrdered}</td>
-            <td>{order.customerName}</td>
-            <td>{order.shippingAddress}</td>
-            <td>{order.shippingCost}</td>
-            <td>{order.contactInfo}</td>
-            <td>{order.totalPrice}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    // <div>
-    //   <h1>Orders</h1>
-    //   <table>
-    //     <thead>
-    //       <tr>
-    //         <th>Order Number</th>
-    //         <th>Order Date</th>
-    //         <th>Products Ordered</th>
-    //         <th>Customer Name</th>
-    //         <th>Shipping Address</th>
-    //         <th>Shipping Cost</th>
-    //         <th>Contact Information</th>
-    //         <th>Total Price</th>
-    //       </tr>
-    //     </thead>
-    //     <tbody>
-
-    //     </tbody>
-    //   </table>
-    // </div>
+    <div className="orders-page-container">
+      <h1 className="orders-title">Orders</h1>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered" data-bs-theme="dark">
+          <thead>
+            <tr>
+              <th>Order Number</th>
+              <th>Order Date</th>
+              <th>Products Ordered</th>
+              <th>Customer Name</th>
+              <th>Shipping Address</th>
+              <th>Shipping Cost</th>
+              <th>Contact Information</th>
+              <th>Total Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.orderNumber}>
+                <td>{order.orderNumber}</td>
+                <td>{order.orderDate}</td>
+                <td>{order.productsOrdered}</td>
+                <td>{order.customerName}</td>
+                <td>{order.shippingAddress}</td>
+                <td>{order.shippingCost}</td>
+                <td>{order.contactInfo}</td>
+                <td>{order.totalPrice}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

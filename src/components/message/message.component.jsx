@@ -12,4 +12,4 @@ const Message = ({ message, isOwnMessage }) => {
     )
 }
 
-export default Message
+export default Message;

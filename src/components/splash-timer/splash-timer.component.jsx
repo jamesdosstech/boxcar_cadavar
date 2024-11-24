@@ -4,7 +4,7 @@ import './splash-timer.styles.scss';
 
 const SplashTimer = ({ days, hours, minutes, seconds, message, trainList }) => {
   // Destructure the message object for easier access
-  const { welcomeMessage, subtitle, reminder } = message[1];
+  const { welcomeMessage, subtitle, reminder } = message;
 
   return (
     <div className='splash-timer-container'>

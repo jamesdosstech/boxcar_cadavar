@@ -1,103 +1,186 @@
-/* Cotton Candy Theme Colors */
-$cotton-candy-dark: #2C2C2C;  /* Dark background */
-$cotton-candy-pink: #FFB6C1;  /* Soft pastel pink */
-$cotton-candy-blue: #B3D9FF;  /* Soft pastel blue */
-$cotton-candy-lavender: #D1A6FF;  /* Soft lavender */
-$white: #FFFFFF;  /* White for text and highlights */
-$dark-text: #2E2E2E;  /* Text color for high contrast */
-$focus-color: #FFB6C1;  /* Light pink for focus */
-
-
-/* Dashboard Layout */
-.dashboard-wrapper {
-  display: flex;
-  height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent scrolling */
-  background-color: $cotton-candy-dark; /* Dark background */
+/* Variables for consistent colors */
+:root {
+  --cotton-candy-pink: #f8c8dc;
+  --cotton-candy-blue: #a7c8e8;
+  --matrix-green: #00ff00;
+  --soft-purple: #9b79c8;
+  --dark-background: #121212;
+  --highlight-color: #ffb3e6; /* Light pink highlight for hover effects */
 }
 
-$top-navbar-height: 100px;
-
-.sidebar {
-  width: 250px; /* Sidebar width */
-  background-color: $cotton-candy-pink; /* Sidebar background */
-  color: $dark-text; /* Dark text for contrast */
-  position: relative; /* Fixed sidebar */
-  top: 0; /* Position below the top navbar */
-  left: 0;
-  padding: 20px;
-  overflow-y: auto; /* Enable scrolling if sidebar content exceeds height */
-  z-index: 1000; /* Ensure sidebar is above content */
-}
-
-.sidebar .navbar {
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: var(--dark-background);
+  color: #fff;
+  margin: 0;
   padding: 0;
 }
 
-.sidebar .navbar-nav {
+.dashboard-wrapper {
   display: flex;
-  flex-direction: column; /* Stack nav items vertically */
-  list-style-type: none;
-  padding-left: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
-.sidebar .nav-item {
-  margin: 15px 0;
+.sidebar {
+  width: 250px;
+  background-color: var(--cotton-candy-blue);
+  padding: 20px;
+  // position: fixed;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.sidebar .nav-link {
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--soft-purple);
   display: flex;
   align-items: center;
-  padding: 12px 15px;
-  color: $dark-text;
+  gap: 0.5rem;
+}
+
+.navbar-brand i {
+  font-size: 1.8rem;
+}
+
+.navbar-nav {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+
+.nav-item {
+  margin-bottom: 1rem;
+}
+
+.nav-link {
+  color: #fff;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: var(--highlight-color);
   border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
 }
 
-.sidebar .nav-link:hover {
-  background-color: $cotton-candy-lavender;
-  color: $white;
+.nav-link i {
+  font-size: 1.25rem;
 }
 
-.sidebar .nav-link:focus {
-  outline: 3px solid $focus-color; /* Focus indicator for ADA compliance */
+/* Responsive Design: Collapse sidebar on smaller screens */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+  }
 }
 
-.content {
-  padding: 20px;
-  width: calc(100% - 250px); /* Full width minus sidebar */
-  background-color: $white; /* White background for content */
-  color: $dark-text; /* Dark text for readability */
-  overflow-y: auto; /* Content should be scrollable if needed */
+.dashboard-content {
+  // margin-left: 250px; /* Offset by sidebar width */
+  padding: 2rem;
+  flex: 1;
+  background-color: var(--cotton-candy-pink);
+  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-/* Responsive design for smaller screens */
+.suspense-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-header {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--matrix-green);
+  margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  color: var(--cotton-candy-blue);
+}
+
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: var(--cotton-candy-pink);
+}
+
+.dashboard-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background-color: var(--cotton-candy-blue);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card h3 {
+  color: var(--matrix-green);
+  font-size: 1.25rem;
+}
+
+.dashboard-card p {
+  font-size: 1rem;
+  color: #333;
+}
+
 @media (max-width: 768px) {
   .dashboard-wrapper {
-    flex-direction: column; /* Stack sidebar and content vertically */
+    flex-direction: column;
   }
 
   .sidebar {
-    position: relative; /* Sidebar will no longer be fixed */
-    width: 100%; /* Sidebar takes full width */
-    height: auto;
-    padding: 10px;
-  }
-
-  .content {
-    margin-left: 0;
     width: 100%;
+    height: auto;
+    position: relative;
   }
 
-  .sidebar .navbar-nav {
-    flex-direction: row; /* Horizontally stack links on small screens */
-    overflow-x: auto;
-    justify-content: space-between;
+  .dashboard-content {
+    margin-left: 0;
+  }
+  
+  .dashboard-section {
+    grid-template-columns: 1fr;
   }
 
-  .sidebar .nav-link {
-    padding: 10px 15px;
-    margin-right: 10px;
+  .dashboard-card {
+    padding: 1rem;
   }
 }
+

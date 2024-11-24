@@ -1,138 +1,231 @@
-.cart-dropdown-container {
-  position: absolute;
-  width: 240px;
-  max-height: 340px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border: 1px solid black;
-  background-color: white;
-  top: 90px;
-  right: 40px;
-  z-index: 9999; /* Ensure it's above other elements */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better visibility */
-  border-radius: 8px; /* Rounded corners for a smoother look */
+.navbar {
+  background: linear-gradient(135deg, #ffb6c1, #d1a6ff); // Cotton candy gradient
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  height: auto;
 
-  .empty-message {
-    font-size: 18px;
-    color: #888; /* Softer color for the empty message */
-    margin: 50px auto;
-    text-align: center;
+  .custom-link {
+    text-decoration: none; /* Removes the underline */
+    color: inherit; /* Inherits color from parent or sets your desired color */
+  
+    /* Optionally, style it further */
+    font-weight: bold;
+    font-size: 16px;
   }
+  
+  .custom-link:hover {
+    color: #8cd7f4; /* Optional: Change color on hover */
+  }
+  
 
-  .cart-items {
-    flex-grow: 1;
+  .navbar-container {
     display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    margin-bottom: 10px; /* Spacing between items and button */
-    max-height: 240px;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  button {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #FFB6C1; /* Matching cotton candy theme */
-    border: none;
-    color: white;
-    border-radius: 5px;
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    font-family: "Press Start 2P", monospace; // 8-bit arcade style
+    color: #fff;
+    font-size: 1.25rem;
+    text-decoration: none;
     cursor: pointer;
-    transition: background-color 0.3s;
 
-    &:hover {
-      background-color: #D1A6FF; /* Hover effect */
+    .icon {
+      height: 30px;
+      margin-right: 10px;
+      fill: #fff;
+      transition: transform 0.5s ease-in-out; // Smooth animation for icon
+    }
+  }
+
+  .navbar-menu {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    flex-direction: row; // Horizontal layout for desktop
+
+    &.open {
+      flex-direction: column;
+      width: 100%;
+      padding: 10px 0;
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0); // Menu slides in when open
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s; // Smooth transition
+    }
+
+    .nav-item {
+      margin: 0 5px;
+      height: 24vh;
+
+      a, button {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background 0.3s, transform 0.2s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+
+  .cart-icon {
+    position: relative;
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background: #ff0000;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 5px;
+      font-size: 0.75rem;
+    }
+  }
+
+  .dropdown-menu {
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10; // Ensure dropdown appears on top of other elements
+  }
+
+  .form-inline {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    width: 100%;
+
+    .form-control {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    .btn {
+      background: #ffb6c1;
+      border: none;
+      color: #121212;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        background: #d1a6ff;
+      }
+    }
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .icon.spinning {
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out; // Smooth toggler animation
+    }
+
+    .icon.spinning:hover {
+      transform: rotate(180deg); // Smooth rotation on hover
+    }
+
+    .navbar-toggler {
+      display: block;
+      background: transparent;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .navbar-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .navbar-menu {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      background-color: #121212;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      z-index: 100; /* Ensure navbar is on top of other content */
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-50px); /* Initially hide the menu offscreen */
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0.3s; /* Smooth transitions */
+    }
+
+    .navbar-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0); /* Slide the menu into view */
+      transition: transform 0.3s ease, opacity 0.3s ease, visibility 0s 0s; /* Smooth transitions */
+    }
+
+    .nav-item {
+      height: 30%;
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      a,
+      button {
+        padding: 15px;
+        display: block;
+        width: 100%;
+      }
+    }
+
+    .dropdown-menu {
+      width: 100%;
+      box-shadow: none;
+    }
+  }
+
+  /* Desktop styles (override mobile styles) */
+  @media (min-width: 769px) {
+    .navbar-menu {
+      display: flex; // Ensure horizontal menu layout on desktop
+      gap: 20px;
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0); // Ensure no dropdown animation on desktop
+    }
+
+    .navbar-toggler {
+      display: none; // Hide toggler on desktop
+    }
+
+    .navbar-brand {
+      cursor: pointer; // Ensure no toggle action on click
     }
   }
 }
 
+body {
+  background-color: #121212; // Dark theme background
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
 
-// .navigation-container {
-//     display: flex;
-//     flex-direction: row;
-
-//     .nav-col {
-//         margin: auto;
-//     }
-
-//     .navigation-left {
-//         background-color: blue;
-//         // flex-direction: column;
-//         // float: left;
-//     }
-
-//     .navigation-right {
-//         background-color: red
-//     }
-    
-//     .red-dot {
-//         width: 40px;
-//     height: 40px;
-//     border-radius: 50%;
-//     background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(242,74,74,1) 15%, rgba(252,70,107,0) 20%);
-//     }
-
-//     .green-dot {
-//         width: 40px;
-//     height: 40px;
-//     border-radius: 50%;
-//     background: radial-gradient(circle, rgba(250,250,250,1) 10%, rgba(103,242,74,1) 15%, rgba(103,242,74,0) 20%);
-//     }
-// }
-.navigation-container {
-    display: flex;
-    flex-direction: row;
-  
-    .nav-col {
-      margin: auto;
-    }
-  
-    &.light {
-      // Light mode styles
-      background-color: white; // Set your light background color
-      color: pink; // Set your text color for light mode
-  
-      // Additional styles for light mode
-      // For example:
-      // .navigation-left {
-      //   background-color: blue;
-      // }
-  
-      // .navigation-right {
-      //   background-color: red;
-      // }
-  
-      // .red-dot {
-      //   // Your styles for red-dot in light mode
-      // }
-  
-      // .green-dot {
-      //   // Your styles for green-dot in light mode
-      // }
-    }
-  
-    &.dark {
-      // Dark mode styles
-      background-color: black; // Set your dark background color
-      color: green; // Set your text color for dark mode
-  
-      // Additional styles for dark mode
-      // For example:
-      // .navigation-left {
-      //   background-color: dark-blue;
-      // }
-  
-      // .navigation-right {
-      //   background-color: dark-red;
-      // }
-  
-      // .red-dot {
-      //   // Your styles for red-dot in dark mode
-      // }
-  
-      // .green-dot {
-      //   // Your styles for green-dot in dark mode
-      // }
-    }
+  @media (max-width: 768px) {
+    font-size: 14px; // Adjust font size for smaller screens
   }
-  
-
+}

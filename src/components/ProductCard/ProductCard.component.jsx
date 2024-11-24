@@ -7,16 +7,11 @@ const ProductCard = ({ product }) => {
   const { addItemstoCart, cartItems } = useContext(ShoppingCartContext);
   const addProductToCart = () => addItemstoCart(product);
   const {
-    // id,
     ProductImg,
     ProductName,
-    // ProductDesc,
     ProductPrice,
-    // ProductQuant,
-    // quantity,
   } = product;
-  // read product
-  // console.log("This is ", product);
+
   useEffect(() => {
     if (product.ProductQuant && cartItems) {
       const cartItem = cartItems.find((item) => item.id === product.id);
@@ -25,13 +20,14 @@ const ProductCard = ({ product }) => {
       setStock(stockValue);
     }
   }, [product.ProductQuant, cartItems, product.id]);
+
   return (
     <div className="product-card-container">
-      <img src={ProductImg} alt={`${ProductName}`} />
+      <img src={ProductImg} alt={`${ProductName}`} className="product-img"/>
       <div className="footer">
         <span className="name">{ProductName}</span>
         <span className="price">${ProductPrice}</span>
-        <span className="price">Stock:{stock}</span>
+        <span className="stock">Stock: {stock}</span>
       </div>
       {stock >= 1 ? (
         <button onClick={addProductToCart} className="btn btn-success">

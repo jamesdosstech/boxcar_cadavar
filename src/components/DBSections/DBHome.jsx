@@ -1,30 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import './DBHome.styles.scss'
 
 const DBHome = () => {
   return (
-    <div
-      className="container-fluid d-flex flex-column"
-      // style={{ backgroundColor: "white" }}
-      data-bs-theme="dark"
-    >
-      <div className="row flex-grow-1">
-        <div className="col">
-          <div className="jumbotron">
-            <h1 className="display-4">Hello, world!</h1>
-            <p className="lead">
-              This is a simple hero unit, a simple jumbotron-style component for
-              calling extra attention to featured content or information.
+    <div className="container-fluid d-flex flex-column" data-bs-theme="dark">
+      <div className="row flex-grow-1 align-items-center justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6 text-center">
+          <div className="hero-unit">
+            <h1 className="hero-title">Welcome to the Admin Dashboard</h1>
+            <p className="hero-description">
+              Your one-stop place to manage orders, products, users, and more.
             </p>
-            <hr className="my-4" />
-            <p>
-              It uses utility classes for typography and spacing to space
-              content out within the larger container.
+            <hr className="divider" />
+            <p className="hero-info">
+              Stay in control, track performance, and make informed decisions.
             </p>
-            <p className="lead">
-              <a className="btn btn-primary btn-lg" href="#" role="button">
-                Learn more
-              </a>
-            </p>
+            <Link to="/admin/Orders" className="btn btn-cotton-candy btn-lg">
+              Explore Orders
+            </Link>
           </div>
         </div>
       </div>

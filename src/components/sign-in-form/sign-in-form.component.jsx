@@ -8,9 +8,7 @@ import FormInput from "../../components/form-input/form-input.component";
 import { UserContext } from "../../context/user/user.context";
 
 import {
-  signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
@@ -57,13 +55,6 @@ const SignUpForm = () => {
           console.log(error);
       }
     }
-  };
-
-  const signInWithGoogle = async () => {
-    // const {user} = await signInWithGooglePopup();
-    // await createUserDocumentFromAuth(user);
-    // setCurrentUser(user);
-    await signInWithGooglePopup();
   };
 
   return (

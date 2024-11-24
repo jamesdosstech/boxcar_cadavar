@@ -1,15 +1,18 @@
-import { doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { db, storage } from "../../utils/firebase/firebase.utils";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import './ProductEdit.styles.scss';
 
 const ProductEdit = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [newImage, setNewImage] = useState(null);
-  const [changesSaved, setChangesSaved] = useState(false); // Track changes saved
-  const [editedProduct, setEditedProduct] = useState(product); // For editing changes
+  const [changesSaved, setChangesSaved] = useState(false);
+  const [editedProduct, setEditedProduct] = useState(product);
+  const [errorMessage, setErrorMessage] = useState(null);  // Error state for feedback
+
   const productDetailRef = doc(db, "Products", id);
 
   useEffect(() => {
@@ -18,24 +21,24 @@ const ProductEdit = () => {
         const docSnapshot = await getDoc(productDetailRef);
         if (docSnapshot.exists()) {
           const dataRef = docSnapshot.data();
-
-          //logs the project before setting to object
-          console.log("dataRef ", dataRef);
           setProduct(dataRef);
         } else {
-          return;
+          setErrorMessage("Product not found.");
         }
       } catch (error) {
-        console.log(error.message);
+        setErrorMessage("Failed to load product details.");
+        console.error(error.message);
       }
     };
     getProduct();
-  }, [newImage]);
+  }, [id]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    // Update the editedProduct state with the new value
-    setEditedProduct({ ...editedProduct, [name]: value });
+    setEditedProduct((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (e) => {
@@ -48,106 +51,106 @@ const ProductEdit = () => {
       const storageRef = ref(storage, `product_images/${file.name}`);
       const snapshot = await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
-      console.log("downloadUrl: ", downloadURL);
-      // Set the editedProduct state with the new image URL
-      setEditedProduct((prevEditedProduct) => ({
-        ...prevEditedProduct,
+      setEditedProduct((prevState) => ({
+        ...prevState,
         ProductImg: downloadURL,
       }));
-      console.log("editedProduct from updloadImageStorage: ", editedProduct);
     } catch (error) {
       console.error("Error uploading image:", error);
+      setErrorMessage("Failed to upload image.");
     }
   };
 
   const handleSaveChanges = async () => {
     try {
-      // Upload the new image to Firebase Storage
       if (newImage) {
         await uploadImageToStorage(newImage);
-        console.log("new image uploaded", editedProduct.ProductImg);
       }
 
-      // Save the changes to the Firestore database
       await setDoc(productDetailRef, editedProduct, { merge: true });
-      console.log("Document updated:", editedProduct);
-      // Update the product state to reflect the changes
       setProduct(editedProduct);
       setChangesSaved(true);
+      setErrorMessage(null);  // Clear any previous error
     } catch (error) {
-      // Handle any errors that occur during data update
+      setErrorMessage("Error saving changes. Please try again.");
       console.error("Error saving changes:", error);
     }
   };
 
   return (
-    <div className="container">
-      <div className="card" style={{width: '100%'}}>
-      <div className="card-header">
-        <h2>{product.ProductName}</h2>
-      </div>
-      <div className="card-body">
-        <div className="form-group">
-          <label htmlFor="ProductName">Product Name:</label>
-          <input
-            type="text"
-            id="ProductName"
-            className="form-control"
-            name="ProductName"
-            placeholder={product.ProductName || editedProduct.ProductName}
-            value={editedProduct.ProductName}
-            onChange={handleInputChange}
-          />
+    <div className="product-edit-container">
+      <div className="card product-edit-card" style={{ width: '100%' }}>
+        <div className="card-header">
+          <h2>{product.ProductName}</h2>
         </div>
-        <div className="form-group">
-          <label htmlFor="ProductPrice">Product Price:</label>
-          <input
-            type="text"
-            id="ProductPrice"
-            name="ProductPrice"
-            placeholder={product.ProductPrice || editedProduct.ProductPrice}
-            value={editedProduct.ProductPrice}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="ProductQuant">Product Quantity:</label>
-          <input
-            type="text"
-            id="ProductQuant"
-            name="ProductQuant"
-            placeholder={product.ProductQuant || editedProduct.ProductQuant}
-            value={editedProduct.ProductQuant}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="ProductImg">Product Image</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          <img
-            src={product.ProductImg || editedProduct.ProductImg}
-            width={"80px"}
-            height={"60"}
-            alt=""
-          />
-        </div>
-      </div>
-      <div className="card-footer">
-        <button onClick={handleSaveChanges} className="btn btn-primary">
-          Save Changes
-        </button>
-        {changesSaved && (
-          <div>
-            Changes saved!{" "}
-            <Link to="/admin" className="btn btn-secondary">
-              Back to Admin Page
-            </Link>
+        <div className="card-body">
+          {errorMessage && (
+            <div className="error-message alert alert-danger">{errorMessage}</div>
+          )}
+          <div className="form-group">
+            <label htmlFor="ProductName">Product Name:</label>
+            <input
+              type="text"
+              id="ProductName"
+              className="form-control"
+              name="ProductName"
+              placeholder={product.ProductName || editedProduct.ProductName}
+              value={editedProduct.ProductName}
+              onChange={handleInputChange}
+            />
           </div>
-        )}
+          <div className="form-group">
+            <label htmlFor="ProductPrice">Product Price:</label>
+            <input
+              type="text"
+              id="ProductPrice"
+              name="ProductPrice"
+              placeholder={product.ProductPrice || editedProduct.ProductPrice}
+              value={editedProduct.ProductPrice}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="ProductQuant">Product Quantity:</label>
+            <input
+              type="text"
+              id="ProductQuant"
+              name="ProductQuant"
+              placeholder={product.ProductQuant || editedProduct.ProductQuant}
+              value={editedProduct.ProductQuant}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="ProductImg">Product Image:</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {product.ProductImg || editedProduct.ProductImg ? (
+              <img
+                src={editedProduct.ProductImg}
+                alt="Product"
+                width="80"
+                height="60"
+              />
+            ) : (
+              <p>No image available</p>
+            )}
+          </div>
+        </div>
+        <div className="card-footer">
+          <button onClick={handleSaveChanges} className="btn btn-primary">
+            Save Changes
+          </button>
+          {changesSaved && (
+            <div className="success-message">
+              Changes saved!{" "}
+              <Link to="/admin" className="btn btn-secondary">
+                Back to Admin Page
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-    </div>
-    
   );
 };
 
