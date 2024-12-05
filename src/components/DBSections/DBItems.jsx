@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../utils/firebase/firebase.utils";
 import { Link } from "react-router-dom";
 
-import './DBitems.styles.scss';
+// import './DBitems.styles.scss';
 
 const DBItems = () => {
   const [products, setProducts] = useState([]);

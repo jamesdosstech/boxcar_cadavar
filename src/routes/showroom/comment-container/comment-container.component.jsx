@@ -22,48 +22,47 @@ const CommentContainer = ({ currentUser }) => {
 
   useLayoutEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+      containerRef.current.scrollTop = 0;
     }
   }, [messages]);
 
   return (
     <div className="comment-container">
-  <div className="message-list-container" ref={containerRef}>
-    <div className="message-list">
-      {messages && messages.length > 0 ? (
-        messages.map((message) => {
-          const isOwnMessage = currentUser && message.uid === currentUser.uid;
-          return (
-            <Message
-              key={message.id}
-              message={message}
-              isOwnMessage={isOwnMessage}
-            />
-          );
-        })
-      ) : (
-        <p className="empty-state">No messages yet. Start the conversation!</p>
-      )}
+      <div className="message-list-container" ref={containerRef}>
+        <div className="message-list">
+          {messages && messages.length > 0 ? (
+            messages.map((message) => {
+              const isOwnMessage = currentUser && message.uid === currentUser.uid;
+              return (
+                <Message
+                  key={message.id}
+                  message={message}
+                  isOwnMessage={isOwnMessage}
+                />
+              );
+            })
+          ) : (
+            <p className="empty-state">No messages yet. Start the conversation!</p>
+          )}
+        </div>
+      </div>
+      <form className="input-container" onSubmit={handleOnSubmit}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={handleOnChange}
+          placeholder="Type your message and press Enter"
+          className="input-field"
+        />
+        <Button
+          type="submit"
+          className="send-button"
+          disabled={!newMessage}
+        >
+          Send
+        </Button>
+      </form>
     </div>
-  </div>
-  <form className="input-container" onSubmit={handleOnSubmit}>
-    <input
-      type="text"
-      value={newMessage}
-      onChange={handleOnChange}
-      placeholder="Type your message and press Enter"
-      className="input-field"
-    />
-    <Button
-      type="submit"
-      className="send-button"
-      disabled={!newMessage}
-    >
-      Send
-    </Button>
-  </form>
-</div>
-
   );
 };
 

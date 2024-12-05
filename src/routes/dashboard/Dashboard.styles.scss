@@ -1,186 +1,107 @@
-/* Variables for consistent colors */
-:root {
-  --cotton-candy-pink: #f8c8dc;
-  --cotton-candy-blue: #a7c8e8;
-  --matrix-green: #00ff00;
-  --soft-purple: #9b79c8;
-  --dark-background: #121212;
-  --highlight-color: #ffb3e6; /* Light pink highlight for hover effects */
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: var(--dark-background);
-  color: #fff;
-  margin: 0;
-  padding: 0;
-}
-
-.dashboard-wrapper {
+.admin-wrapper {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #e0e0e0;
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Stack the sidebar on top for smaller screens.
+  }
 }
 
-.sidebar {
+.admin-nav {
   width: 250px;
-  background-color: var(--cotton-candy-blue);
+  background: linear-gradient(135deg, #302b63, #24243e);
   padding: 20px;
-  // position: fixed;
-  left: 0;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.7);
 
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--soft-purple);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.navbar-brand i {
-  font-size: 1.8rem;
-}
-
-.navbar-nav {
-  list-style-type: none;
-  padding: 0;
-  margin-top: 2rem;
-}
-
-.nav-item {
-  margin-bottom: 1rem;
-}
-
-.nav-link {
-  color: #fff;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 0;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  background-color: var(--highlight-color);
-  border-radius: 5px;
-}
-
-.nav-link i {
-  font-size: 1.25rem;
-}
-
-/* Responsive Design: Collapse sidebar on smaller screens */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px;
+  @media (max-width: 768px) {
+    width: 100%; // Full-width navigation on mobile.
+    box-shadow: none;
   }
 
-  .navbar-brand {
-    font-size: 1.25rem;
-  }
-
-  .nav-link {
-    font-size: 0.9rem;
-  }
-}
-
-.dashboard-content {
-  // margin-left: 250px; /* Offset by sidebar width */
-  padding: 2rem;
-  flex: 1;
-  background-color: var(--cotton-candy-pink);
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.suspense-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.dashboard-header {
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-  color: var(--matrix-green);
-  margin-bottom: 2rem;
-}
-
-.dashboard-header h1 {
-  font-size: 2.5rem;
-  color: var(--cotton-candy-blue);
-}
-
-.dashboard-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: var(--cotton-candy-pink);
-}
-
-.dashboard-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.dashboard-card {
-  background-color: var(--cotton-candy-blue);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-}
-
-.dashboard-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.dashboard-card h3 {
-  color: var(--matrix-green);
-  font-size: 1.25rem;
-}
-
-.dashboard-card p {
-  font-size: 1rem;
-  color: #333;
-}
-
-@media (max-width: 768px) {
-  .dashboard-wrapper {
+  ul {
+    display: flex;
     flex-direction: column;
-  }
 
-  .sidebar {
+    @media (max-width: 768px) {
+      flex-direction: row;
+      justify-content: space-around; // Align items horizontally for mobile.
+    }
+  }
+}
+
+.admin-content {
+  flex: 1;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px; // Reduce padding for smaller screens.
+  }
+}
+
+/* Adjust typography */
+h1, h2 {
+  font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem; // Smaller headings on mobile.
+  }
+}
+
+button {
+  font-size: 1rem;
+  padding: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+/* Product management form */
+input, select {
+  width: 100%;
+  margin-bottom: 10px;
+
+  @media (min-width: 769px) {
+    width: calc(50% - 10px); // Two columns on larger screens.
+  }
+}
+
+.menu-toggle {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff9ff3;
+  color: #0a0a0a;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.admin-nav {
+  transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    position: relative;
-  }
+    height: 100vh;
+    transform: translateX(-100%);
+    background: #302b63;
+    z-index: 999;
 
-  .dashboard-content {
-    margin-left: 0;
-  }
-  
-  .dashboard-section {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-card {
-    padding: 1rem;
+    &.open {
+      transform: translateX(0);
+    }
   }
 }
 

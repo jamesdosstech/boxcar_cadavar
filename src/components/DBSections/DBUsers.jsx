@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../utils/firebase/firebase.utils';
 import { collection, getDocs } from 'firebase/firestore';
-import './DBUsers.styles.scss'; // Assuming you have a styles file for this page.
+// import './DBUsers.styles.scss'; // Assuming you have a styles file for this page.
 
 const DBUsers = () => {
   const [listUsers, setListUsers] = useState([]);
@@ -24,7 +24,7 @@ const DBUsers = () => {
   return (
     <div className="users-container">
       <h2 className="users-title">User List</h2>
-      <table className="table users-table">
+      <table>
         <thead>
           <tr>
             <th scope="col">Display Name</th>

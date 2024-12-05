@@ -12,32 +12,26 @@ const DBLeftSection = () => {
   ];
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div className="container">
-        <div className="navbar-brand">
-          <i className="bi bi-gear-fill me-2"></i>
+    <nav>
+      <div>
+        <div>
+          <i className="bi bi-gear-fill"></i>
           Admin
         </div>
         <button
-          className="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarAdminAltMarkup"
           aria-controls="navbarAdminAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span></span>
         </button>
-        <div
-          className="collapse navbar-collapse justify-content-start"
-          id="navbarAdminAltMarkup"
-        >
-          <ul className="navbar-nav d-flex flex-column flex-lg-row">
+        <div id="navbarAdminAltMarkup">
+          <ul>
             {navLinks.map(({ path, label, icon }) => (
-              <li className="nav-item" key={label}>
-                <Link to={path} className="nav-link">
-                  <i className={`bi ${icon} me-2`} aria-hidden="true"></i>
+              <li key={label}>
+                <Link to={path}>
+                  <i className={`bi ${icon}`} aria-hidden="true"></i>
                   {label}
                 </Link>
               </li>

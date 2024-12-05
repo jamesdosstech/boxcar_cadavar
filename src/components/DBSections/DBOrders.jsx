@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './DBOrders.styles.scss'
+// import './DBOrders.styles.scss'
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
 
@@ -11,8 +11,8 @@ function OrdersPage() {
   return (
     <div className="orders-page-container">
       <h1 className="orders-title">Orders</h1>
-      <div className="table-responsive">
-        <table className="table table-striped table-bordered" data-bs-theme="dark">
+      <div>
+        <table>
           <thead>
             <tr>
               <th>Order Number</th>

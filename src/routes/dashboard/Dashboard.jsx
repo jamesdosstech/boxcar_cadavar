@@ -1,63 +1,53 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useState } from "react";
 import { Routes, Route, NavLink } from "react-router-dom";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Dashboard.styles.scss";
 
-// Lazy load components for better performance
-const DBOrders = lazy(() => import("../../components/DBSections/DBOrders"));
-const DBItems = lazy(() => import("../../components/DBSections/DBItems"));
-const DBNewItems = lazy(() => import("../../components/DBSections/DBNewItems"));
-const DBUsers = lazy(() => import("../../components/DBSections/DBUsers"));
-const DBHome = lazy(() => import("../../components/DBSections/DBHome"));
-const ProductEdit = lazy(() => import("../../routes/ProductEdit/ProductEdit"));
+const AdminHome = lazy(() => import("./pages/Home"));
+const AdminUsers = lazy(() => import("./pages/Users"));
+const AdminProducts = lazy(() => import("./pages/Products"));
+const AdminOrders = lazy(() => import("./pages/Orders"));
 
-const Dashboard = () => {
+const AdminRoute = () => {
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
   const navLinks = [
-    { path: "/admin/Home", label: "Home", icon: "bi-speedometer2" },
-    { path: "/admin/Orders", label: "Orders", icon: "bi-box-seam" },
-    { path: "/admin/Products", label: "Products", icon: "bi-tag" },
-    { path: "/admin/NewProducts", label: "Add Prod", icon: "bi-plus-circle" },
-    { path: "/admin/Users", label: "Users", icon: "bi-people" },
+    { path: "/admin", label: "Home", icon: "bi-house-door" },
+    { path: "/admin/users", label: "Users", icon: "bi-people" },
+    { path: "/admin/products", label: "Products", icon: "bi-box-seam" },
+    { path: "/admin/orders", label: "Orders", icon: "bi-bag" },
   ];
 
   return (
-    <div className="dashboard-wrapper">
-      {/* Sidebar */}
-      <div className="sidebar">
-        <div className="navbar-brand">
-          <i className="bi bi-gear-fill me-2"></i> Admin Dashboard
-        </div>
-        <ul className="navbar-nav">
+    <div className="admin-wrapper">
+      {/* Hamburger button */}
+      <button className="menu-toggle" onClick={toggleMenu}>
+        ☰
+      </button>
+
+      {/* Navigation */}
+      <nav className={`admin-nav ${menuOpen ? "open" : ""}`}>
+        <h2>Admin Panel</h2>
+        <ul>
           {navLinks.map(({ path, label, icon }) => (
-            <li className="nav-item" key={path}>
-              <NavLink
-                to={path}
-                className="nav-link"
-                activeClassName="active"
-                aria-label={label}
-              >
-                <i className={`bi ${icon} me-2`} aria-hidden="true"></i>
-                {label}
+            <li key={path}>
+              <NavLink to={path} onClick={() => setMenuOpen(false)}>
+                <i className={`bi ${icon}`}></i> {label}
               </NavLink>
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
 
       {/* Content */}
-      <div className="dashboard-content">
-        <div className="dashboard-header">
-          <h1>Admin Dashboard</h1>
-        </div>
-
-        <Suspense fallback={<div role="status" aria-live="polite"><p>Loading, please wait...</p></div>}>
+      <div className="admin-content">
+        <Suspense fallback={<div>Loading...</div>}>
           <Routes>
-            <Route index element={<DBHome />} />
-            <Route path="/Orders" element={<DBOrders />} />
-            <Route path="/Products" element={<DBItems />} />
-            <Route path="/NewProducts" element={<DBNewItems />} />
-            <Route path="/Users" element={<DBUsers />} />
-            <Route path="/Products/:id" element={<ProductEdit />} />
+            <Route path="/" element={<AdminHome />} />
+            <Route path="/users" element={<AdminUsers />} />
+            <Route path="/products" element={<AdminProducts />} />
+            <Route path="/orders" element={<AdminOrders />} />
           </Routes>
         </Suspense>
       </div>
@@ -65,4 +55,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default AdminRoute;

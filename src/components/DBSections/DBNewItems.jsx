@@ -65,30 +65,28 @@ const DBNewItems = () => {
   }
 
   return (
-    <div className="container" data-bs-theme="dark" style={{ backgroundColor: '#0f0f0f', color: '#f0f0f0' }}>
-      <div className="card mx-auto" style={{width: '100%', backgroundColor: '#1a1a1a', borderRadius: '10px' }}>
-        <div className="card-header" style={{ backgroundColor: '#ff66b2', color: '#fff', borderRadius: '10px 10px 0 0' }}>
+    <div style={{ backgroundColor: '#0f0f0f', color: '#f0f0f0' }}>
+      <div style={{ width: '100%', backgroundColor: '#1a1a1a', borderRadius: '10px' }}>
+        <div style={{ backgroundColor: '#ff66b2', color: '#fff', borderRadius: '10px 10px 0 0' }}>
           <h2>Add New Product</h2>
         </div>
-        <div className="card-body">
-          <form autoComplete="off" className="form-group" onSubmit={addProduct}>
-            <div className="mb-3">
-              <label htmlFor="file" className="form-label" style={{ color: '#ff66b2' }}>
+        <div>
+          <form autoComplete="off" onSubmit={addProduct}>
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="file" style={{ color: '#ff66b2' }}>
                 Product Image
               </label>
               <input 
                 id="file" 
                 type="file" 
-                className="form-control" 
                 style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
-            <div className="form-group mb-3">
-              <label htmlFor="product-name" className="form-label" style={{ color: '#ff66b2' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="product-name" style={{ color: '#ff66b2' }}>
                 Product Name
               </label>
               <input
-                className="form-control"
                 type="text"
                 id="product-name"
                 required
@@ -97,12 +95,11 @@ const DBNewItems = () => {
                 style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="product-price" className="form-label" style={{ color: '#ff66b2' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="product-price" style={{ color: '#ff66b2' }}>
                 Product Price
               </label>
               <input
-                className="form-control"
                 type="number"
                 id="product-price"
                 required
@@ -111,12 +108,11 @@ const DBNewItems = () => {
                 style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="quantity" className="form-label" style={{ color: '#ff66b2' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="quantity" style={{ color: '#ff66b2' }}>
                 Quantity
               </label>
               <input
-                className="form-control"
                 type="number"
                 id="quantity"
                 required
@@ -125,12 +121,11 @@ const DBNewItems = () => {
                 style={{ backgroundColor: '#222222', color: '#f0f0f0', border: '1px solid #555555' }}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="product-desc" className="form-label" style={{ color: '#ff66b2' }}>
+            <div style={{ marginBottom: '20px' }}>
+              <label htmlFor="product-desc" style={{ color: '#ff66b2' }}>
                 Description
               </label>
               <input
-                className="form-control"
                 type="text"
                 id="product-desc"
                 required
@@ -141,7 +136,6 @@ const DBNewItems = () => {
             </div>
             <button 
               type="submit" 
-              className="btn" 
               style={{
                 backgroundColor: '#ff66b2', 
                 color: '#fff', 
@@ -156,11 +150,9 @@ const DBNewItems = () => {
             </button>
           </form>
           {progress > 0 && (
-            <div className="progress mt-3" style={{ backgroundColor: '#555' }}>
+            <div style={{ backgroundColor: '#555', marginTop: '20px' }}>
               <div 
-                className="progress-bar" 
-                style={{ width: `${progress}%`, backgroundColor: '#ff66b2' }}
-              >
+                style={{ width: `${progress}%`, backgroundColor: '#ff66b2' }}>
                 {progress}%
               </div>
             </div>

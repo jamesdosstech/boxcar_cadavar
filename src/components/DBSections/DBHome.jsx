@@ -4,9 +4,9 @@ import './DBHome.styles.scss'
 
 const DBHome = () => {
   return (
-    <div className="container-fluid d-flex flex-column" data-bs-theme="dark">
-      <div className="row flex-grow-1 align-items-center justify-content-center">
-        <div className="col-12 col-md-8 col-lg-6 text-center">
+    <div className="home-container" data-theme="dark">
+      <div className="home-row">
+        <div className="home-column">
           <div className="hero-unit">
             <h1 className="hero-title">Welcome to the Admin Dashboard</h1>
             <p className="hero-description">
@@ -16,7 +16,7 @@ const DBHome = () => {
             <p className="hero-info">
               Stay in control, track performance, and make informed decisions.
             </p>
-            <Link to="/admin/Orders" className="btn btn-cotton-candy btn-lg">
+            <Link to="/admin/Orders" className="btn btn-explore-orders">
               Explore Orders
             </Link>
           </div>
