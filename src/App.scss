@@ -1,0 +1,82 @@
+.app-container {
+  font-family: 'Press Start 2P', 'Montserrat', sans-serif;
+  background-color: #0B0C10; // Dark matrix-like background
+  color: #FFFFFF; // White for readability
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%; // Ensure full width of the viewport
+  padding: 0; // Remove extra padding
+}
+
+.header {
+  background: linear-gradient(90deg, #FFB6C1, #D1A6FF); // Cotton candy theme
+  color: #0B0C10; // Text contrast
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  font-size: 1rem; // Default font size
+  width: 100%; // Full width for the header
+  text-align: center; // Center header content
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  width: 100%; // Ensure content stretches across the page
+  box-sizing: border-box; // Avoid extra margin/padding affecting width
+}
+
+.footer {
+  text-align: center;
+  padding: 10px 20px;
+  background: #1C1F26; // Slightly lighter shade for contrast
+  color: #FFFFFF;
+  font-size: 12px;
+  width: 100%; // Full width for the footer
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px;
+    font-size: 0.9rem; // Slightly smaller text for mobile
+  }
+
+  .content {
+    flex-direction: column; // Stack content vertically on mobile
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .footer {
+    font-size: 14px; // Increase footer text size for readability on small screens
+    padding: 15px 20px;
+  }
+
+  /* Make the app's header more responsive */
+  .navbar {
+    flex-direction: column; // Stack items vertically for mobile view
+    gap: 15px;
+  }
+
+  /* Adjust main content area */
+  .app-container {
+    padding: 0 10px; // Add padding to sides for small screens
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    font-size: 0.85rem; // Reduce text size for very small screens
+  }
+
+  .footer {
+    font-size: 12px; // Slightly smaller footer text
+  }
+
+  .content {
+    padding: 5px; // Reduce padding for ultra-small screens
+  }
+}

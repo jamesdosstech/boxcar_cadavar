@@ -2,36 +2,33 @@ import React, { useContext, useEffect, useState } from "react";
 import "./ProductCard.styles.scss";
 import { ShoppingCartContext } from "../../context/shoppingCart/shoppingCart.context";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, key }) => {
   const [stock, setStock] = useState(0);
   const { addItemstoCart, cartItems } = useContext(ShoppingCartContext);
   const addProductToCart = () => addItemstoCart(product);
   const {
-    // id,
-    ProductImg,
-    ProductName,
-    // ProductDesc,
-    ProductPrice,
-    // ProductQuant,
-    // quantity,
+    image,
+    name,
+    price,
+    quantity
   } = product;
-  // read product
-  // console.log("This is ", product);
+
   useEffect(() => {
-    if (product.ProductQuant && cartItems) {
-      const cartItem = cartItems.find((item) => item.id === product.id);
+    if (quantity && cartItems) {
+      const cartItem = cartItems.find((item) => item.id === key);
       const quantityInCart = cartItem ? cartItem.quantity : 0;
-      const stockValue = product.ProductQuant - quantityInCart;
+      const stockValue = quantity - quantityInCart;
       setStock(stockValue);
     }
-  }, [product.ProductQuant, cartItems, product.id]);
+  }, [quantity, cartItems, key]);
+
   return (
     <div className="product-card-container">
-      <img src={ProductImg} alt={`${ProductName}`} />
+      <img src={image} alt={`${name}`} className="product-img"/>
       <div className="footer">
-        <span className="name">{ProductName}</span>
-        <span className="price">${ProductPrice}</span>
-        <span className="price">Stock:{stock}</span>
+        <span className="name">{name}</span>
+        <span className="price">${price}</span>
+        <span className="stock">Stock: {stock}</span>
       </div>
       {stock >= 1 ? (
         <button onClick={addProductToCart} className="btn btn-success">

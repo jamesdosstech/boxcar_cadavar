@@ -1,32 +1,23 @@
+import { useMemo } from "react";
 import "./splash.styles.scss";
-
 import { useCountdown } from "../../hooks/usecountdown.component";
-
 import SplashEnter from "../../components/splash-enter/splash-enter.component";
 import SplashTimer from "../../components/splash-timer/splash-timer.component";
 
 const Splash = ({ targetDate, trainList, data }) => {
-  const splashMessage = [
-    {
-      id: 0,
-      welcomeMessage: "welcome to doosetrain, friends",
-      subtitle: "live dj streams every friday",
-    },
-    {
-      id: 1,
-      welcomeMessage: "welcome to doosetrain, friends",
-      subtitle: "you're early! the next show starts in...",
-      reminder: "see you Sunday!",
-    },
-  ];
-
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
-  // console.log(`days ${days} and hours ${hours}`);
-  return (
-    <div className="App">
-      {/* {days === 6 ? (
-        <SplashEnter message={data} trainList={trainList} />
-      ) : (
+
+  // Memoize splash message based on the days value
+  const splashMessage = useMemo(() => {
+    return days === 6 
+      ? { welcomeMessage: "You're early! The next show starts in...", subtitle: "See you Sunday!" }
+      : { welcomeMessage: "Welcome to Doosetrain, friends", subtitle: "Live DJ streams every Friday" };
+  }, [days]);
+
+  // Define the content that changes based on the countdown
+  const renderSplashContent = useMemo(() => {
+    if (days === 6) {
+      return (
         <SplashTimer
           days={days}
           hours={hours}
@@ -35,10 +26,12 @@ const Splash = ({ targetDate, trainList, data }) => {
           message={splashMessage}
           trainList={trainList}
         />
-      )} */}
-      <SplashEnter message={data} trainList={trainList} />
-    </div>
-  );
+      );
+    }
+    return <SplashEnter data={data} trainList={trainList} />;
+  }, [days, hours, minutes, seconds, splashMessage, trainList, data]);
+
+  return <div className="splash-component-container">{renderSplashContent}</div>;
 };
 
 export default Splash;

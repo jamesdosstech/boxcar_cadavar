@@ -1,0 +1,107 @@
+.admin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #e0e0e0;
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Stack the sidebar on top for smaller screens.
+  }
+}
+
+.admin-nav {
+  width: 250px;
+  background: linear-gradient(135deg, #302b63, #24243e);
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.7);
+
+  @media (max-width: 768px) {
+    width: 100%; // Full-width navigation on mobile.
+    box-shadow: none;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 768px) {
+      flex-direction: row;
+      justify-content: space-around; // Align items horizontally for mobile.
+    }
+  }
+}
+
+.admin-content {
+  flex: 1;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px; // Reduce padding for smaller screens.
+  }
+}
+
+/* Adjust typography */
+h1, h2 {
+  font-size: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem; // Smaller headings on mobile.
+  }
+}
+
+button {
+  font-size: 1rem;
+  padding: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+/* Product management form */
+input, select {
+  width: 100%;
+  margin-bottom: 10px;
+
+  @media (min-width: 769px) {
+    width: calc(50% - 10px); // Two columns on larger screens.
+  }
+}
+
+.menu-toggle {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff9ff3;
+  color: #0a0a0a;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.admin-nav {
+  transition: transform 0.3s ease;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    transform: translateX(-100%);
+    background: #302b63;
+    z-index: 999;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+

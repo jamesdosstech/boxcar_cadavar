@@ -1,13 +1,49 @@
-// .authentication-container {
-//   // display: flex;
-//   // width: 900px;
-//   // justify-content: space-between;
-//   // margin: 30px auto;
-// }
+.authentication-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #ff80e1, #87cefa); /* Cotton candy gradient */
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
 
-@media (max-width: 600px) {
-  // .authentication-container {
-  //   flex-direction: column;
-  //   height: 100vh;
-  // }
+.authentication-forms {
+  background-color: rgba(0, 0, 0, 0.8); /* Dark, Matrix-like background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  // max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.authentication-logged-in {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  // max-width: 300px;
+}
+
+.authentication-toggle {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.authentication-toggle button {
+  background-color: #ff80e1; /* Cotton candy pink */
+  border: none;
+  // padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.authentication-toggle button:hover {
+  background-color: #ff4d94; /* Slightly darker pink for hover */
 }

@@ -1,20 +1,58 @@
-import React from "react";
-import DBLeftSection from "../../components/DBSections/DBLeftSection";
-import DBRightSection from "../../components/DBSections/DBRightSection";
+import React, { Suspense, lazy, useState } from "react";
+import { Routes, Route, NavLink } from "react-router-dom";
+import "./Dashboard.styles.scss";
 
-const Dashboard = () => {
+const AdminHome = lazy(() => import("./pages/Home"));
+const AdminUsers = lazy(() => import("./pages/Users"));
+const AdminProducts = lazy(() => import("./pages/Products"));
+const AdminOrders = lazy(() => import("./pages/Orders"));
+
+const AdminRoute = () => {
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const navLinks = [
+    { path: "/admin", label: "Home", icon: "bi-house-door" },
+    { path: "/admin/users", label: "Users", icon: "bi-people" },
+    { path: "/admin/products", label: "Products", icon: "bi-box-seam" },
+    { path: "/admin/orders", label: "Orders", icon: "bi-bag" },
+  ];
+
   return (
-    <div>
-      {/* <div className="row">
-        <div className="col-4 col-md-2 bg-white vh-100"> */}
-      <DBLeftSection />
-      {/* </div>
-        <div className="col-auto"> */}
-      <DBRightSection />
-      {/* </div>
-      </div> */}
+    <div className="admin-wrapper">
+      {/* Hamburger button */}
+      <button className="menu-toggle" onClick={toggleMenu}>
+        ☰
+      </button>
+
+      {/* Navigation */}
+      <nav className={`admin-nav ${menuOpen ? "open" : ""}`}>
+        <h2>Admin Panel</h2>
+        <ul>
+          {navLinks.map(({ path, label, icon }) => (
+            <li key={path}>
+              <NavLink to={path} onClick={() => setMenuOpen(false)}>
+                <i className={`bi ${icon}`}></i> {label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Content */}
+      <div className="admin-content">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<AdminHome />} />
+            <Route path="/users" element={<AdminUsers />} />
+            <Route path="/products" element={<AdminProducts />} />
+            <Route path="/orders" element={<AdminOrders />} />
+          </Routes>
+        </Suspense>
+      </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default AdminRoute;
