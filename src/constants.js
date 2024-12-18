@@ -44,4 +44,4 @@ export const firebaseConfig = {
     measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
-export const adminEmail = "doosetrain@gmail.com"
+export const adminEmail = process.env.REACT_APP_ADMIN_EMAIL
