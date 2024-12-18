@@ -31,7 +31,7 @@ const Splash = ({ targetDate, trainList, data }) => {
     return <SplashEnter data={data} trainList={trainList} />;
   }, [days, hours, minutes, seconds, splashMessage, trainList, data]);
 
-  return <div className="App">{renderSplashContent}</div>;
+  return <div className="splash-component-container">{renderSplashContent}</div>;
 };
 
 export default Splash;

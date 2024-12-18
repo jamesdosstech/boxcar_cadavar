@@ -53,6 +53,7 @@ const CommentContainer = ({ currentUser }) => {
           onChange={handleOnChange}
           placeholder="Type your message and press Enter"
           className="input-field"
+          disabled={!currentUser}
         />
         <Button
           type="submit"

@@ -1,54 +1,49 @@
 .authentication-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 20px;
-  color: #fff;
-  font-family: Arial, sans-serif;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #ff80e1, #87cefa); /* Cotton candy gradient */
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.authentication-forms {
+  background-color: rgba(0, 0, 0, 0.8); /* Dark, Matrix-like background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  // max-width: 400px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .authentication-logged-in {
   text-align: center;
-
-  .logged-in-message {
-    font-size: 18px;
-    margin-bottom: 15px;
-    color: hotpink;
-  }
-
-  .back-link {
-    color: #007bff;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  // max-width: 300px;
 }
 
-.authentication-forms {
-  max-width: 400px;
+.authentication-toggle {
+  margin-bottom: 1rem;
   text-align: center;
+  color: #fff;
+  font-size: 1.1rem;
+}
 
-  .authentication-toggle {
-    margin-bottom: 20px;
+.authentication-toggle button {
+  background-color: #ff80e1; /* Cotton candy pink */
+  border: none;
+  // padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-    p {
-      margin-bottom: 10px;
-    }
-
-    button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
-  }
+.authentication-toggle button:hover {
+  background-color: #ff4d94; /* Slightly darker pink for hover */
 }

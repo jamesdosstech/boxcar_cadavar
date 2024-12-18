@@ -7,6 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
   updateProfile,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 import {
@@ -40,12 +41,41 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
-  if (!email || !password) return;
-  return await signInWithEmailAndPassword(auth, email, password);
-};
+export const signInUser = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    console.log("Error signing in:", error.message);
+    throw error;
+  }
+}
 
 export const signOutUser = async () => await signOut(auth);
+
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email)
+  } catch (error) {
+    console.log("Error sending reset email:", error.message);
+    throw error;
+  }
+};
+
+// Update Username
+export const updateUserName = async (displayName) => {
+  try {
+    if (auth.currentUser) {
+      await updateProfile(auth.currentUser, { displayName });
+      console.log("Username updated successfully");
+    } else {
+      throw new Error("No user signed in");
+    }
+  } catch (error) {
+    console.error("Error updating username:", error.message);
+    throw error;
+  }
+}
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
@@ -76,13 +106,6 @@ export const createUserDocumentFromAuth = async (
   }
   return userDocRef;
 };
-
-export const updateUserName = (newName) =>
-  updateProfile(auth.currentUser, { displayName: newName })
-    .then(() => { })
-    .catch((error) => {
-      console.log("Error updating user profile:", error);
-    });
 
 // Messaging functions
 export const sendMessage = async (user, text) => {

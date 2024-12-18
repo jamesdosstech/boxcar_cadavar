@@ -2,8 +2,8 @@ import "./authentication.styles.scss";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 
-import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
-import SignInForm from "../../components/sign-in-form/sign-in-form.component";
+import SignUpForm from "./sign-up-form/sign-up-form.component";
+import SignInForm from "./sign-in-form/sign-in-form.component";
 import Button from "../../components/button/button.component";
 
 import { UserContext } from "../../context/user/user.context";
