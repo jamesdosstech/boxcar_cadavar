@@ -8,23 +8,21 @@
 //   .custom-link {
 //     text-decoration: none; /* Removes the underline */
 //     color: inherit; /* Inherits color from parent or sets your desired color */
-  
+
 //     /* Optionally, style it further */
 //     font-weight: bold;
 //     font-size: 16px;
 //   }
-  
+
 //   .custom-link:hover {
 //     color: #8cd7f4; /* Optional: Change color on hover */
 //   }
-  
 
-  .navbar-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 /* General Navbar Styles */
 /* General Navbar Styles */
@@ -43,7 +41,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-
 }
 
 .navbar-brand .icon {
@@ -66,7 +63,7 @@
 }
 
 .custom-link:hover {
-  text-decoration: underline;
+  color: white;
 }
 
 .navbar-menu {
@@ -74,23 +71,23 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1.5rem;
-  flex-grow: 1;  /* Ensure navbar-menu takes the remaining space */
+  flex-grow: 1; /* Ensure navbar-menu takes the remaining space */
 }
 
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
   .navbar {
-    padding: 0
+    padding: 0;
   }
   .navbar-menu {
     display: none;
   }
-  
+
   .mobile-menu {
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background-color: #282C34;
+    background-color: #282c34;
     position: absolute;
     top: 100%;
     left: 0;
@@ -101,7 +98,7 @@
   .navbar-brand .icon.spinning {
     transform: rotate(90deg);
   }
-  
+
   .mobile-menu .nav-link {
     margin: 0.5rem 0;
   }
