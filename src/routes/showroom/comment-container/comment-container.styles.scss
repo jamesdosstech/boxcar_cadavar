@@ -18,6 +18,8 @@
     padding: 1rem;
     background: transparent;
     scroll-behavior: smooth;
+    //defining the hight of the chatroom allows for scrolling to be enabled in desktop view
+    max-height: calc(100vh - 4rem);
 
     // .message {
     //   padding: 0.75rem;
