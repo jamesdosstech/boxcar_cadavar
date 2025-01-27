@@ -36,6 +36,10 @@
   color: #FFFFFF;
   font-size: 12px;
   width: 100%; // Full width for the footer
+
+  p {
+    background-color: transparent
+  }
 }
 
 @media (max-width: 768px) {
