@@ -84,9 +84,27 @@
       border: 1px solid #6272a4; /* Subtle blue border */
     }
 
-    @media (max-width: 767px) {
+    @media (max-width: 430px) {
       max-height: calc(
-        100vh - 50% - 4rem
+        100vh - 50% - 12rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 390px) {
+      max-height: calc(
+        100vh - 50% - 7rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 375px) {
+      max-height: calc(
+        100vh - 50% + 2rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 414px) {
+      max-height: calc(
+        100vh - 50% - 10rem
       ); // Dynamic height to keep stream visible
     }
   }

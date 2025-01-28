@@ -1,16 +1,24 @@
 import { useState } from "react";
 import { updateProfile, updatePassword } from "firebase/auth";
-import { signOutUser, updateUserName } from "../../../utils/firebase/firebase.utils";
+import {
+  signOutUser,
+  updateUserName,
+} from "../../../utils/firebase/firebase.utils";
 
-    const AccountModal = ({ onClose, currentUser}) => {
+const AccountModal = ({ onClose, currentUser }) => {
   const [newUsername, setNewUsername] = useState(currentUser.displayName || "");
   const [newPassword, setNewPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [error, setError] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [step, setStep] = useState(1); // Step control for form
-      
-  console.log(currentUser)
+
+  console.log(currentUser);
+
+  const handleSignOut = () => {
+    signOutUser();
+    onClose();
+  };
   const handleUsernameChange = async (e) => {
     e.preventDefault();
     if (newUsername === currentUser.displayName) return;
@@ -20,7 +28,7 @@ import { signOutUser, updateUserName } from "../../../utils/firebase/firebase.ut
       alert("Username updated successfully!");
       setStep(2); // Move to password change step
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
       setError("Failed to update username.");
     } finally {
       setIsUpdating(false);
@@ -57,7 +65,8 @@ import { signOutUser, updateUserName } from "../../../utils/firebase/firebase.ut
         {step === 1 && (
           <>
             <button onClick={onClose}>Close</button>
-            <button onClick={signOutUser}>Sign Out</button>
+            {/* <button onClick={signOutUser}>Sign Out</button> */}
+            <button onClick={handleSignOut}>Sign Out</button>
             <button onClick={() => setStep(2)}>Change Username</button>
           </>
         )}
@@ -78,8 +87,12 @@ import { signOutUser, updateUserName } from "../../../utils/firebase/firebase.ut
             <button type="submit" disabled={isUpdating}>
               {isUpdating ? "Updating..." : "Update Username"}
             </button>
-            <button type="button" onClick={() => setStep(3)}>Change Password</button>
-            <button type="button" onClick={() => setStep(1)}>Back</button>
+            {/* <button type="button" onClick={() => setStep(3)}>
+              Change Password
+            </button> */}
+            <button type="button" onClick={() => setStep(1)}>
+              Back
+            </button>
           </form>
         )}
 
@@ -109,7 +122,9 @@ import { signOutUser, updateUserName } from "../../../utils/firebase/firebase.ut
             <button type="submit" disabled={isUpdating}>
               {isUpdating ? "Updating..." : "Update Password"}
             </button>
-            <button type="button" onClick={() => setStep(2)}>Back to Username</button>
+            <button type="button" onClick={() => setStep(2)}>
+              Back to Username
+            </button>
           </form>
         )}
       </div>

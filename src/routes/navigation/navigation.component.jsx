@@ -3,9 +3,13 @@ import { useContext, useState, useEffect, useRef, useReducer } from "react";
 import "./navigation.styles.scss"; // Custom styles
 import { ReactComponent as HomeIcon } from "../../assets/train-icon.svg";
 import { UserContext } from "../../context/user/user.context";
-import { auth, signOutUser, updateUserName } from "../../utils/firebase/firebase.utils";
+import {
+  auth,
+  signOutUser,
+  updateUserName,
+} from "../../utils/firebase/firebase.utils";
 import { updateProfile } from "firebase/auth";
-import UserDropdown from './UserDropdown/UserDropdown'
+import UserDropdown from "./UserDropdown/UserDropdown";
 import { CartIcon } from "./CartIcon/CartIcon";
 import { adminEmail } from "../../constants";
 import AccountModal from "./AccountModal/AccountModal";
@@ -74,7 +78,7 @@ const Navigation = () => {
                 </button>
                 {state.isModalOpen && (
                   <AccountModal
-                  currentUser={currentUser}
+                    currentUser={currentUser}
                     onClose={() => dispatch({ type: "TOGGLE_MODAL" })}
                   />
                 )}
@@ -108,7 +112,7 @@ const Navigation = () => {
               </button>
               {state.isModalOpen && (
                 <AccountModal
-                currentUser={currentUser}
+                  currentUser={currentUser}
                   onClose={() => dispatch({ type: "TOGGLE_MODAL" })}
                 />
               )}
