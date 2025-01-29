@@ -61,14 +61,17 @@ const StreamContainer = () => {
       {loading ? (
         <p>Loading stream...</p>
       ) : isLive ? (
-        <div ref={playerRef} className="stream-player-container twitch-player" />
+        <div
+          ref={playerRef}
+          className="stream-player-container twitch-player"
+        />
       ) : (
         <div className="react-player-container">
           <ReactPlayer
             width="100%"
             height="100%"
             className="react-player"
-            url="https://youtu.be/YDhikNLU9bc" // replace with your video URL
+            url="https://www.youtube.com/watch?v=Ld0Pr_9C9OE" // replace with your video URL
             controls
           />
         </div>

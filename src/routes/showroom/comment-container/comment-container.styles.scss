@@ -19,8 +19,37 @@
     background: transparent;
     scroll-behavior: smooth;
     //defining the hight of the chatroom allows for scrolling to be enabled in desktop view
-    max-height: calc(100vh - 4rem);
+    max-height: calc(100vh - 19rem);
+    scrollbar-width: thin;
+    scrollbar-color: #61dafb transparent;
+    @media (max-width: 767px) {
+      max-height: calc(
+        100vh - 50% - 21rem
+      ); // Dynamic height to keep stream visible
+    }
+    @media (max-width: 430px) {
+      max-height: calc(
+        100vh - 50% - 19rem
+      ); // Dynamic height to keep stream visible
+    }
 
+    @media (width: 390px) {
+      max-height: calc(
+        100vh - 50% - 14rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 375px) {
+      max-height: calc(
+        100vh - 50% + 8rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 414px) {
+      max-height: calc(
+        100vh - 50% - 17rem
+      ); // Dynamic height to keep stream visible
+    }
     // .message {
     //   padding: 0.75rem;
     //   margin-bottom: 0.5rem;
@@ -82,30 +111,6 @@
       ); /* Pink to light purple */
       align-self: flex-start;
       border: 1px solid #6272a4; /* Subtle blue border */
-    }
-
-    @media (max-width: 430px) {
-      max-height: calc(
-        100vh - 50% - 12rem
-      ); // Dynamic height to keep stream visible
-    }
-
-    @media (width: 390px) {
-      max-height: calc(
-        100vh - 50% - 7rem
-      ); // Dynamic height to keep stream visible
-    }
-
-    @media (width: 375px) {
-      max-height: calc(
-        100vh - 50% + 2rem
-      ); // Dynamic height to keep stream visible
-    }
-
-    @media (width: 414px) {
-      max-height: calc(
-        100vh - 50% - 10rem
-      ); // Dynamic height to keep stream visible
     }
   }
 

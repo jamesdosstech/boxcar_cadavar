@@ -21,7 +21,8 @@ import {
   query,
   orderBy,
   limit,
-  collection, // Added this import
+  collection,
+  Timestamp, // Added this import
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
@@ -43,19 +44,23 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 
 export const signInUser = async (email, password) => {
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     return userCredential.user;
   } catch (error) {
     console.log("Error signing in:", error.message);
     throw error;
   }
-}
+};
 
 export const signOutUser = async () => await signOut(auth);
 
 export const resetPassword = async (email) => {
   try {
-    await sendPasswordResetEmail(auth, email)
+    await sendPasswordResetEmail(auth, email);
   } catch (error) {
     console.log("Error sending reset email:", error.message);
     throw error;
@@ -75,7 +80,7 @@ export const updateUserName = async (displayName) => {
     console.error("Error updating username:", error.message);
     throw error;
   }
-}
+};
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
@@ -106,7 +111,7 @@ export const createUserDocumentFromAuth = async (
   }
   return userDocRef;
 };
-
+const experationTime = Timestamp.fromMillis(Date.now() + 60 * 60 * 1000);
 // Messaging functions
 export const sendMessage = async (user, text) => {
   try {
@@ -115,6 +120,7 @@ export const sendMessage = async (user, text) => {
       displayName: user.displayName,
       text: text.trim(),
       timestamp: serverTimestamp(),
+      ttl: experationTime,
     });
   } catch (error) {
     console.error("Error sending message:", error);
