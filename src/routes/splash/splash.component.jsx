@@ -9,14 +9,20 @@ const Splash = ({ targetDate, trainList, data }) => {
 
   // Memoize splash message based on the days value
   const splashMessage = useMemo(() => {
-    return days === 6 
-      ? { welcomeMessage: "You're early! The next show starts in...", subtitle: "See you Sunday!" }
-      : { welcomeMessage: "Welcome to Doosetrain, friends", subtitle: "Live DJ streams every Friday" };
+    return days === 6
+      ? {
+          welcomeMessage: "You're early! The next show starts in...",
+          subtitle: "See you Tuesday!",
+        }
+      : {
+          welcomeMessage: "Welcome to Doosetrain, friends",
+          subtitle: "Live DJ streams every Tuesday",
+        };
   }, [days]);
 
   // Define the content that changes based on the countdown
   const renderSplashContent = useMemo(() => {
-    if (days === 6) {
+    if (days !== 6) {
       return (
         <SplashTimer
           days={days}
@@ -31,7 +37,9 @@ const Splash = ({ targetDate, trainList, data }) => {
     return <SplashEnter data={data} trainList={trainList} />;
   }, [days, hours, minutes, seconds, splashMessage, trainList, data]);
 
-  return <div className="splash-component-container">{renderSplashContent}</div>;
+  return (
+    <div className="splash-component-container">{renderSplashContent}</div>
+  );
 };
 
 export default Splash;

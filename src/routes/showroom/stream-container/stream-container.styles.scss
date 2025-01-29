@@ -1,6 +1,6 @@
 .stream-container {
   flex: 3;
-  background: radial-gradient(circle, #1A1A1A, #282A36);
+  background: radial-gradient(circle, #1a1a1a, #282a36);
   display: flex;
   justify-content: center;
   // align-items: center;
@@ -9,16 +9,20 @@
   .react-player-container {
     width: 100%;
     height: 100%;
-    border: 2px solid #6272A4; /* Subtle cotton candy blue outline */
+    border: 2px solid #6272a4; /* Subtle cotton candy blue outline */
     box-shadow: 0px 0px 15px 5px rgba(98, 114, 164, 0.5); /* Blue glow */
   }
-
+  .hidden {
+    display: none;
+  }
+  .visible {
+    display: block;
+  }
   /* Light up the background when the user hovers */
   &:hover {
-    background: linear-gradient(145deg, #44475A, #1A1A1A);
+    background: linear-gradient(145deg, #44475a, #1a1a1a);
   }
 }
-
 
 // .stream-container {
 //   flex: 3;
