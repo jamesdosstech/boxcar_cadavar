@@ -1,7 +1,7 @@
 .app-container {
-  font-family: 'Press Start 2P', 'Montserrat', sans-serif;
-  background-color: #0B0C10; // Dark matrix-like background
-  color: #FFFFFF; // White for readability
+  font-family: "Press Start 2P", "Montserrat", sans-serif;
+  background-color: #0b0c10; // Dark matrix-like background
+  color: #ffffff; // White for readability
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -10,8 +10,8 @@
 }
 
 .header {
-  background: linear-gradient(90deg, #FFB6C1, #D1A6FF); // Cotton candy theme
-  color: #0B0C10; // Text contrast
+  background: linear-gradient(90deg, #ffb6c1, #d1a6ff); // Cotton candy theme
+  color: #0b0c10; // Text contrast
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   padding: 10px 20px;
   font-size: 1rem; // Default font size
@@ -21,7 +21,7 @@
 
 .content {
   flex-grow: 1;
-  display: flex;
+  // display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
@@ -32,10 +32,14 @@
 .footer {
   text-align: center;
   padding: 10px 20px;
-  background: #1C1F26; // Slightly lighter shade for contrast
-  color: #FFFFFF;
+  background: #1c1f26; // Slightly lighter shade for contrast
+  color: #ffffff;
   font-size: 12px;
   width: 100%; // Full width for the footer
+
+  p {
+    background-color: transparent;
+  }
 }
 
 @media (max-width: 768px) {

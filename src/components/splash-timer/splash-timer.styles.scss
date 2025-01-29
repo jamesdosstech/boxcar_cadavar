@@ -1,75 +1,72 @@
 .splash-timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #b0e7ff; // Cotton candy blue
+  font-family: "Roboto", sans-serif;
+  padding: 1rem;
+
+  h1 {
+    font-size: 2.5rem; // Adjusted for smaller screens
+    color: #8ed1fc; // Cotton candy blue
+    text-shadow: 0 0 20px #8ed1fc, 0 0 40px #8ed1fc;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: #d4efff; // Slightly lighter cotton candy blue
+    margin: 0.5rem 0;
+  }
+
+  .splash-date-display-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    height: 100vh;
-    text-align: center;
-    background: linear-gradient(to bottom, #000428, #004e92); // Dark blue gradient
-    color: #b0e7ff; // Cotton candy blue
-    font-family: 'Roboto', sans-serif;
-    padding: 1rem;
-  
-    h1 {
-      font-size: 2.5rem; // Adjusted for smaller screens
-      color: #8ed1fc; // Cotton candy blue
-      text-shadow: 0 0 20px #8ed1fc, 0 0 40px #8ed1fc;
-      margin-bottom: 1rem;
-    }
-  
-    p {
-      font-size: 1rem;
-      color: #d4efff; // Slightly lighter cotton candy blue
-      margin: 0.5rem 0;
-    }
-  
-    .splash-date-display-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap; // Allows the layout to wrap on small screens
-      margin: 1.5rem 0;
-      gap: 1rem; // Reduced spacing between items
-  
-      > div {
-        border: 2px solid #8ed1fc;
-        border-radius: 12px;
-        padding: 1rem;
-        background: rgba(0, 0, 50, 0.8); // Slightly translucent dark blue
-        box-shadow: 0 0 15px #8ed1fc;
-        width: 80px; // Scaled for mobile
-        height: 100px; // Scaled for mobile
-      }
+    flex-wrap: wrap; // Allows the layout to wrap on small screens
+    margin: 1.5rem 0;
+    gap: 1rem; // Reduced spacing between items
+
+    > div {
+      border: 2px solid #8ed1fc;
+      border-radius: 12px;
+      padding: 1rem;
+      background: rgba(0, 0, 50, 0.8); // Slightly translucent dark blue
+      box-shadow: 0 0 15px #8ed1fc;
+      width: 80px; // Scaled for mobile
+      height: 100px; // Scaled for mobile
     }
   }
-  
-  /* Media Query for smaller devices */
-  @media (max-width: 768px) {
-    h1 {
-      font-size: 2rem; // Further scale down for mobile
-    }
-  
-    .splash-date-display-container > div {
-      width: 60px; // Smaller width for date boxes
-      height: 80px; // Smaller height for date boxes
-    }
-  
-    p {
-      font-size: 0.9rem; // Slightly smaller for mobile
-    }
+}
+
+/* Media Query for smaller devices */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem; // Further scale down for mobile
   }
-  
-  @media (max-width: 480px) {
-    .splash-timer-container {
-      padding: 0.5rem;
-    }
-  
-    .splash-date-display-container {
-      gap: 0.5rem; // Even tighter spacing for very small screens
-    }
-  
-    .splash-date-display-container > div {
-      width: 50px;
-      height: 70px;
-    }
+
+  .splash-date-display-container > div {
+    width: 60px; // Smaller width for date boxes
+    height: 80px; // Smaller height for date boxes
   }
-  
+
+  p {
+    font-size: 0.9rem; // Slightly smaller for mobile
+  }
+}
+
+@media (max-width: 480px) {
+  .splash-timer-container {
+    padding: 0.5rem;
+  }
+
+  .splash-date-display-container {
+    gap: 0.5rem; // Even tighter spacing for very small screens
+  }
+
+  .splash-date-display-container > div {
+    width: 50px;
+    height: 70px;
+  }
+}

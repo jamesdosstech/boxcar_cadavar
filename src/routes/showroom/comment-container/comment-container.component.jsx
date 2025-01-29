@@ -22,7 +22,8 @@ const CommentContainer = ({ currentUser }) => {
 
   useLayoutEffect(() => {
     if (containerRef.current) {
-      containerRef.current.scrollTop = 0;
+      // containerRef.current.scrollTop = 0;
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -31,18 +32,24 @@ const CommentContainer = ({ currentUser }) => {
       <div className="message-list-container" ref={containerRef}>
         <div className="message-list">
           {messages && messages.length > 0 ? (
-            messages.map((message) => {
-              const isOwnMessage = currentUser && message.uid === currentUser.uid;
-              return (
-                <Message
-                  key={message.id}
-                  message={message}
-                  isOwnMessage={isOwnMessage}
-                />
-              );
-            })
+            messages
+              .slice()
+              .reverse()
+              .map((message) => {
+                const isOwnMessage =
+                  currentUser && message.uid === currentUser.uid;
+                return (
+                  <Message
+                    key={message.id}
+                    message={message}
+                    isOwnMessage={isOwnMessage}
+                  />
+                );
+              })
           ) : (
-            <p className="empty-state">No messages yet. Start the conversation!</p>
+            <p className="empty-state">
+              No messages yet. Start the conversation!
+            </p>
           )}
         </div>
       </div>
@@ -55,11 +62,7 @@ const CommentContainer = ({ currentUser }) => {
           className="input-field"
           disabled={!currentUser}
         />
-        <Button
-          type="submit"
-          className="send-button"
-          disabled={!newMessage}
-        >
+        <Button type="submit" className="send-button" disabled={!newMessage}>
           Send
         </Button>
       </form>

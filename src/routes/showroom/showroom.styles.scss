@@ -1,13 +1,25 @@
 .showroom-container {
-  background: linear-gradient(to bottom right, #282A36, #1A1A1A);
-  color: #F8F8F2; /* Light text for contrast */
+  background: linear-gradient(to bottom right, #282a36, #1a1a1a);
+  color: #f8f8f2; /* Light text for contrast */
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 75vh;
   width: 100%;
 
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: stretch;
   }
+  @media (max-width: 430px) {
+    height: 78vh;
+  }
+
+  // @media (width: 390px) {
+  // }
+
+  // @media (width: 375px) {
+  // }
+
+  // @media (width: 414px) {
+  // }
 }

@@ -2,8 +2,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, #44475A, #282A36);
-  border-left: 2px solid #FF79C6; /* Cotton candy pink divider */
+  background: linear-gradient(to bottom, #44475a, #282a36);
+  border-left: 2px solid #ff79c6; /* Cotton candy pink divider */
   border-top: 1px solid #ccc; // Mobile border divider
   overflow: hidden;
 
@@ -18,7 +18,38 @@
     padding: 1rem;
     background: transparent;
     scroll-behavior: smooth;
+    //defining the hight of the chatroom allows for scrolling to be enabled in desktop view
+    max-height: calc(100vh - 19rem);
+    scrollbar-width: thin;
+    scrollbar-color: #61dafb transparent;
+    @media (max-width: 767px) {
+      max-height: calc(
+        100vh - 50% - 21rem
+      ); // Dynamic height to keep stream visible
+    }
+    @media (max-width: 430px) {
+      max-height: calc(
+        100vh - 50% - 19rem
+      ); // Dynamic height to keep stream visible
+    }
 
+    @media (width: 390px) {
+      max-height: calc(
+        100vh - 50% - 14rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 375px) {
+      max-height: calc(
+        100vh - 50% + 8rem
+      ); // Dynamic height to keep stream visible
+    }
+
+    @media (width: 414px) {
+      max-height: calc(
+        100vh - 50% - 17rem
+      ); // Dynamic height to keep stream visible
+    }
     // .message {
     //   padding: 0.75rem;
     //   margin-bottom: 0.5rem;
@@ -34,42 +65,52 @@
       // major change
       // max-width: 75%;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-      color: #F8F8F2;
-      font-family: 'Roboto', sans-serif;
+      color: #f8f8f2;
+      font-family: "Roboto", sans-serif;
       line-height: 1.4;
-    
+      p {
+        background-color: transparent;
+      }
       /* Shared hover effect for all messages */
       &:hover {
         transform: scale(1.02);
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
       }
-    
+
       /* Display sender name with reduced opacity for subtle emphasis */
       .sender {
+        background-color: transparent;
         font-size: 0.85rem;
         font-weight: bold;
         margin-bottom: 0.3rem;
         opacity: 0.8;
+
+        // p {
+        //   background-color: transparent;
+        // }
       }
     }
-    
+
     /* Style for own messages */
     .own-message {
-      background: linear-gradient(to right, #6272A4, #44475A); /* Cotton candy blue to dark gray */
+      background: linear-gradient(
+        to right,
+        #6272a4,
+        #44475a
+      ); /* Cotton candy blue to dark gray */
       align-self: flex-end;
-      border: 1px solid #FF79C6; /* Subtle pink border for emphasis */
+      border: 1px solid #ff79c6; /* Subtle pink border for emphasis */
     }
-    
+
     /* Style for other users' messages */
     .other-message {
-      background: linear-gradient(to right, #FF79C6, #BD93F9); /* Pink to light purple */
+      background: linear-gradient(
+        to right,
+        #f390c8,
+        #bd93f9
+      ); /* Pink to light purple */
       align-self: flex-start;
-      border: 1px solid #6272A4; /* Subtle blue border */
-    }
-    
-
-    @media (max-width: 767px) {
-      max-height: calc(100vh - 50% - 4rem); // Dynamic height to keep stream visible
+      border: 1px solid #6272a4; /* Subtle blue border */
     }
   }
 
@@ -78,26 +119,27 @@
     bottom: 0;
     display: flex;
     padding: 0.5rem;
-    background: #1A1A1A;
+    background: #1a1a1a;
     border-top: 1px solid #ccc;
 
     .input-field {
       flex: 1;
       padding: 0.75rem;
       border: none;
-      background: #282A36;
-      color: #F8F8F2;
+      background: #282a36;
+      color: #f8f8f2;
       outline: none;
+      margin-bottom: 0;
 
       &:focus {
-        border: 2px solid #6272A4;
+        border: 2px solid #6272a4;
       }
     }
 
     .send-button {
       margin-left: 0.5rem;
       padding: 0.75rem 1.5rem;
-      background: linear-gradient(to right, #6272A4, #FF79C6);
+      background: linear-gradient(to right, #6272a4, #ff79c6);
       color: white;
       border-radius: 5px;
       border: none;
@@ -105,7 +147,7 @@
       box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 
       &:hover {
-        background: linear-gradient(to right, #FF79C6, #6272A4);
+        background: linear-gradient(to right, #6272a4, #d27ffc);
       }
     }
   }
