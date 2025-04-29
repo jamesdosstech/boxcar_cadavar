@@ -1,0 +1,47 @@
+.users-container {
+    padding: 20px;
+    background: #1a1a2e;
+    color: #fff;
+    border-radius: 8px;
+  }
+  
+  .users-title {
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    font-size: 18px;
+    color: #ffcc00;
+  }
+  
+  .error {
+    color: #ff4d4d;
+  }
+  
+  .users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #16213e;
+    color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .users-table th, .users-table td {
+    padding: 12px;
+    border-bottom: 1px solid #0f3460;
+    text-align: left;
+  }
+  
+  .users-table th {
+    background: #0f3460;
+  }
+  
+  .no-users {
+    text-align: center;
+    color: #ffcc00;
+  }
+  

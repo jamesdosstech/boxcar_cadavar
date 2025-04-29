@@ -4,6 +4,7 @@ import { sendMessage } from "../../../utils/firebase/firebase.utils";
 import { useMessages } from "../../../hooks/useMessages.hook";
 import "./comment-container.styles.scss";
 import Message from "./message/message.component";
+import { Link } from "react-router-dom";
 
 const CommentContainer = ({ currentUser }) => {
   const messages = useMessages();
@@ -28,7 +29,7 @@ const CommentContainer = ({ currentUser }) => {
   }, [messages]);
 
   return (
-    <div className="comment-container">
+    <div className="chat-container">
       <div className="message-list-container" ref={containerRef}>
         <div className="message-list">
           {messages && messages.length > 0 ? (
@@ -53,19 +54,27 @@ const CommentContainer = ({ currentUser }) => {
           )}
         </div>
       </div>
-      <form className="input-container" onSubmit={handleOnSubmit}>
+      {
+        currentUser ? (
+          <form className="input-container" onSubmit={handleOnSubmit}>
         <input
           type="text"
           value={newMessage}
           onChange={handleOnChange}
           placeholder="Type your message and press Enter"
           className="input-field"
-          disabled={!currentUser}
         />
         <Button type="submit" className="send-button" disabled={!newMessage}>
           Send
         </Button>
       </form>
+        ) : (
+          <div>
+            <p>Please <span><Link to={'/sign-in'}>Sign In to Join the Conversation</Link></span></p>
+          </div>
+        )
+      }
+      
     </div>
   );
 };
