@@ -4,22 +4,22 @@
   align-items: center;
   // min-height: 100vh;
   // background: linear-gradient(to right, #ff80e1, #87cefa); /* Cotton candy gradient */
-  color: white;
+  // color: black;
   font-family: "Roboto", sans-serif;
 }
 
 .authentication-forms {
-  background-color: rgba(0, 0, 0, 0.8); /* Dark, Matrix-like background */
+  // background-color: rgba(0, 0, 0, 0.8); /* Dark, Matrix-like background */
   padding: 2rem;
   border-radius: 10px;
   width: 100%;
   // max-width: 400px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  // box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .authentication-logged-in {
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.8);
+  // background-color: rgba(0, 0, 0, 0.8);
   padding: 1rem;
   border-radius: 10px;
   width: 100%;
@@ -29,7 +29,7 @@
 .authentication-toggle {
   margin-bottom: 1rem;
   text-align: center;
-  color: #fff;
+  color: black;
   font-size: 1.1rem;
 }
 

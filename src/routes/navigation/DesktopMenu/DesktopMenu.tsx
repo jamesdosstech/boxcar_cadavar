@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AccountButton from '../AccountButton/AccountButton'
 import { useIsAdmin } from '../../../hooks/useIsAdmin.hook'
+import CartModal from '../../Cart/Cart'
 
 interface DesktopMenuProps {
     state: any,
@@ -11,27 +12,33 @@ interface DesktopMenuProps {
 
 const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser}) => {
     const isAdmin = useIsAdmin()
+    const [isCartOpen, setIsCartOpen] = useState(false)
     return (
-    <div className='navbar-menu'>
-        <Link to={'showroom'} className='nav-link'>
-            Showroom
-        </Link>
-        {
-            currentUser ? (
-                <AccountButton
-                    currentUser={currentUser}
-                    isModalOpen={state.isModalOpen}
-                    toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
-                />
-            ) : (
-                <Link to="/sign-in" className="nav-link">
-                    Sign In
+        <>
+            <div className='navbar-menu'>
+                <Link to={'showroom'} className='nav-link'>
+                    Showroom
                 </Link>
-            )
-        }
-        {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
-        <Link to="/shop" className="nav-link">Shop</Link>
-    </div>
+                {
+                    currentUser ? (
+                        <AccountButton
+                            currentUser={currentUser}
+                            isModalOpen={state.isModalOpen}
+                            toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
+                        />
+                    ) : (
+                        <Link to="/sign-in" className="nav-link">
+                            Sign In
+                        </Link>
+                    )
+                }
+                {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
+                <Link to="/shop" className="nav-link">Shop</Link>
+                <button onClick={() => setIsCartOpen(true)}>Cart</button>
+            </div>
+            {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)}/>}
+        </>
+    
   )
 }
 

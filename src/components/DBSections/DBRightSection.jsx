@@ -7,7 +7,7 @@ const DBItems = lazy(() => import("./DBItems"));
 const DBNewItems = lazy(() => import("./DBNewItems"));
 const DBUsers = lazy(() => import("./DBUsers"));
 const DBHome = lazy(() => import("./DBHome"));
-const ProductEdit = lazy(() => import("../../routes/ProductEdit/ProductEdit"));
+const ProductEdit = lazy(() => import("../../routes/ProductEdit/OldProductEdit"));
 
 const DBRightSection = () => {
   return (

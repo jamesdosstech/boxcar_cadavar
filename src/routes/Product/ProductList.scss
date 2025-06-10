@@ -1,0 +1,36 @@
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .shop-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  
+    input,
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+    }
+  }
+  
+  .add-to-cart-button {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    background-color: #ff7ad9;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+  
+    &:hover {
+      background-color: #e66bc6;
+    }
+  }
+  

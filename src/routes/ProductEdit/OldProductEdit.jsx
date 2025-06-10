@@ -5,7 +5,7 @@ import { db, storage } from "../../utils/firebase/firebase.utils";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import './ProductEdit.styles.scss';
 
-const ProductEdit = () => {
+const OldProductEdit = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [newImage, setNewImage] = useState(null);
@@ -154,4 +154,4 @@ const ProductEdit = () => {
   );
 };
 
-export default ProductEdit;
+export default OldProductEdit;

@@ -56,9 +56,8 @@ const SignUpForm = () => {
     }
     
     return (
-        <div className='sign-up-container'>
+    <div className='sign-up-container'>
       <form onSubmit={handleSubmit}>
-        <div className='sign-up-header'>Sign Up For Chat</div>
         <input
           type="text"
           name="displayName"
@@ -91,9 +90,9 @@ const SignUpForm = () => {
           placeholder="Confirm Password"
           required
         />
-        <div className='buttons-container'>
-          <Button type='submit'>Submit</Button>
-        </div>
+        {/* <div className='buttons-container'> */}
+          <button type='submit'>Submit</button>
+        {/* </div> */}
       </form>
     </div>
     )

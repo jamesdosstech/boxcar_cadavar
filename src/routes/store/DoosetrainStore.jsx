@@ -1,63 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useProductsContext } from "../../context/product/product.context";
 import "./DoosetrainStore.styles.scss";
-import ProductCard from "../../components/ProductCard/ProductCard.component";
 import UnderConstruction from "../../components/under-construction/under-contstruction.component";
+import { getAllProducts } from "../../utils/firebase/firebase.utils";
+import ProductCard from "../Product/ProductCard/ProductCard";
+import { useCart } from "../../context/shoppingCart/shoppingCart.context";
+import { Link } from "react-router-dom";
 
 const DoosetrainStore = () => {
-  const { productsMap = [], loading = true } = useProductsContext();
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [addedProduct, setAddedProduct] = useState(null);
 
-  // Group products by category if category data exists
-  const categorizedProducts = productsMap.reduce((acc, product) => {
-    const category = product.ProductCategory || "Uncategorized"; // Default to 'Uncategorized' if no category
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(product);
-    return acc;
-  }, {});
+  //context action
+  const { addItem } = useCart()
+
+
+  useEffect(() => {
+    getAllProducts().then(setProducts)
+  },[]);
+
+  const handleAddToCart = (product) => {
+    console.log('added ', product)
+    addItem(product);
+    setAddedProduct(product.name);
+    setTimeout(() => setAddedProduct(null), 2000)
+  }
+
+  const categories = [...new Set(products.map((p) => p.category))];
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
-    <div className="doosetrain-store">
-      {/* Store Header */}
-      <header className="store-header">
-        <h2 className="store-title glitch" data-text="Shop">
-          Shop
-        </h2>
-      </header>
-
-      <div className="products-container">
-        {/* Loading State */}
-        {loading ? (
-          <p className="loading-message">Loading products...</p>
-        ) : Object.keys(categorizedProducts).length > 0 ? (
-          // Categories Section
-          Object.keys(categorizedProducts).map((category) => {
-            const products = categorizedProducts[category];
-
-            return (
-              <div key={category} className="category-section">
-                <h3 className="category-title glitch" data-text={category}>
-                  {category}
-                </h3>
-                <div className="products-grid">
-                  {products.length > 0 ? (
-                    products.map((product) => (
-                      <ProductCard key={product.id} product={product} />
-                    ))
-                  ) : (
-                    <p className="empty-category-message">
-                      No products available in this category.
-                    </p>
-                  )}
-                </div>
-              </div>
-            );
-          })
-        ) : (
-          // No Products Fallback
-          <UnderConstruction />
-        )}
+    <div className="shop-container">
+      <div className="shop-title">Shop All Products</div>
+      <div className="shop-filters">
+        <input
+          style={{backgroundColor: 'white'}}
+          type="text"
+          placeholder="Search by name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select
+          style={{backgroundColor: 'white'}}
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="shop-grid">
+        {filteredProducts.map((product) => (
+          <ProductCard 
+            key={product.id} 
+            product={product}
+            actions={
+              <>
+                <button
+                  className="add-to-cart-button"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add to Cart
+                </button>
+                <Link
+                  to={`/product/${product.id}`}
+                >
+                  <button className="add-to-cart-button">Details</button>
+                </Link>
+              </>
+            }
+          />
+        ))}
+        {addedProduct && <div className="add-notification">Added {addedProduct} to cart</div>}
       </div>
     </div>
   );
