@@ -19,6 +19,10 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
                 <Link to={'showroom'} className='nav-link'>
                     Showroom
                 </Link>
+                {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
+                {/* remove for full nav access in testing */}
+                {/* <Link to="/shop" className="nav-link">Shop</Link>
+                <button onClick={() => setIsCartOpen(true)}>Cart</button> */}
                 {
                     currentUser ? (
                         <AccountButton
@@ -32,9 +36,6 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
                         </Link>
                     )
                 }
-                {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
-                <Link to="/shop" className="nav-link">Shop</Link>
-                <button onClick={() => setIsCartOpen(true)}>Cart</button>
             </div>
             {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)}/>}
         </>

@@ -69,7 +69,7 @@ const CommentContainer = ({ currentUser }) => {
         </Button>
       </form>
         ) : (
-          <div>
+          <div style={{textAlign: 'center'}}>
             <p>Please <span><Link to={'/sign-in'}>Sign In to Join the Conversation</Link></span></p>
           </div>
         )

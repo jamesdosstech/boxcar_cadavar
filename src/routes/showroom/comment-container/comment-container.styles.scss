@@ -22,6 +22,9 @@
     max-height: calc(100vh - 4rem);
     scrollbar-width: thin;
     scrollbar-color: #61dafb transparent;
+    .empty-state {
+      text-align: center;
+    }
     // @media (max-width: 767px) {
     //   max-height: calc(
     //     100vh - 50% - 21rem
