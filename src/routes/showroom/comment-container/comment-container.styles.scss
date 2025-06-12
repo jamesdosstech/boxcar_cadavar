@@ -19,14 +19,17 @@
     background: transparent;
     scroll-behavior: smooth;
     //defining the hight of the chatroom allows for scrolling to be enabled in desktop view
-    max-height: calc(100vh - 19rem);
+    max-height: calc(100vh - 4rem);
     scrollbar-width: thin;
     scrollbar-color: #61dafb transparent;
-    @media (max-width: 767px) {
-      max-height: calc(
-        100vh - 50% - 21rem
-      ); // Dynamic height to keep stream visible
+    .empty-state {
+      text-align: center;
     }
+    // @media (max-width: 767px) {
+    //   max-height: calc(
+    //     100vh - 50% - 21rem
+    //   ); // Dynamic height to keep stream visible
+    // }
     @media (max-width: 430px) {
       max-height: calc(
         100vh - 50% - 19rem

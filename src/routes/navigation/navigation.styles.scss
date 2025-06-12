@@ -32,7 +32,8 @@
   align-items: center;
   padding: 1rem 2rem;
   // background-color: #282c34;
-  color: #fff;
+  background-color: black;
+  // color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
 }
@@ -41,6 +42,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  // background-color: black;
 }
 
 .navbar-brand .icon {
@@ -60,14 +62,16 @@
   font-weight: bold;
   text-decoration: none;
   color: #61dafb;
-  transition: text-decoration 0.3s ease;
+  transition: color 0.3s ease;
 }
 
 .custom-link:hover {
-  color: white;
+  color: #ff7ad9;
+  transition: color 0.3s ease
 }
 
 .navbar-menu {
+  // color: white;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -102,6 +106,7 @@
 
   .mobile-menu .nav-link {
     margin: 0.5rem 0;
+    color: white;
   }
 }
 
@@ -109,11 +114,13 @@
 .nav-link {
   font-size: 1rem;
   text-decoration: none;
-  color: #fff;
+  // color: #fff;
+  color: white;
   transition: color 0.3s ease;
 }
 
-.nav-link:hover {
+.nav-link:hover,
+.nav-link:active {
   color: #61dafb;
 }
 
@@ -132,7 +139,7 @@
 }
 
 .modal-content {
-  background: #222; /* Darker background for the modal */
+  background: #111; /* Darker background for the modal */
   color: #ff79c6; /* Cotton Candy pink text color */
   border-radius: 12px;
   padding: 2rem;
@@ -165,9 +172,9 @@
 }
 
 .modal-content button:last-child {
-  background: #ff5555; /* Red color for the last button */
+  background: #61dafb; /* Red color for the last button */
 }
 
 .modal-content button:last-child:hover {
-  background: #d94444; /* Darker red on hover */
+  background: #61dafbc6; /* Darker red on hover */
 }

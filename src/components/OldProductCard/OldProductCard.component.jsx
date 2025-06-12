@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import "./ProductCard.styles.scss";
+import "./OldProductCard.styles.scss";
 import { ShoppingCartContext } from "../../context/shoppingCart/shoppingCart.context";
 
 const ProductCard = ({ product, key }) => {

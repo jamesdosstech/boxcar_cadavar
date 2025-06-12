@@ -22,7 +22,10 @@ import {
   orderBy,
   limit,
   collection,
-  Timestamp, // Added this import
+  Timestamp,
+  getDocs,
+  updateDoc,
+  deleteDoc, // Added this import
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
@@ -139,3 +142,37 @@ export const getMessages = (callback) => {
     }
   );
 };
+
+// store functions
+
+const productsRef = collection(db, 'products');
+
+export const getAllProducts = async () => {
+  const snapshot = await getDocs(productsRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+};
+
+export const getProduct = async (id) => {
+  const docRef = doc(db, "products", id);
+  const snapshot = await getDoc(docRef);
+  if (snapshot.exists()) return { id: snapshot.id, ...snapshot.data() };
+  else throw new Error("Product not found");
+};
+
+export const createProduct = async (data) => {
+  const docRef = await addDoc(productsRef, {
+    ...data,
+    createdAt: serverTimestamp()
+  });
+  return { id: docRef.id };
+};
+
+export const updateProduct = async (id, data) => {
+  const docRef = doc(db, 'products', id);
+  await updateDoc(docRef, data);
+}
+
+export const deleteProduct = async (id) => {
+  const docRef = doc(db, 'products', id);
+  await deleteDoc(docRef)
+}

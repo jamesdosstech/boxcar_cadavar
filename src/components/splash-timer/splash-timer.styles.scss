@@ -17,7 +17,7 @@
 
   p {
     font-size: 1rem;
-    color: #d4efff; // Slightly lighter cotton candy blue
+    color: black; // Slightly lighter cotton candy blue
     margin: 0.5rem 0;
   }
 
@@ -33,7 +33,7 @@
       border-radius: 12px;
       padding: 1rem;
       background: rgba(0, 0, 50, 0.8); // Slightly translucent dark blue
-      box-shadow: 0 0 15px #8ed1fc;
+      // box-shadow: 0 0 15px #8ed1fc;
       width: 80px; // Scaled for mobile
       height: 100px; // Scaled for mobile
     }

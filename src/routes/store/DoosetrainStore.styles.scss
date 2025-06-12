@@ -1,64 +1,20 @@
-.doosetrain-store {
+// src/pages/Shop.scss
+
+.shop-container {
   padding: 2rem;
-  color: #ffffff;
-  background: #0b0c10; // Dark background
+  color: black;
   min-height: 100vh;
-
-  .store-header {
-    text-align: center;
-    margin-bottom: 2rem;
-
-    .store-title {
-      font-size: 3rem;
-      color: #ffccff; // Cotton candy pink
-      text-shadow: 0 0 8px #00ccff, 0 0 20px #ffccff; // Neon glow
-      animation: glitch-animation 1.5s infinite;
-    }
-  }
-
-  .products-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .category-section {
-    padding: 1rem;
-    background: rgba(15, 15, 15, 0.85); // Semi-transparent dark background
-    border-radius: 10px;
-    box-shadow: 0 0 10px #00ccff;
-
-    .category-title {
-      font-size: 1.8rem;
-      color: #00ccff; // Cotton candy blue
-      text-shadow: 0 0 8px #ffccff, 0 0 20px #00ccff;
-    }
-
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .empty-category-message {
-      text-align: center;
-      font-style: italic;
-      color: #bbbbbb;
-    }
-  }
-
-  .loading-message {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #bbbbbb;
-    animation: glitch-animation 1.5s infinite;
-  }
+  // background: linear-gradient(to bottom right, #111, #222);
 }
 
-// Keyframes for glitch animation
-@keyframes glitch-animation {
-  0% { text-shadow: 1px 0 0 #ffccff, -1px 0 0 #00ccff; }
-  50% { text-shadow: 2px 0 0 #ffccff, -2px 0 0 #00ccff; }
-  100% { text-shadow: 1px 0 0 #ffccff, -1px 0 0 #00ccff; }
+.shop-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
 }

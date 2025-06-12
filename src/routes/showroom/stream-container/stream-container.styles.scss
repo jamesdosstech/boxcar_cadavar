@@ -5,6 +5,33 @@
   justify-content: center;
   // align-items: center;
 
+  // new styles for traveling player
+  .stream-player {
+    position: fixed;
+    transition: all 0.5s ease-in-out;
+  
+    &.mini {
+      bottom: 1rem;
+      right: 1rem;
+      width: 16rem;
+      height: 9rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+      z-index: 50;
+    }
+  
+    &.full {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 40;
+    }
+  }
+  
+
   iframe,
   .react-player-container {
     width: 100%;

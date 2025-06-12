@@ -77,6 +77,7 @@ const AccountModal = ({ onClose, currentUser }) => {
             <label>
               Change Username:
               <input
+                style={{backgroundColor: 'white'}}
                 type="text"
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
