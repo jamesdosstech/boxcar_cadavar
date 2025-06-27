@@ -1,11 +1,11 @@
 import React from 'react'
+import './Label.style.scss'
 
 const Label = ({label, value, func}) => {
   return (
-    <div style={{}}>
-        <label style={{color: 'white', padding: '20px'}}>{label}:
-          <input style={{backgroundColor: 'white'}} value={value || ''} onChange={func} />
-        </label>
+    <div className='form-group'>
+        <label className='form-label'>{label}:</label>
+        <input className='form-input' value={value || ''} onChange={func} />
     </div>
   )
 }

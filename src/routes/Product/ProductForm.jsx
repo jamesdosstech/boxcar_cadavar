@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import classes from './ProductForm.module.scss'
+import './ProductForm.scss'
 import Label from './Label';
 
 const ProductForm = ({ initialData = {}, mode = 'create', onSave}) => {
@@ -17,29 +17,33 @@ const ProductForm = ({ initialData = {}, mode = 'create', onSave}) => {
     onSave({ name, description, price: Number(price), imageUrl, currency, category, quantity})
   }
     return (
-    <form onSubmit={handleSubmit}>
-        <Label label={'Name'} value={name} func={(e) => setName(e.target.value)}/>
-        <Label label={'Description'} value={description} func={(e) => setDescription(e.target.value)}/>
-        <Label label={'Currency'} value={currency} func={(e) => setCurrency(e.target.value)}/>
-        <Label label={'Image Url'} value={imageUrl} func={(e) => setImageUrl(e.target.value)}/>
-        <Label label={'Price (in cents)'} value={price} func={(e) => setPrice(e.target.value)}/>
-        <Label label={'Quantity'} value={quantity} func={(e) => setQuantity(e.target.value)}/>
-        <div>
-          <label style={{color: 'white', padding: '20px'}}>Category</label>
-          <select style={{backgroundColor: 'white'}} name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option style={{backgroundColor: 'white'}} value="">Select a category</option>
-            {categories.map((cat, idx) => (
-              <option style={{backgroundColor: 'white'}} key={idx} value={cat}>
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <button style={{color: 'white'}} type='submit'>
-            {mode === 'edit' ? 'Update' : 'Create'} Product
-        </button>
-    </form>
+    <div className='product-form-container'>
+      <h2>{mode === 'edit' ? 'Edit Product' : 'Add New Product'}</h2>
+      <form onSubmit={handleSubmit}>
+          <Label label={'Name'} value={name} func={(e) => setName(e.target.value)}/>
+          <Label label={'Description'} value={description} func={(e) => setDescription(e.target.value)}/>
+          <Label label={'Currency'} value={currency} func={(e) => setCurrency(e.target.value)}/>
+          <Label label={'Image Url'} value={imageUrl} func={(e) => setImageUrl(e.target.value)}/>
+          <Label label={'Price (in cents)'} value={price} func={(e) => setPrice(e.target.value)}/>
+          <Label label={'Quantity'} value={quantity} func={(e) => setQuantity(e.target.value)}/>
+          <div className='form-group'>
+            <label className='form-label'>Category</label>
+            <select name="category" value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">Select a category</option>
+              {categories.map((cat, idx) => (
+                <option style={{backgroundColor: 'white'}} key={idx} value={cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <button type='submit'>
+              {mode === 'edit' ? 'Update' : 'Create'} Product
+          </button>
+      </form>  
+    </div>
+    
   )
 }
 
