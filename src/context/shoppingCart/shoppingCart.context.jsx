@@ -1,10 +1,27 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 const CartContext = createContext();
 
 const initialState = {
     cartItems: [],
 };
+
+const getInitialCartState = () => {
+  try {
+    const storedCart = localStorage.getItem('cart');
+    const parsed = storedCart ? JSON.parse(storedCart) : null;
+
+    // Validate shape: must be an object with cartItems as an array
+    if (parsed && Array.isArray(parsed.cartItems)) {
+      return parsed;
+    }
+  } catch (error) {
+    console.error("Failed to parse cart from localStorage:", error);
+  }
+
+  return { cartItems: [] }; // fallback initial state
+};
+
 
 const cartReducer = (state, action) => {
     switch (action.type) {
@@ -64,7 +81,12 @@ const cartReducer = (state, action) => {
 }
 
 export const CartProvider = ({children}) => {
-    const [state,dispatch] = useReducer(cartReducer, initialState);
+    // This tells React: use cartReducer, start from undefined, call getInitialCartState()
+    const [state,dispatch] = useReducer(cartReducer, undefined, getInitialCartState);
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(state));
+    }, [state]);
 
     const addItem = item => dispatch({ type: 'ADD_ITEM', payload: item})
     const removeItem = item => dispatch({ type: 'REMOVE_ITEM', payload: item})

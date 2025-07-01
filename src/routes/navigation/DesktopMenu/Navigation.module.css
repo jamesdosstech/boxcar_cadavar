@@ -1,0 +1,10 @@
+a.basic {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+a:hover,
+a.active {
+color: #61dafb;
+text-decoration: none;
+}

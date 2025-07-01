@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import AccountButton from '../AccountButton/AccountButton'
 import { useIsAdmin } from '../../../hooks/useIsAdmin.hook'
 import CartModal from '../../Cart/Cart'
+import NavigationLink from './NavigationLink'
 
 interface DesktopMenuProps {
     state: any,
     dispatch: any,
-    user: any
+    currentUser: any
 }
 
 const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser}) => {
@@ -16,13 +17,11 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
     return (
         <>
             <div className='navbar-menu'>
-                <Link to={'showroom'} className='nav-link'>
-                    Showroom
-                </Link>
-                {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
+                <NavigationLink path='showroom' title='Showroom' />
+                {isAdmin && <NavigationLink path="/admin" title="Admin"/>}
                 {/* remove for full nav access in testing */}
-                {/* <Link to="/shop" className="nav-link">Shop</Link>
-                <button onClick={() => setIsCartOpen(true)}>Cart</button> */}
+                <NavigationLink path="/shop" title="Shop"/>
+                <button onClick={() => setIsCartOpen(true)}>Cart</button>
                 {
                     currentUser ? (
                         <AccountButton
@@ -31,9 +30,7 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
                             toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
                         />
                     ) : (
-                        <Link to="/sign-in" className="nav-link">
-                            Sign In
-                        </Link>
+                        <NavigationLink path="/sign-in" title="Sign In" />
                     )
                 }
             </div>

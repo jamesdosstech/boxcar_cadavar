@@ -21,7 +21,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ state, dispatch, currentUser })
       Showroom
     </Link>
     {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
-    {/* <Link to="/shop" className="nav-link">Shop</Link> */}
+    <Link to="/shop" className="nav-link">Shop</Link>
     {currentUser ? (
       <AccountButton
         currentUser={currentUser}

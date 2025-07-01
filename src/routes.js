@@ -17,8 +17,6 @@ import Products from "./routes/dashboard/pages/Products";
 import Orders from "./routes/dashboard/pages/Orders";
 import ProtectedGuard from "./guard/ProtectedGuard";
 //delete
-import DBUsers from "./components/DBSections/DBUsers";
-import DBItems from "./components/DBSections/DBItems";
 import ProductLayout from "./routes/Product/ProductLayout";
 import ProductList from "./routes/Product/ProductList";
 import ProductNew from "./routes/Product/ProductNew";
