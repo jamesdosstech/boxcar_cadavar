@@ -50,7 +50,7 @@ const Navigation = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+//  
   return (
     <nav className={`navbar ${state.isMenuOpen ? 'open' : ''}`}>
       <div className="navbar-container">

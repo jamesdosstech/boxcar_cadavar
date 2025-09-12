@@ -9,6 +9,7 @@ const DashboardNavigation = () => {
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'orders'}>Orders</NavLink>
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'products'}>Products</NavLink>
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'users'}>Users</NavLink>
+            <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'blog'}>Blog</NavLink>
         </nav>
     </div>
   )

@@ -1,35 +1,22 @@
-import NavigationLink from '../../components/NavigationLink/NavigationLink'
-import classes from './AdminNavigation.module.css'
+import React from 'react'
+import classes from '../../../Product/ProductNavigation.module.css'
+// import classes from './ProductNavigation.module.css'
+import NavigationLink from '../../../../components/NavigationLink/NavigationLink'
 
 const navigationList = [
     {
         id: 0,
         path: '',
-        pathName: 'Home'
+        pathName: 'Blog List'
     },
     {
         id: 1,
-        path: 'users',
-        pathName: 'Users'
-    },
-    {
-        id: 2,
-        path: 'products',
-        pathName: 'Products'
-    },
-    {
-        id: 3,
-        path: 'orders',
-        pathName: 'Orders'
-    },
-    {
-        id: 4,
-        path: 'blog',
-        pathName: 'Blog'
+        path: 'new-post',
+        pathName: 'Blog Entry'
     }
 ]
 
-const AdminNavigation = () => {
+const BlogNavigation = () => {
   return (
     <header className={classes.header}>
         <nav>
@@ -47,4 +34,4 @@ const AdminNavigation = () => {
   )
 }
 
-export default AdminNavigation
+export default BlogNavigation

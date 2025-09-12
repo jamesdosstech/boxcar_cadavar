@@ -1,44 +1,102 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import "./splash.styles.scss";
-import { useCountdown } from "../../hooks/usecountdown.component";
-import SplashEnter from "../../components/splash-enter/splash-enter.component";
-import SplashTimer from "../../components/splash-timer/splash-timer.component";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { db } from "../../utils/firebase/firebase.utils";
 
 const Splash = ({ targetDate, trainList, data }) => {
-  const [days, hours, minutes, seconds] = useCountdown(targetDate);
+  const [latestPost, setLatestPost] = useState(null);
+  const [timeLeft, setTimeLeft] = useState('');
 
-  // Memoize splash message based on the days value
-  const splashMessage = useMemo(() => {
-    return days === 6
-      ? {
-          welcomeMessage: "You're early! The next show starts in...",
-          subtitle: "See you Tuesday!",
-        }
-      : {
-          welcomeMessage: "Welcome to Doosetrain, friends",
-          subtitle: "Live DJ streams every Tuesday",
-        };
-  }, [days]);
+  // Helper: get next Tuesday at 8 PM
+  const getNextTuesday = () => {
+    const now = new Date();
+    const nextTuesday = new Date(now);
 
-  // Define the content that changes based on the countdown
-  const renderSplashContent = useMemo(() => {
-    if (days !== 6) {
-      return (
-        <SplashTimer
-          days={days}
-          hours={hours}
-          minutes={minutes}
-          seconds={seconds}
-          message={splashMessage}
-          trainList={trainList}
-        />
-      );
-    }
-    return <SplashEnter data={data} trainList={trainList} />;
-  }, [days, hours, minutes, seconds, splashMessage, trainList, data]);
+    // Calculate days until next Tuesday
+    const day = now.getDay(); // 0 = Sunday, 1 = Monday ... 6 = Saturday
+    const daysUntilTuesday = (2 - day + 7) % 7 || 7; // always get next Tuesday
+    nextTuesday.setDate(now.getDate() + daysUntilTuesday);
+    nextTuesday.setHours(20, 0, 0, 0); // 8 PM
+    return nextTuesday;
+  };
+
+  // Helper: get Wednesday 12 AM following a Tuesday
+  const getResetWednesday = (tuesday) => {
+    const wednesday = new Date(tuesday);
+    wednesday.setDate(wednesday.getDate() + 1);
+    wednesday.setHours(0, 0, 0, 0); // 12 AM
+    return wednesday;
+  };
+
+  useEffect(() => {
+    // fetch latest blog Post
+    const fetchLatestPost = async () => {
+      const q = query(collection(db, 'blogPosts'), orderBy('createdAt', 'desc'), limit(1));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setLatestPost({ id: doc.id, ...doc.data()});
+      });
+    };
+    fetchLatestPost();
+  },[]);
+
+  // countdown timer
+  useEffect(() => {
+    let nextShow = getNextTuesday();
+    let resetTime = getResetWednesday(nextShow);
+
+    const interval = setInterval(() => {
+      const now = new Date();
+
+      // Reset next show if past Wednesday 12 AM
+      if (now >= resetTime) {
+        nextShow = getNextTuesday();
+        resetTime = getResetWednesday(nextShow);
+      }
+
+      if (now >= nextShow && now < resetTime) {
+        // Between Tuesday 8 PM and Wednesday 12 AM
+        setTimeLeft("The Show is Starting!");
+      } else {
+        // Countdown until next Tuesday 8 PM
+        const diff = nextShow - now;
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="splash-component-container">{renderSplashContent}</div>
+    <div className="splash-component-container">
+      <section className="intro">
+        <h1>Welcome to Doosetrain</h1>
+        <p>Your hub for live sets, merchandise, and news updates</p>
+      </section>
+      <section className="latest-blog">
+        <h2>Latest Blog Post</h2>
+        {latestPost ? (
+          <div className="blog-card">
+            <h3>{latestPost.title}</h3>
+            <div className="blog-content">
+              <p>{latestPost.content}</p>
+            </div>
+          </div>
+        ): (
+          <p>Loading...</p>
+        )}
+      </section>
+      <section className="timer">
+        <h2>Next Show Starts In:</h2>
+        <p>{timeLeft}</p>
+      </section>
+    </div>
   );
 };
 

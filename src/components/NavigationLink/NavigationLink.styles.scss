@@ -1,24 +1,21 @@
-.Dashboard-Nav {
-   nav {
-    padding-left: 20px;
-    }
-    a {
+
+a, .nav-link {
         padding: 1rem;
         font-size: 1rem;
         text-decoration: none;
+        color: #ff79c6;
+
         // color: #fff;
         // color: black;
         // color: #ff79c6;
         transition: color 0.3s ease;
     }
 
-    a:hover{
+    a:hover, .nav-link:hover{
     /* Cotton candy blue */
-        // color: #44b1ff;
+        color: #44b1ff;
     } 
 
     .active {
-        // color: #44b1ff;
+        color: #44b1ff;
     }
-}
-

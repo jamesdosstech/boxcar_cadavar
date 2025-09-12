@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import {ReactComponent as HomeIcon} from '../../../assets/train-icon.svg'
+import NavigationLink from '../../../components/NavigationLink/NavigationLink';
 
 interface NavbarContainerProps {
     state: any,
@@ -15,9 +15,7 @@ const NavbarContainer: React.FC<NavbarContainerProps> = ({state, dispatch}) => {
                 className={`icon ${state.isMenuOpen ? 'spinning' : ''}`}
                 onClick={() => dispatch({ type: 'TOGGLE_MENU'})}
             />
-            <Link className='custom-link' to='/'>
-                Doosetrain
-            </Link>
+            <h2 className='pink'>Doosetrain</h2>
         </div>
     </>
   )

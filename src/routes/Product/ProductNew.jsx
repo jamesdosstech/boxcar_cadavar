@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import ProductForm from './ProductForm';
+import ProductForm from './ProductForm/ProductForm';
 import { createProduct } from '../../utils/firebase/firebase.utils';
 
 const ProductNew = () => {

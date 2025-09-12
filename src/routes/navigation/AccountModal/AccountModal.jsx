@@ -4,6 +4,7 @@ import {
   signOutUser,
   updateUserName,
 } from "../../../utils/firebase/firebase.utils";
+import SignInForm from "../../authentication/sign-in-form/sign-in-form.component";
 
 const AccountModal = ({ onClose, currentUser }) => {
   const [newUsername, setNewUsername] = useState(currentUser.displayName || "");
@@ -66,7 +67,8 @@ const AccountModal = ({ onClose, currentUser }) => {
           <>
             <button onClick={onClose}>Close</button>
             {/* <button onClick={signOutUser}>Sign Out</button> */}
-            <button onClick={handleSignOut}>Sign Out</button>
+            {currentUser && <button onClick={handleSignOut}>Sign Out</button>}
+            {!currentUser && <button onClick={() => setStep(4)}>Sign In</button>}
             <button onClick={() => setStep(2)}>Change Username</button>
           </>
         )}
@@ -127,6 +129,30 @@ const AccountModal = ({ onClose, currentUser }) => {
               Back to Username
             </button>
           </form>
+        )}
+        {step === 4 && (
+          <SignInForm />
+          // <div className="sign-in-form">
+          //   <form>
+          //     <input
+          //       type="email"
+          //       placeholder="Email"
+          //       // value={email}
+          //       // onChange={(e) => setEmail(e.target.value)}
+          //       required
+          //     />
+          //     <input
+          //       type="password"
+          //       placeholder="Password"
+          //       // value={password}
+          //       // onChange={(e) => setPassword(e.target.value)}
+          //       required
+          //     />
+          //     <button type="submit">Sign In</button>
+          //   </form>
+          //   {/* <button onClick={handleResetPassword}>Forgot Password?</button>
+          //   {errorMessage && <p className="error">{errorMessage}</p>} */}
+          // </div>
         )}
       </div>
     </div>

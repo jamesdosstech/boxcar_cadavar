@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
-import AccountButton from "../AccountButton/AccountButton";
 import React from "react";
 import { useIsAdmin } from "../../../hooks/useIsAdmin.hook";
+import NavigationLink from "../../../components/NavigationLink/NavigationLink";
 
 interface MobileMenuProps {
   state: any,
@@ -13,31 +12,50 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ state, dispatch, currentUser })
   const isAdmin = useIsAdmin()
   return (
     <div className="mobile-menu">
-    <Link
-      to="/showroom"
-      className="nav-link"
-      onClick={() => dispatch({ type: "TOGGLE_MENU" })}
-    >
-      Showroom
-    </Link>
-    {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
-    {/* <Link to="/shop" className="nav-link">Shop</Link> */}
-    {currentUser ? (
-      <AccountButton
-        currentUser={currentUser}
-        isModalOpen={state.isModalOpen}
-        toggleModal={() => dispatch({ type: "TOGGLE_MODAL" })}
+      <NavigationLink 
+        mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+        path="/" 
+        title="Home"
       />
-    ) : (
-      <Link
-        to="/sign-in"
-        className="nav-link"
-        onClick={() => dispatch({ type: "TOGGLE_MENU" })}
-      >
-        Sign In
-      </Link>
-    )}
-  </div>
+      <NavigationLink 
+        mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+        path="/showroom" 
+        title="Showroom"
+      />
+      {
+        isAdmin && <NavigationLink 
+          mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+          path="/admin" 
+          title="Admin"
+        />
+      }
+      <NavigationLink 
+        mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+        path="/blog" 
+        title="Blog"
+      />
+      <NavigationLink 
+        mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+        path="/shop" 
+        title="Shop"
+      />
+      {
+        currentUser ? ( 
+          <NavigationLink 
+            currentUser={currentUser}
+            isModalOpen={state.isModalOpen}
+            mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })}
+            toggleModal={() => dispatch({ type: "TOGGLE_MODAL" })}
+          />
+        ) : (
+          <NavigationLink 
+            mobileMenuAction={() => dispatch({ type: "TOGGLE_MENU" })} 
+            path="/sign-in" 
+            title="Sign In"
+          />
+        )
+      }
+    </div>
   )  
 };
 
