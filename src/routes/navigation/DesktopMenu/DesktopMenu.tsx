@@ -16,7 +16,7 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
     return (
         <>
             <div className='navbar-menu'>
-                <NavLink to={'/'}
+                <NavLink to={''}
                 >
                     Home
                 </NavLink>

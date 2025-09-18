@@ -5,7 +5,7 @@ import UnderConstruction from "../../components/under-construction/under-contstr
 import { getAllProducts } from "../../utils/firebase/firebase.utils";
 import ProductCard from "../Product/ProductCard/ProductCard";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const DoosetrainStore = () => {
   const [products, setProducts] = useState([]);
@@ -68,16 +68,17 @@ const DoosetrainStore = () => {
             actions={
               <>
                 <button
-                  className="add-to-cart-button"
+                  className="nav-link"
+                  // className="add-to-cart-button"
                   onClick={() => handleAddToCart(product)}
                 >
                   Add to Cart
                 </button>
-                <Link
+                <NavLink
                   to={`/product/${product.id}`}
                 >
-                  <button className="add-to-cart-button">Details</button>
-                </Link>
+                  Details
+                </NavLink>
               </>
             }
           />

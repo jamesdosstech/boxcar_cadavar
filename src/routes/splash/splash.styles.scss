@@ -1,15 +1,112 @@
 .splash-component-container {
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  // justify-content: center;
-  min-height: 100vh;
-  text-align: center;
+  justify-content: space-between; // keeps top/mid/bottom nicely spaced
+  height: 92vh; // always fits viewport height
   padding: 2rem;
+  color: #f5f5f5;
+  text-align: center;
+  background: transparent; // let the app-container bg image show
 }
+
+.intro {
+  margin-bottom: 1rem;
+  h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #00cfff, #ff7be5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  p {
+    font-size: 1.2rem;
+    color: #d3e6ff;
+  }
+}
+
+.latest-blog {
+  width: 100%;
+  max-width: 800px;
+  flex-grow: 1; // allow blog section to expand
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; // only content inside scrolls
+
+  h2 {
+    margin-bottom: 0.5rem;
+    color: #9bdcff;
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    border-radius: 12px;
+    padding: 1rem;
+    // background: rgba(0, 40, 65, 0.8);
+    box-shadow: 0 4px 20px rgba(0, 200, 255, 0.3);
+    max-height: 300px;
+    // overflow-y: auto; // only scroll inside card
+
+    // custom scrollbar
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: linear-gradient(#00cfff, #ff7be5);
+      border-radius: 8px;
+    }
+
+    .blog-image {
+      flex: 1;
+      img {
+        max-width: 200px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 2px 10px rgba(255, 123, 229, 0.5);
+      }
+    }
+
+    .blog-details {
+      flex: 2;
+      text-align: left;
+      max-height: 300px; // ✅ fixes scroll area
+      overflow-y: auto;  // ✅ only blog content scrolls
+      padding-right: 0.5rem;
+
+      h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.5rem;
+        color: #ffbdf7;
+      }
+
+      .blog-content {
+        line-height: 1.5;
+        color: #e2f6ff;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .latest-blog{
+    .blog-card {
+      flex-direction: column;
+    }
+  }
+}
+
+.timer {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #a7fffb;
+  text-shadow: 0 0 6px rgba(0, 200, 255, 0.7);
+}
+
+
+
 // .splash-component-container {
-// app container has bg image, bg size, color, height
-//   color: #f5f5f5;
 //   flex-direction: column;
 //   display: flex;
 //   align-items: center;
@@ -17,167 +114,49 @@
 //   min-height: 100vh;
 //   text-align: center;
 //   padding: 2rem;
-//   // height: 100vh;
+// }
+// // .splash-component-container {
+// // app container has bg image, bg size, color, height
+// //   color: #f5f5f5;
+// //   flex-direction: column;
+// //   display: flex;
+// //   align-items: center;
+// //   // justify-content: center;
+// //   min-height: 100vh;
+// //   text-align: center;
+// //   padding: 2rem;
+// //   // height: 100vh;
+// // }
+
+// .intro {
+//   margin-bottom: 2rem;
 // }
 
-.intro {
-  margin-bottom: 2rem;
-}
-
-.timer {
-  margin-bottom: 2rem;
-  font-size: 1.25rem;
-  font-weight: bold
-}
-
-.latest-blog {
-  width: 100%;
-  max-width: 800px;
-
-  .blog-card {
-    // border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1rem;
-    max-height: 300px;
-    overflow-y: auto;
-    background: rgba(0, 55, 87, 0.8);
-  }
-
-  h3 {
-    margin-top: 0;
-  }
-  .blog-content {
-    text-align: left;
-    line-height: 1.5;
-  }
-}
-
-// .splash-timer-container {
-//   text-align: center;
-//   padding: 20px;
-//   border-radius: 10px;
-//   // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+// .timer {
+//   margin-bottom: 2rem;
+//   font-size: 1.25rem;
+//   font-weight: bold
 // }
 
-// .splash-date-display-container {
-//   display: flex;
-//   justify-content: center;
-//   margin-top: 20px;
-// }
+// .latest-blog {
+//   width: 100%;
+//   max-width: 800px;
 
-// .date-display-container {
-//   margin: 0 10px;
-// }
-
-// .date-item-text {
-//   font-size: 3rem;
-//   color: #ff66cc;
-// }
-
-// .date-time-text {
-//   font-size: 1rem;
-//   color: #cccccc;
-// }
-
-// .splash-container {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   text-align: center;
-// }
-
-// .train-list {
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: center;
-//   margin-bottom: 20px;
-// }
-
-// .message-container {
-//   margin: 30px 0;
-// }
-
-// .welcome-message {
-//   font-size: 2rem;
-//   color: #ff66cc;
-//   position: relative;
-// }
-
-// .glitch {
-//   color: #ff66cc;
-//   position: relative;
-//   font-weight: bold;
-//   animation: glitch-animation 1s infinite linear;
-// }
-
-// .glitch::before,
-// .glitch::after {
-//   content: attr(data-text);
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   background: linear-gradient(to left, #ff66cc, #00ff99);
-//   clip-path: inset(0 0 0 0);
-//   z-index: -1;
-//   animation: glitch-anim-before 1s infinite linear;
-// }
-
-// .glitch::after {
-//   animation: glitch-anim-after 1s infinite linear;
-// }
-
-// @keyframes glitch-animation {
-//   0% {
-//     transform: translateX(0);
+//   .blog-card {
+//     // border: 1px solid #ccc;
+//     border-radius: 8px;
+//     padding: 1rem;
+//     max-height: 300px;
+//     overflow-y: auto;
+//     background: rgba(0, 55, 87, 0.8);
 //   }
-//   10% {
-//     transform: translateX(-5px);
+
+//   h3 {
+//     margin-top: 0;
 //   }
-//   20% {
-//     transform: translateX(5px);
-//   }
-//   30% {
-//     transform: translateX(0);
-//   }
-//   100% {
-//     transform: translateX(0);
+//   .blog-content {
+//     text-align: left;
+//     line-height: 1.5;
 //   }
 // }
 
-// @keyframes glitch-anim-before {
-//   0% {
-//     clip-path: inset(0 0 0 0);
-//   }
-//   50% {
-//     clip-path: inset(0 0 0 0);
-//   }
-//   100% {
-//     clip-path: inset(0 0 0 0);
-//   }
-// }
-
-// @keyframes glitch-anim-after {
-//   0% {
-//     clip-path: inset(0 0 0 0);
-//   }
-//   50% {
-//     clip-path: inset(0 0 0 0);
-//   }
-//   100% {
-//     clip-path: inset(0 0 0 0);
-//   }
-// }
-
-// .subtitle {
-//   font-size: 1.2rem;
-//   color: #cccccc;
-// }
-
-// .info-text {
-//   font-size: 1rem;
-//   color: #cccccc;
-// }
-
-// .info-text p {
-//   margin: 10px 0;
-// }

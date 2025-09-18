@@ -42,8 +42,8 @@ const ProductDetails = () => {
         <p>{product.description}</p>
         <p><strong>Price:</strong> ${(product.price / 100).toFixed(2)}</p>
         <p><strong>Category:</strong> {product.category}</p>
-        <button onClick={() => addItem(product)}>Add to Cart</button>
-        <button onClick={() => handleBackToShop()}>Back</button>
+        <button className='nav-link' onClick={() => addItem(product)}>Add to Cart</button>
+        <button className='nav-link' onClick={() => handleBackToShop()}>Back</button>
       </div>
     </div>
   )

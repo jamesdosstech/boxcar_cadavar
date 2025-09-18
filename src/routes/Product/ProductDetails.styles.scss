@@ -44,22 +44,22 @@
         color: #d1fffa; // soft mint
       }
   
-      button {
-        margin-top: 1rem;
-        padding: 0.75rem 1.5rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #ffb3f3, #b3ecff);
-        color: #000;
-        cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.3s ease;
+      // button {
+      //   margin-top: 1rem;
+      //   padding: 0.75rem 1.5rem;
+      //   font-size: 1rem;
+      //   border: none;
+      //   border-radius: 8px;
+      //   background: linear-gradient(135deg, #ffb3f3, #b3ecff);
+      //   color: #000;
+      //   cursor: pointer;
+      //   transition: transform 0.2s ease, box-shadow 0.3s ease;
   
-        &:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 12px #fff0fa;
-        }
-      }
+      //   &:hover {
+      //     transform: scale(1.05);
+      //     box-shadow: 0 0 12px #fff0fa;
+      //   }
+      // }
     }
   }
   

@@ -27,16 +27,16 @@ const CheckoutForm = ({ total }) => {
     //     }
     // }
     const returnUrl = `${window.location.origin}/checkout/success`;
-    useEffect(() => {
-        //call netlify action
-        fetch('/.netlify/functions/create-payment-intent', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({amount: total}),
-        })
-        .then(res => res.json())
-        .then(data => setClientSecret(data.clientSecret));
-    }, [total]);
+    // useEffect(() => {
+    //     //call netlify action
+    //     fetch('/.netlify/functions/create-payment-intent', {
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify({amount: total}),
+    //     })
+    //     .then(res => res.json())
+    //     .then(data => setClientSecret(data.clientSecret));
+    // }, [total]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

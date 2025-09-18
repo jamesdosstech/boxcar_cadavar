@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext, useState, useEffect, useRef, useReducer } from "react";
 import "./navigation.styles.scss"; // Custom styles
 import { UserContext } from "../../context/user/user.context";
@@ -16,6 +16,12 @@ import NavbarContainer from "./NavbarContainer/NavbarContainer";
 import { initialState, reducer } from "./navReducer";
 import MobileMenu from "./MobileMenu/MobileMenu";
 import DesktopMenu from "./DesktopMenu/DesktopMenu";
+import { useIsAdmin } from "../../hooks/useIsAdmin.hook";
+import AccountButton from "./AccountButton/AccountButton";
+import { useCart } from "../../context/shoppingCart/shoppingCart.context";
+import CartIcon from "../../components/cart-icon/cart-icon.component";
+import CartModal from "../Cart/Cart";
+// import { CartIcon } from "./CartIcon/CartIcon";
 // import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 // Initial state for reducer
@@ -39,31 +45,80 @@ import DesktopMenu from "./DesktopMenu/DesktopMenu";
 //   }
 // };
 
+const NavigationLinkDetails = [
+  {
+    title: 'Home',
+    link: '/'
+  },
+  {
+    title: 'Showroom',
+    link: 'showroom'
+  },
+  {
+    title: 'Blog',
+    link: 'blog'
+  }, 
+  {
+    title: 'Shop',
+    link: 'shop'
+  }
+]
+
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
+  const { cartItems } = useCart()
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const isAdmin = useIsAdmin()
   // Update mobile state on resize
-  useEffect(() => {
-    const handleResize = () =>
-      dispatch({ type: "SET_MOBILE", payload: window.innerWidth <= 768 });
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = () =>
+  //     dispatch({ type: "SET_MOBILE", payload: window.innerWidth <= 768 });
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 //  
   return (
-    <nav className={`navbar ${state.isMenuOpen ? 'open' : ''}`}>
-      <div className="navbar-container">
-        <NavbarContainer state={state} dispatch={dispatch}/>
-        {state.isMobile ? (
-          state.isMenuOpen && (
-            <MobileMenu state={state} dispatch={dispatch} currentUser={currentUser}/>
+    <>
+      <nav className="scroll-x">
+        {NavigationLinkDetails.map(({title, link}) => {
+          return (
+            <NavLink key={title} to={link} end>
+              {title}
+            </NavLink>
           )
-        ): (
-          <DesktopMenu state={state} dispatch={dispatch} currentUser={currentUser}/>
-        )}
-      </div>
-    </nav>
+        })}
+        <button className="nav-link" onClick={() => setIsCartOpen(true)}>
+          <span><i className="bi bi-cart"></i> {cartItems.length}</span>
+        </button>
+        {isAdmin && <NavLink to={'/admin'}>Admin</NavLink>}
+        {currentUser ? (
+            <AccountButton 
+              currentUser={currentUser}
+              isModalOpen={state.isModalOpen}
+              toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
+            />
+          ):(
+            <NavLink to={'/sign-in'}>
+              Sign In
+            </NavLink>
+          )
+        }
+      </nav>
+      {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)}/>}
+    </>
+    // <nav className={`navbar ${state.isMenuOpen ? 'open' : ''}`}>
+    //   <div className="navbar-container">
+    //     <NavbarContainer state={state} dispatch={dispatch}/>
+    //     {state.isMobile ? (
+    //       state.isMenuOpen && (
+    //         <MobileMenu state={state} dispatch={dispatch} currentUser={currentUser}/>
+    //       )
+    //     ): (
+    //       <DesktopMenu state={state} dispatch={dispatch} currentUser={currentUser}/>
+    //     )}
+    //   </div>
+    // </nav>
     // <nav className={`navbar ${state.isMenuOpen ? "open" : ""}`}>
     //   <div className="navbar-container">
     //     {/* Brand section */}

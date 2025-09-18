@@ -8,7 +8,7 @@
   
   .list {
     display: flex;
-    gap: 1rem;
+    /* gap: 1rem; */
     list-style-type: none;
   }
   

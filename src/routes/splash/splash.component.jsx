@@ -5,6 +5,7 @@ import { db } from "../../utils/firebase/firebase.utils";
 
 const Splash = ({ targetDate, trainList, data }) => {
   const [latestPost, setLatestPost] = useState(null);
+  const [latestProduct, setLatestProduct] = useState(null)
   const [timeLeft, setTimeLeft] = useState('');
 
   // Helper: get next Tuesday at 8 PM
@@ -37,6 +38,14 @@ const Splash = ({ targetDate, trainList, data }) => {
         setLatestPost({ id: doc.id, ...doc.data()});
       });
     };
+    const fetchLatestProduct = async () => {
+      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(1));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setLatestProduct({id: doc.id, ...doc.data()})
+      })
+    }
+    fetchLatestProduct();
     fetchLatestPost();
   },[]);
 
@@ -79,24 +88,57 @@ const Splash = ({ targetDate, trainList, data }) => {
         <h1>Welcome to Doosetrain</h1>
         <p>Your hub for live sets, merchandise, and news updates</p>
       </section>
+
       <section className="latest-blog">
         <h2>Latest Blog Post</h2>
         {latestPost ? (
           <div className="blog-card">
-            <h3>{latestPost.title}</h3>
-            <div className="blog-content">
-              <p>{latestPost.content}</p>
+            {latestProduct && (
+              <div className="blog-image">
+                <img src={latestProduct.imageUrl} alt={latestProduct.name} />
+              </div>
+            )}
+            {!latestProduct && <span>...loading.</span>}
+            <div className="blog-details">
+              <h3>{latestPost.title}</h3>
+              <div className="blog-content">
+                <p>{latestPost.content}</p>
+              </div>
             </div>
           </div>
-        ): (
+        ) : (
           <p>Loading...</p>
         )}
       </section>
+
       <section className="timer">
         <h2>Next Show Starts In:</h2>
         <p>{timeLeft}</p>
       </section>
     </div>
+    // <div className="splash-component-container">
+    //   <section className="intro">
+    //     <h1>Welcome to Doosetrain</h1>
+    //     <p>Your hub for live sets, merchandise, and news updates</p>
+    //   </section>
+    //   <section className="latest-blog">
+    //     <h2>Latest Blog Post</h2>
+    //     {latestPost ? (
+    //       <div className="blog-card">
+    //         <h3>{latestPost.title}</h3>
+    //         <div className="blog-content">
+    //           <p>{latestPost.content}</p>
+    //         </div>
+    //       </div>
+    //     ): (
+    //       <p>Loading...</p>
+    //     )}
+    //   </section>
+    //   <section className="timer">
+    //     <h2>Next Show Starts In:</h2>
+    //     <p>{timeLeft}</p>
+    //   </section>
+    // </div>
   );
 };
 
