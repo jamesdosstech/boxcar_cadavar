@@ -58,10 +58,10 @@ const NavigationLinkDetails = [
     title: 'Blog',
     link: 'blog'
   }, 
-  {
-    title: 'Shop',
-    link: 'shop'
-  }
+  // {
+  //   title: 'Shop',
+  //   link: 'shop'
+  // }
 ]
 
 const Navigation = () => {
@@ -88,9 +88,10 @@ const Navigation = () => {
             </NavLink>
           )
         })}
-        <button className="nav-link" onClick={() => setIsCartOpen(true)}>
+        {/* Shopping Cart */}
+        {/* <button className="nav-link" onClick={() => setIsCartOpen(true)}>
           <span><i className="bi bi-cart"></i> {cartItems.length}</span>
-        </button>
+        </button> */}
         {isAdmin && <NavLink to={'/admin'}>Admin</NavLink>}
         {currentUser ? (
             <AccountButton 

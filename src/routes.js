@@ -26,6 +26,8 @@ import BlogLayout from "./routes/dashboard/pages/Blog/BlogLayout";
 import BlogList from './routes/dashboard/pages/Blog/BlogList/BlogList';
 import BlogPost from "./routes/Blog/BlogPost/BlogPost";
 import MainBlogLayout from "./routes/Blog/MainBlogLayout";
+import BlogDetails from "./routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
+import BlogEdit from "./routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
 
 export const router = createBrowserRouter([
     {
@@ -118,6 +120,14 @@ export const router = createBrowserRouter([
                             {
                                 path: 'new-post',
                                 element: <BlogEntry />
+                            },
+                            {
+                                path: ':postId',
+                                element: <BlogDetails />
+                            },
+                            {
+                                path: ':postId/edit',
+                                element: <BlogEdit />
                             }
                         ]
                     },

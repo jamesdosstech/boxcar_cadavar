@@ -14,7 +14,7 @@ const DoosetrainStore = () => {
   const [addedProduct, setAddedProduct] = useState(null);
 
   //context action
-  const { addItem } = useCart()
+  const { addItem, cartItems } = useCart()
 
 
   useEffect(() => {
@@ -61,28 +61,35 @@ const DoosetrainStore = () => {
         </select>
       </div>
       <div className="shop-grid">
-        {filteredProducts.map((product) => (
-          <ProductCard 
-            key={product.id} 
-            product={product}
-            actions={
-              <>
-                <button
-                  className="nav-link"
-                  // className="add-to-cart-button"
-                  onClick={() => handleAddToCart(product)}
-                >
-                  Add to Cart
-                </button>
-                <NavLink
-                  to={`/product/${product.id}`}
-                >
-                  Details
-                </NavLink>
-              </>
-            }
-          />
-        ))}
+        {filteredProducts.map((product) => {
+          const cartItem = cartItems.find((item)=> item.id === product.id)
+          const stock = product.quantity;
+          const quantityInCart = cartItem ? cartItem.quantity : 0
+          const isOutOfStock = quantityInCart >= stock;
+          return (
+            <ProductCard 
+              key={product.id} 
+              product={product}
+              actions={
+                <>
+                  <button
+                    className="nav-link"
+                    // className="add-to-cart-button"
+                    onClick={() => handleAddToCart(product)}
+                    disabled={isOutOfStock}
+                  >
+                    {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+                  </button>
+                  <NavLink
+                    to={`/product/${product.id}`}
+                  >
+                    Details
+                  </NavLink>
+                </>
+              }
+            />  
+          )
+        })}
         {addedProduct && <div className="add-notification">Added {addedProduct} to cart</div>}
       </div>
     </div>

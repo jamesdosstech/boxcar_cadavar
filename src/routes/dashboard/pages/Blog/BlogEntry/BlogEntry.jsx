@@ -14,7 +14,7 @@ const BlogEntry = () => {
         title,
         content,
         createdAt: serverTimestamp(),
-        author: "AaronPaulWalker"
+        author: "Doosetrain Team"
       });
       setTitle('');
       setContent('');

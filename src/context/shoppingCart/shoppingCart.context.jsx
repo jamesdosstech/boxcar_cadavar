@@ -9,26 +9,38 @@ const initialState = {
 const cartReducer = (state, action) => {
     switch (action.type) {
         case 'ADD_ITEM': {
-            const existingItem = state.cartItems.find(item => item.id === action.payload.id);
+            const existingItem = state.cartItems.find(
+                (item) => item.id === action.payload.id
+            );
+
             if (existingItem) {
+                // prevent adding beyond available stock
+                if (existingItem.quantity < existingItem.stock) {
                 return {
                     ...state,
-                    cartItems: state.cartItems.map(item =>
-                        item.id === action.payload.id ?
-                        { ...item, quantity: item.quantity + 1} :
-                        item
+                    cartItems: state.cartItems.map((item) =>
+                    item.id === action.payload.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
                     ),
                 };
+                } else {
+                // already at max stock
+                return state;
+                }
             }
+
+            // when adding a new product for the first time
             return {
                 ...state,
                 cartItems: [
                     ...state.cartItems,
                     {
-                        ...action.payload, 
-                        quantity: 1
+                        ...action.payload,                 // product data from Firestore
+                        stock: action.payload.quantity,    // Firestore "quantity" → stock
+                        quantity: 1                        // starting cart quantity
                     }
-                ],
+                ]
             };
         }
 

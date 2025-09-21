@@ -17,7 +17,7 @@ const BlogPage = () => {
   
   return (
     <div className='blog-list'>
-      <h1 className='blog-list-title'>Blog</h1>
+      {/* <h1 className='blog-list-title'>Blog</h1> */}
       <div className='blog-list-items'>
       {posts.map(post => (
         <div key={post.id} className='blog-list-item'>
