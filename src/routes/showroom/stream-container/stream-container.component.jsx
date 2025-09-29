@@ -100,7 +100,7 @@ const StreamContainer = () => {
             width="100%"
             height="100%"
             className="react-player"
-            url="https://www.youtube.com/watch?v=Ld0Pr_9C9OE"
+            url="https://youtu.be/cpe92g6TZcQ"
             controls
           />
         </div>

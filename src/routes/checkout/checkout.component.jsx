@@ -1,55 +1,43 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import { Link } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "../../utils/stripe/stripe.utils";
+import CheckoutForm from "./Checkout-Form/CheckoutForm";
 
 const Checkout = () => {
-  const { cartItems, addItem, decrementItem, removeItem, clearCart } = useCart();
 
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [clientSecret, setClientSecret] = useState(null);
+  
+  const { cartItems, addItem, decrementItem, removeItem, clearCart } = useCart();
+  const shippingFee = 1500;
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const total = subtotal + shippingFee
+  useEffect(() => {
+    if(cartItems.length === 0 ) return;
+    fetch("/.netlify/functions/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cartItems, shipping: shippingFee }), // $10.99
+    })
+      .then(res => res.json())
+      .then(data => setClientSecret(data.clientSecret))
+      .catch((err) => console.log('Error creating payment:', err ))
+  }, [cartItems]);
 
   return (
     <div className="cart-page" style={{padding: '2rem', color: 'white'}}>
-      <h2>Your Cart</h2>
-      <tbody>
-        {cartItems.length === 0 ? 
-        (
-          <p>Your cart is empty. <Link to={'/shop'}>Go Shopping</Link></p>
-        ) : (
-          <>
-            <table style={{ width: '100%', marginBottom: '1rem', color: 'white'}}>
-              <thead>
-                <tr>
-                  <th align="left">Product</th>
-                  <th>Quantity</th>
-                  <th>Price</th>
-                  <th>Subtotal</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {cartItems.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>
-                      <button onClick={() => decrementItem(item.id)}>-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => addItem(item)}>+</button>
-                    </td>
-                    <td>${item.price}</td>
-                    <td>${(item.price * item.quantity).toFixed(2)}</td>
-                    <td><button onClick={() => removeItem(item.id)}>Remove</button></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
-        )}
-      </tbody>
-      <h3>Total: ${total.toFixed(2)}</h3>
-      <button onClick={clearCart} style={{marginRight: '1rem'}}>Clear Cart</button>
-      <Link to={'/checkout'}>
-        <button>Checkout</button>
-      </Link>
+      <h2>Checkout</h2>
+      <h3>
+        Subtotal: ${(subtotal / 100).toFixed(2)} <br />
+        Shipping: ${(shippingFee / 100).toFixed(2)} <br />
+        <strong>Total: ${(total / 100).toFixed(2)}</strong>
+      </h3>
+      { clientSecret && (
+        <Elements stripe={stripePromise} options={{ clientSecret }}>
+          <CheckoutForm total={total} />
+        </Elements> 
+      )}
     </div>
   );
 };

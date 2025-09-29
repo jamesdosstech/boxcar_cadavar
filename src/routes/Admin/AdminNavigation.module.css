@@ -1,6 +1,6 @@
 .header {
     max-width: 60rem;
-    margin: auto;
+    /* margin: auto; */
     /* padding: 2rem; */
     display: flex;
     justify-content: space-between;
@@ -12,7 +12,7 @@
     list-style-type: none;
   }
   
-  .list a {
+  /* .list a {
     text-decoration: none;
     color: var(--color-primary-400);
   }
@@ -20,4 +20,4 @@
   .list a:hover,
   .list a.active {
     color: rgb(250, 228, 178);
-  }
+  } */

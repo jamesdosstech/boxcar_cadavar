@@ -22,12 +22,17 @@ const navigationList = [
         path: 'orders',
         pathName: 'Orders'
     },
+    {
+        id: 4,
+        path: 'blog',
+        pathName: 'Blog'
+    }
 ]
 
 const AdminNavigation = () => {
   return (
     <header className={classes.header}>
-        <nav>
+        <nav className='scroll-x'>
             <ul className={classes.list}>
                 {
                     navigationList.map((i) => {

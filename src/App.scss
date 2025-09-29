@@ -1,86 +1,144 @@
-.app-container {
-  font-family: "Press Start 2P", "Montserrat", sans-serif;
-  background-color: black; // Dark matrix-like background
-  color: #ffffff; // White for readability
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%; // Ensure full width of the viewport
-  padding: 0; // Remove extra padding
+body {
+    .pink {
+      color: #ff79c6
+    }
+    .blue {
+      color: #44b1ff
+    }
+
+    .dark-blue {
+      color: #2887d2
+    }
+
+    .yellow {
+      color: #bce73d
+    }
+    .dark-yellow {
+      color: #8ebb22
+    }
+
+    .white {
+      color: white;
+    }
+
+    .black {
+      color: black
+    }
 }
 
-.header {
-  background: linear-gradient(90deg, #ffb6c1, #d1a6ff); // Cotton candy theme
-  color: #0b0c10; // Text contrast
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  padding: 10px 20px;
-  font-size: 1rem; // Default font size
-  width: 100%; // Full width for the header
-  text-align: center; // Center header content
-}
 
-.content {
-  flex-grow: 1;
-  // display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  width: 100%; // Ensure content stretches across the page
-  box-sizing: border-box; // Avoid extra margin/padding affecting width
-}
+// body {
+//       background-image: url('./assets//DarkBGAlt.jpg');
+//     background-size: cover;
+//     background-repeat: no-repeat;
+// }
 
-.footer {
-  text-align: center;
-  padding: 10px 20px;
-  background: #1c1f26; // Slightly lighter shade for contrast
-  color: #ffffff;
-  font-size: 12px;
-  width: 100%; // Full width for the footer
+// .splash-component-container {
+//   color: #f5f5f5;
+//   flex-direction: column;
+//   display: flex;
+//   align-items: center;
+//   // justify-content: center;
+//   min-height: 100vh;
+//   text-align: center;
+//   padding: 2rem;
+//   // height: 100vh;
+// }
 
-  p {
-    background-color: transparent;
-  }
-}
+// .app-container {
+//   font-family: "Press Start 2P", "Montserrat", sans-serif;
 
-@media (max-width: 768px) {
-  .header {
-    padding: 10px;
-    font-size: 0.9rem; // Slightly smaller text for mobile
-  }
+//     // color
+// }
+// .app-container {
+//   font-family: "Press Start 2P", "Montserrat", sans-serif;
+//   // background-color: black; // Dark matrix-like background
+//   // color: #ffffff; // White for readability
+//   background-image: url('../src/assets/dark-dj-set.jpg');
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
+//   width: 100%; // Ensure full width of the viewport
+//   padding: 0; // Remove extra padding
 
-  .content {
-    flex-direction: column; // Stack content vertically on mobile
-    align-items: flex-start;
-    padding: 10px;
-  }
+//   p {
+//     color: black;
 
-  .footer {
-    font-size: 14px; // Increase footer text size for readability on small screens
-    padding: 15px 20px;
-  }
+    
+// }
 
-  /* Make the app's header more responsive */
-  .navbar {
-    flex-direction: column; // Stack items vertically for mobile view
-    gap: 15px;
-  }
+// .header {
+//   background: linear-gradient(90deg, #ffb6c1, #d1a6ff); // Cotton candy theme
+//   color: #0b0c10; // Text contrast
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+//   padding: 10px 20px;
+//   font-size: 1rem; // Default font size
+//   width: 100%; // Full width for the header
+//   text-align: center; // Center header content
+// }
 
-  /* Adjust main content area */
-  .app-container {
-    padding: 0 10px; // Add padding to sides for small screens
-  }
-}
+// .content {
+//   flex-grow: 1;
+//   // display: flex;
+//   justify-content: center;
+//   align-items: flex-start;
+//   padding: 20px;
+//   width: 100%; // Ensure content stretches across the page
+//   box-sizing: border-box; // Avoid extra margin/padding affecting width
+// }
 
-@media (max-width: 480px) {
-  .header {
-    font-size: 0.85rem; // Reduce text size for very small screens
-  }
+// .footer {
+//   text-align: center;
+//   padding: 10px 20px;
+//   background: #1c1f26; // Slightly lighter shade for contrast
+//   color: #ffffff;
+//   font-size: 12px;
+//   width: 100%; // Full width for the footer
 
-  .footer {
-    font-size: 12px; // Slightly smaller footer text
-  }
+//   p {
+//     background-color: transparent;
+//   }
+// }
 
-  .content {
-    padding: 5px; // Reduce padding for ultra-small screens
-  }
-}
+// @media (max-width: 768px) {
+//   .header {
+//     padding: 10px;
+//     font-size: 0.9rem; // Slightly smaller text for mobile
+//   }
+
+//   .content {
+//     flex-direction: column; // Stack content vertically on mobile
+//     align-items: flex-start;
+//     padding: 10px;
+//   }
+
+//   .footer {
+//     font-size: 14px; // Increase footer text size for readability on small screens
+//     padding: 15px 20px;
+//   }
+
+//   /* Make the app's header more responsive */
+//   .navbar {
+//     flex-direction: column; // Stack items vertically for mobile view
+//     gap: 15px;
+//   }
+
+//   /* Adjust main content area */
+//   .app-container {
+//     padding: 0 10px; // Add padding to sides for small screens
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .header {
+//     font-size: 0.85rem; // Reduce text size for very small screens
+//   }
+
+//   .footer {
+//     font-size: 12px; // Slightly smaller footer text
+//   }
+
+//   .content {
+//     padding: 5px; // Reduce padding for ultra-small screens
+//   }
+// }

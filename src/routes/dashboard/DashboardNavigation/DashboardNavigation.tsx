@@ -4,11 +4,12 @@ import './Dashboard.scss'
 const DashboardNavigation = () => {
   return (
     <div className='Dashboard-Nav'>
-        <nav >
+        <nav className='scroll-x'>
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={''} end>Dashboard</NavLink>  
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'orders'}>Orders</NavLink>
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'products'}>Products</NavLink>
             <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'users'}>Users</NavLink>
+            <NavLink className={({isActive}) => isActive ? 'active' : ''} to={'blog'}>Blog</NavLink>
         </nav>
     </div>
   )

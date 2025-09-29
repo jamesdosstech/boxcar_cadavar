@@ -1,26 +1,36 @@
 .showroom-container {
   background: linear-gradient(to bottom right, #282a36, #1a1a1a);
-  color: #f8f8f2; /* Light text for contrast */
+  color: #f8f8f2;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  // height: 75vh;
   width: 100%;
 
+  // Desktop: row layout
   @media (min-width: 768px) {
     flex-direction: row;
     align-items: stretch;
+
+    .stream-container {
+      flex: 2;   // stream dominates horizontally
+    }
+
+    .chat-container {
+      flex: 1;   // chat narrower, still full height
+      overflow-y: auto;
+    }
   }
-  @media (max-width: 430px) {
-    height: 78vh;
+
+  // Mobile: column layout, 50/50 vertical split
+  @media (max-width: 767px) {
+    .stream-container,
+    .chat-container {
+      flex: 1;       // equal height
+      min-height: 0; // allow scrolling inside
+    }
+
+    .chat-container {
+      overflow-y: auto;
+    }
   }
-
-  // @media (width: 390px) {
-  // }
-
-  // @media (width: 375px) {
-  // }
-
-  // @media (width: 414px) {
-  // }
 }

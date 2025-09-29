@@ -1,23 +1,24 @@
 .Dashboard-Nav {
    nav {
-    padding-left: 20px;
+    // padding-left: 20px;
     }
     a {
-        padding: 1rem;
+        // padding: 1rem;
         font-size: 1rem;
         text-decoration: none;
         // color: #fff;
-        color: black;
+        // color: black;
+        // color: #ff79c6;
         transition: color 0.3s ease;
     }
 
     a:hover{
     /* Cotton candy blue */
-        color: #61dafb;
+        // color: #44b1ff;
     } 
 
     .active {
-        color: #61dafb;
+        // color: #44b1ff;
     }
 }
 

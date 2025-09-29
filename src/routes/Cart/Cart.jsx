@@ -46,7 +46,11 @@ const CartModal = ({onClose}) => {
               <div className="cart-total">
                 <strong>Total:</strong> ${(total / 100).toFixed(2)} USD
               </div>
-              <button className="checkout-btn" onClick={() => navigate("/checkout")}>
+              <button className="checkout-btn" onClick={
+                () => {
+                  onClose(); 
+                  navigate("/checkout")
+                }}>
                 Go to Checkout
               </button>
             </div>

@@ -8,16 +8,19 @@
   
   .list {
     display: flex;
-    gap: 1rem;
+    /* gap: 1rem; */
     list-style-type: none;
   }
   
   .list a {
     text-decoration: none;
-    color: var(--color-primary-400);
+    /* color: #ff79c6 */
+    /* color: var(--color-primary-400); */
   }
   
   .list a:hover,
   .list a.active {
-    color: #61dafb;
+    /* color: #44b1ff; */
+    /* really pretty blue not sure its optimal for ada */
+    /* color: #61dafb; */
   }

@@ -6,25 +6,28 @@ import ResetPassword from "./routes/forgot-password/ResetPassword";
 import Authentication from "./routes/authentication/authentication.component";
 import DoosetrainStore from "./routes/store/DoosetrainStore";
 import Checkout from "./routes/checkout/checkout.component";
-import { splashMessage, trainList } from './constants'
-import { getNextFridayAt6PM } from "./utils/dateUtils";
+import { splashMessage } from './constants'
 import ErrorPage from "./routes/ErrorPage/ErrorPage";
 import RootLayout from "./routes/Root/RootLayout";
 import Home from "./routes/dashboard/pages/Home";
 import Users from "./routes/dashboard/pages/Users";
 // delete
-import Products from "./routes/dashboard/pages/Products";
 import Orders from "./routes/dashboard/pages/Orders";
 import ProtectedGuard from "./guard/ProtectedGuard";
-//delete
-import DBUsers from "./components/DBSections/DBUsers";
-import DBItems from "./components/DBSections/DBItems";
 import ProductLayout from "./routes/Product/ProductLayout";
 import ProductList from "./routes/Product/ProductList";
 import ProductNew from "./routes/Product/ProductNew";
 import ProductEdit from "./routes/Product/ProductEdit";
 import ProductDetails from "./routes/Product/ProductDetails";
-const dayAndHourOfShow = getNextFridayAt6PM();
+import BlogPage from "./routes/Blog/BlogPage";
+//blog
+import BlogEntry from './routes/dashboard/pages/Blog/BlogEntry/BlogEntry'
+import BlogLayout from "./routes/dashboard/pages/Blog/BlogLayout";
+import BlogList from './routes/dashboard/pages/Blog/BlogList/BlogList';
+import BlogPost from "./routes/Blog/BlogPost/BlogPost";
+import MainBlogLayout from "./routes/Blog/MainBlogLayout";
+import BlogDetails from "./routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
+import BlogEdit from "./routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
 
 export const router = createBrowserRouter([
     {
@@ -36,9 +39,21 @@ export const router = createBrowserRouter([
                 index: true,
                 element: <Splash
                     data={splashMessage}
-                    trainList={trainList}
-                    targetDate={dayAndHourOfShow}
                 />
+            },
+            {
+                path: 'blog',
+                element: <MainBlogLayout />,
+                children: [
+                    {
+                        index: true,
+                        element: <BlogPage />
+                    },
+                    {
+                        path: ':postId',
+                        element: <BlogPost />
+                    }
+                ]
             },
             {
                 path: 'showroom',
@@ -91,6 +106,28 @@ export const router = createBrowserRouter([
                             {
                                 path: 'edit/:productId',
                                 element: <ProductEdit />
+                            }
+                        ]
+                    },
+                    {
+                        path: 'blog',
+                        element: <BlogLayout />,
+                        children: [
+                            {
+                                index: true,
+                                element: <BlogList />
+                            },
+                            {
+                                path: 'new-post',
+                                element: <BlogEntry />
+                            },
+                            {
+                                path: ':postId',
+                                element: <BlogDetails />
+                            },
+                            {
+                                path: ':postId/edit',
+                                element: <BlogEdit />
                             }
                         ]
                     },

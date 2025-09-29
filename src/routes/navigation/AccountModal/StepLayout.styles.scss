@@ -1,0 +1,128 @@
+// .step-layout {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1.5rem;
+//   padding: 1.5rem;
+// //   background-color: #1a1a1a; // dark theme
+//   border-radius: 12px;
+//   box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+// }
+
+// .step-title {
+// }
+
+// .step-content {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+// }
+
+// .step-content input {
+//     width: 100%;
+//     // justify-content: center;
+//   padding: 0.75rem 1rem;
+//   border-radius: 8px;
+//   border: 1px solid #555;
+//   background-color: #222;
+//   color: #fff;
+//   font-size: 1rem;
+//   transition: border 0.3s;
+// }
+
+// .step-content input:focus {
+//   border-color: #f5c0e0;
+//   outline: none;
+// }
+
+.step-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 450px; // keeps desktop layout neat
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1a1a1a; // or your theme background
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  color: #fff;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* spacing between inputs and buttons */
+    }
+
+    input {
+        background-color: black;
+        color: white;
+    }
+
+  .step-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+
+    input, button {
+        margin: .5rem;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+    //   border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    // button.nav-link {
+    //   background-color: #ff7de1;
+    //   color: #fff;
+    //   font-weight: 600;
+    //   border: none;
+    //   cursor: pointer;
+    //   transition: background 0.3s;
+
+    //   &:hover {
+    //     background-color: #ff4fc1;
+    //   }
+    // }
+
+    @media (min-width: 768px) {
+      flex-direction: column;
+    //   input, button {
+    //     width: 80%;
+    //     max-width: 300px;
+    //   }
+    }
+  }
+}
+
+
+// .nav-link, .step-content button {
+//   padding: 0.75rem 1rem;
+//   border-radius: 8px;
+//   border: none;
+//   background: linear-gradient(90deg, #f5c0e0, #a0e0ff);
+//   color: #000;
+//   font-weight: 600;
+//   cursor: pointer;
+//   transition: transform 0.2s, box-shadow 0.2s;
+// }
+
+// .nav-link:hover, .step-content button:hover {
+//   transform: translateY(-2px);
+//   box-shadow: 0 4px 12px rgba(245,192,224,0.5);
+// }
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 0.9rem;
+  text-align: center;
+}

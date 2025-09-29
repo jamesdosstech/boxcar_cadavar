@@ -7,12 +7,10 @@ import DashboardNavigation from '../routes/dashboard/DashboardNavigation/Dashboa
 const ProtectedGuard = () => {
     const {currentUser} = useContext(UserContext)
   const admin = useIsAdmin()
-  if(!currentUser) {
-    return <Navigate to='/' replace />
-  }
-  if (!admin) {
-    return <Navigate to='/' replace />
-  }
+  if(!currentUser || !admin) return <Navigate to='/' replace />
+  // if (!admin) {
+  //   return <Navigate to='/' replace />
+  // }
   return (
     <div>
         <DashboardNavigation />

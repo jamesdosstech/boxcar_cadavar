@@ -1,0 +1,14 @@
+.blog-container {
+    margin: 2rem;
+    height: 80vh; /* take full viewport height */
+
+    .blog-content {
+        max-height: 400px;
+        flex: 1; /* take remaining space */
+        overflow-y: auto; /* scroll only inside this area */
+        padding-right: 1rem; /* avoid text hugging scrollbar */
+        white-space: pre-wrap;   /* preserve line breaks & spaces */
+        word-wrap: break-word;   /* prevent long words breaking */
+        line-height: 1.6;
+    }
+}

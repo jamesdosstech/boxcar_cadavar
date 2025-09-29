@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import AccountButton from '../AccountButton/AccountButton'
 import { useIsAdmin } from '../../../hooks/useIsAdmin.hook'
 import CartModal from '../../Cart/Cart'
@@ -16,13 +16,19 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
     return (
         <>
             <div className='navbar-menu'>
-                <Link to={'showroom'} className='nav-link'>
+                <NavLink to={''}
+                >
+                    Home
+                </NavLink>
+                <NavLink to={'showroom'}
+                >
                     Showroom
-                </Link>
+                </NavLink>
                 {isAdmin && <Link to="/admin" className="nav-link">Admin</Link>}
+                <Link to="/blog" className='nav-link'>Blog</Link>
                 {/* remove for full nav access in testing */}
-                {/* <Link to="/shop" className="nav-link">Shop</Link>
-                <button onClick={() => setIsCartOpen(true)}>Cart</button> */}
+                <Link to="/shop" className="nav-link">Shop</Link>
+                <button onClick={() => setIsCartOpen(true)}>Cart</button>
                 {
                     currentUser ? (
                         <AccountButton
