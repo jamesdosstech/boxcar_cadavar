@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, NavLink, useNavigate, useParams } from 'react-router-dom'
 import { db } from '../../../utils/firebase/firebase.utils';
 import { doc, getDoc } from 'firebase/firestore';
 import './BlogPost.styles.scss'
 
 const BlogPost = () => {
     const {postId} = useParams();
-    const [post, setPost] = useState(null)
+    const [post, setPost] = useState(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -23,7 +23,8 @@ const BlogPost = () => {
     <div className='blog-container'>
         <h1>{post.title}</h1>
         <p>{post.author} * {post.createdAt?.toDate().toLocaleDateString()}</p>
-        <p>{post.content}</p>
+        <p className='blog-content'>{post.content}</p>
+        <NavLink to={'/blog'}>Back</NavLink>
     </div>
   );
 }

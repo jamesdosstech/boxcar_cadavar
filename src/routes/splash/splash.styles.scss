@@ -91,7 +91,25 @@
 @media screen and (max-width: 600px) {
   .latest-blog{
     .blog-card {
-      flex-direction: column;
+      flex-direction: row;
+      max-height: none;
+
+      h3 {
+        font-size: 12px;
+      }
+
+      p {
+        font-size: small;
+      }
+    }
+
+    .blog-details {
+      max-height: none;
+      overflow-y: visible;
+    }
+    .blog-image img {
+      max-width: 100%;   // ✅ responsive image
+      height: auto;
     }
   }
 }

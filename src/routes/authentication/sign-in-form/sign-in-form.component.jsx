@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "./sign-in-form.styles.scss";
+// import "./sign-in-form.styles.scss";
 
 import {
   signInUser,
@@ -16,7 +16,7 @@ const SignInForm = ({ onClose }) => {
     e.preventDefault();
     try {
       await signInUser(email, password);
-      if (onClose) onClose(); // Close modal on success if onClose is provided
+      // if (onClose) onClose(); // Close modal on success if onClose is provided
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -48,9 +48,9 @@ const SignInForm = ({ onClose }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Sign In</button>
+        <button className="nav-link" type="submit">Sign In</button>
       </form>
-      <button onClick={handleResetPassword}>Forgot Password?</button>
+      <button className="nav-link" onClick={handleResetPassword}>Forgot Password?</button>
       {errorMessage && <p className="error">{errorMessage}</p>}
     </div>
   );

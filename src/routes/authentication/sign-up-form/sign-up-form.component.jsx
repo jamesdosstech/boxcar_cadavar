@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 
-import './sign-up-form.styles.scss';
+// import './sign-up-form.styles.scss';
 
 import Button from '../../../components/button/button.component'
 import FormInput from '../../../components/form-input/form-input.component';
@@ -91,7 +91,7 @@ const SignUpForm = () => {
           required
         />
         {/* <div className='buttons-container'> */}
-          <button type='submit'>Submit</button>
+          <button className='nav-link' type='submit'>Submit</button>
         {/* </div> */}
       </form>
     </div>

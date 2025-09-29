@@ -32,7 +32,7 @@ const navigationList = [
 const AdminNavigation = () => {
   return (
     <header className={classes.header}>
-        <nav>
+        <nav className='scroll-x'>
             <ul className={classes.list}>
                 {
                     navigationList.map((i) => {

@@ -69,7 +69,13 @@ const Navigation = () => {
   const { cartItems } = useCart()
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const isAdmin = useIsAdmin()
+  const [step, setStep] = useState(currentUser ? 1 : 4); // default step
+  const isAdmin = useIsAdmin();
+
+  useEffect(() => {
+    setStep(currentUser ? 1 : 4);
+  }, [currentUser]);
+  
   // Update mobile state on resize
   // useEffect(() => {
   //   const handleResize = () =>
@@ -100,11 +106,28 @@ const Navigation = () => {
               toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
             />
           ):(
-            <NavLink to={'/sign-in'}>
+            <button
+              className="nav-link"
+              onClick={() => {
+                // setStep(4);
+                dispatch({ type: "TOGGLE_MODAL" })}
+              }
+            >
               Sign In
-            </NavLink>
+            </button>
+            // <NavLink to={'/sign-in'}>
+            //   Sign In
+            // </NavLink>
           )
         }
+        {state.isModalOpen && (
+          <AccountModal 
+            currentUser={currentUser} 
+            step={step}
+            setStep={setStep}
+            onClose={() => dispatch({ type: "TOGGLE_MODAL" })} 
+          />
+        )}
       </nav>
       {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)}/>}
     </>
