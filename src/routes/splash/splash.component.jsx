@@ -4,24 +4,25 @@ import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase.utils";
 
 const Splash = ({ targetDate, trainList, data }) => {
-  const [latestPost, setLatestPost] = useState(null);
-  const [latestProduct, setLatestProduct] = useState(null)
-  const [timeLeft, setTimeLeft] = useState('');
-  const debug = false;
-
   // Helper: get next Tuesday at 8 PM
+  // Helpers
   const getNextTuesdayAt8 = (fromDate = new Date()) => {
     const result = new Date(fromDate);
     const day = fromDate.getDay(); // 0=Sun, 1=Mon, 2=Tue...
-    let daysUntilTuesday = (2 - day + 7) % 7; // how many days until Tuesday
+    let daysUntilTuesday = (2 - day + 7) % 7;
     if (daysUntilTuesday === 0 && fromDate.getHours() >= 20) {
-      // it's already Tuesday 8PM or later → move to next week
       daysUntilTuesday = 7;
     }
     result.setDate(fromDate.getDate() + daysUntilTuesday);
-    result.setHours(20, 0, 0, 0); // Tuesday 8PM
+    result.setHours(20, 0, 0, 0);
     return result;
   };
+  
+  const [latestPost, setLatestPost] = useState(null);
+  const [latestProduct, setLatestProduct] = useState(null)
+  const [timeLeft, setTimeLeft] = useState('');
+  const [nextShow, setNextShow] = useState(() => getNextTuesdayAt8());
+  
 
   // 🔹 Dummy (today @ 8PM, or tomorrow if past 8PM)
   const getDummyShow = (fromDate = new Date()) => {
@@ -38,20 +39,17 @@ const Splash = ({ targetDate, trainList, data }) => {
   };
 
   useEffect(() => {
-    let nextShow = debug ? getDummyShow() : getNextTuesdayAt8();
-
     const interval = setInterval(() => {
       const now = new Date();
       const showEnd = getShowEnd(nextShow);
 
       if (now >= nextShow && now < showEnd) {
-        // during the show window
         setTimeLeft("🎶 Show Has Started! 🎶");
       } else if (now >= showEnd) {
-        // after the show window → reset to next Tuesday
-        nextShow = getNextTuesdayAt8(now);
+        // calculate next show
+        const newShow = getNextTuesdayAt8(now);
+        setNextShow(newShow);
       } else {
-        // countdown until next show
         const diff = nextShow - now;
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -62,7 +60,7 @@ const Splash = ({ targetDate, trainList, data }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [debug]);
+  }, [nextShow]);
 
   useEffect(() => {
     // fetch latest blog Post
@@ -78,7 +76,7 @@ const Splash = ({ targetDate, trainList, data }) => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         const productData = {d: doc.id, ...doc.data()}
-        console.log("Latest product:", productData);
+        // console.log("Latest product:", productData);
         setLatestProduct(productData)
       })
     }
@@ -120,29 +118,6 @@ const Splash = ({ targetDate, trainList, data }) => {
         <p>{timeLeft}</p>
       </section>
     </div>
-    // <div className="splash-component-container">
-    //   <section className="intro">
-    //     <h1>Welcome to Doosetrain</h1>
-    //     <p>Your hub for live sets, merchandise, and news updates</p>
-    //   </section>
-    //   <section className="latest-blog">
-    //     <h2>Latest Blog Post</h2>
-    //     {latestPost ? (
-    //       <div className="blog-card">
-    //         <h3>{latestPost.title}</h3>
-    //         <div className="blog-content">
-    //           <p>{latestPost.content}</p>
-    //         </div>
-    //       </div>
-    //     ): (
-    //       <p>Loading...</p>
-    //     )}
-    //   </section>
-    //   <section className="timer">
-    //     <h2>Next Show Starts In:</h2>
-    //     <p>{timeLeft}</p>
-    //   </section>
-    // </div>
   );
 };
 
