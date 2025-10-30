@@ -46,3 +46,4 @@ export const firebaseConfig = {
 
 export const adminEmail = process.env.REACT_APP_ADMIN_EMAIL;
 
+export const youtubeApiKey = process.env.YOUTUBE_API_KEY
