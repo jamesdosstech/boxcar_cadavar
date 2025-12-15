@@ -1,3 +1,5 @@
+import React from 'react';
+
 import TrainIcon from '../../assets/train-icon.svg';
 import './image-icon.styles.scss';
 

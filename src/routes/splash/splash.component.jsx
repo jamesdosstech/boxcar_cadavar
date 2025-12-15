@@ -1,88 +1,95 @@
-import { useEffect, useState } from "react";
-import "./splash.styles.scss";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase.utils";
+import Loading from '../../components/loading/loading.component';
+import './splash.styles.scss';
 
-const Splash = ({ targetDate, trainList, data }) => {
-  // Helper: get next Tuesday at 8 PM
-  // Helpers
-  const getNextTuesdayAt8 = (fromDate = new Date()) => {
-    const result = new Date(fromDate);
-    const day = fromDate.getDay(); // 0=Sun, 1=Mon, 2=Tue...
-    let daysUntilTuesday = (2 - day + 7) % 7;
-    if (daysUntilTuesday === 0 && fromDate.getHours() >= 20) {
-      daysUntilTuesday = 7;
-    }
-    result.setDate(fromDate.getDate() + daysUntilTuesday);
-    result.setHours(20, 0, 0, 0);
-    return result;
-  };
-  
+const SHOW_DAY = 2; // Tuesday (0=Sunday)
+const SHOW_HOUR = 20; // 8 PM
+const SHOW_DURATION_HOURS = 6;
+
+const Splash = ({ data }) => {
   const [latestPost, setLatestPost] = useState(null);
-  const [latestProduct, setLatestProduct] = useState(null)
+  const [latestProduct, setLatestProduct] = useState(null);
   const [timeLeft, setTimeLeft] = useState('');
-  const [nextShow, setNextShow] = useState(() => getNextTuesdayAt8());
-  
 
-  // 🔹 Dummy (today @ 8PM, or tomorrow if past 8PM)
-  const getDummyShow = (fromDate = new Date()) => {
+  // ——— Helper Functions ———
+  const getNextShow = (fromDate = new Date()) => {
     const result = new Date(fromDate);
-    result.setHours(20, 0, 0, 0); // always today at 8PM
+    const day = result.getDay();
+    let daysUntilShow = (SHOW_DAY - day + 7) % 7;
+    const isSameDayAfterHour = daysUntilShow === 0 && result.getHours() >= SHOW_HOUR;
+    if (isSameDayAfterHour) daysUntilShow = 7;
+    result.setDate(result.getDate() + daysUntilShow);
+    result.setHours(SHOW_HOUR, 0, 0, 0);
     return result;
   };
 
-  // Helper: get "end of show" (Tuesday 8PM + 6h)
   const getShowEnd = (showStart) => {
     const end = new Date(showStart);
-    end.setHours(end.getHours() + 6); // add 6 hours
+    end.setHours(end.getHours() + SHOW_DURATION_HOURS);
     return end;
   };
 
+  const formatTimeLeft = (ms) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds / 3600) % 24);
+    const minutes = Math.floor((totalSeconds / 60) % 60);
+    const seconds = totalSeconds % 60;
+    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  // ——— Timer Effect ———
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const showEnd = getShowEnd(nextShow);
 
-      if (now >= nextShow && now < showEnd) {
+      // Determine the show window dynamically
+      let nextShow = getNextShow(now);
+      let showEnd = getShowEnd(nextShow);
+
+      // If we are currently inside this week's show window
+      const lastShow = getNextShow(new Date(now.getTime() - 7 * 24 * 3600 * 1000));
+      const lastShowEnd = getShowEnd(lastShow);
+      if (now >= lastShow && now < lastShowEnd) {
         setTimeLeft("🎶 Show Has Started! 🎶");
-      } else if (now >= showEnd) {
-        // calculate next show
-        const newShow = getNextTuesdayAt8(now);
-        setNextShow(newShow);
+      } else if (now >= nextShow && now < showEnd) {
+        setTimeLeft("🎶 Show Has Started! 🎶");
       } else {
-        const diff = nextShow - now;
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutes = Math.floor((diff / (1000 * 60)) % 60);
-        const seconds = Math.floor((diff / 1000) % 60);
-        setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+        setTimeLeft(formatTimeLeft(nextShow - now));
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [nextShow]);
+  }, []);
 
+  // ——— Fetch Latest Blog & Product ———
   useEffect(() => {
-    // fetch latest blog Post
-    const fetchLatestPost = async () => {
-      const q = query(collection(db, 'blogPosts'), orderBy('createdAt', 'desc'), limit(1));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setLatestPost({ id: doc.id, ...doc.data()});
-      });
+    const fetchLatest = async () => {
+      try {
+        const blogQuery = query(collection(db, 'blogPosts'), orderBy('createdAt', 'desc'), limit(1));
+        const blogSnapshot = await getDocs(blogQuery);
+        blogSnapshot.forEach(doc => setLatestPost({ id: doc.id, ...doc.data() }));
+
+        const productQuery = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(1));
+        const productSnapshot = await getDocs(productQuery);
+        productSnapshot.forEach(doc => setLatestProduct({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    const fetchLatestProduct = async () => {
-      const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'), limit(1));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        const productData = {d: doc.id, ...doc.data()}
-        // console.log("Latest product:", productData);
-        setLatestProduct(productData)
-      })
-    }
-    fetchLatestProduct();
-    fetchLatestPost();
-  },[]);
+    fetchLatest();
+  }, []);
+
+  // ——— Render ———
+  if (!latestPost || !latestProduct) {
+    return (
+      <div className="splash-loader-container">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="splash-component-container">
@@ -93,24 +100,15 @@ const Splash = ({ targetDate, trainList, data }) => {
 
       <section className="latest-blog">
         <h2>Latest Blog Post</h2>
-        {latestPost ? (
-          <div className="blog-card">
-            {latestProduct && (
-              <div className="blog-image">
-                <img src={latestProduct.imageUrl} alt={latestProduct.name} />
-              </div>
-            )}
-            {!latestProduct && <span>...loading.</span>}
-            <div className="blog-details">
-              <h3>{latestPost.title}</h3>
-              <div className="blog-content">
-                <p>{latestPost.content}</p>
-              </div>
-            </div>
+        <div className="blog-card">
+          <div className="blog-image">
+            <img src={latestProduct.imageUrl} alt={latestProduct.name} />
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+          <div className="blog-details">
+            <h3>{latestPost.title}</h3>
+            <p>{latestPost.content}</p>
+          </div>
+        </div>
       </section>
 
       <section className="timer">

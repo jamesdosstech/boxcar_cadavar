@@ -1,3 +1,4 @@
+import React from 'react';
 import { getMessages } from '../utils/firebase/firebase.utils';
 import { useState, useEffect } from 'react';
 

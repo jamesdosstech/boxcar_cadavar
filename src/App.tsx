@@ -1,6 +1,8 @@
+import React from "react";
 import "./App.scss"; // Updated to SCSS for better theming
+
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes";
+import { router } from "./routes.jsx";
 import { useIsAdmin } from "./hooks/useIsAdmin.hook";
 import { useEffect } from "react";
 import { deleteAllChats } from "./utils/dateUtils";

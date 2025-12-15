@@ -1,6 +1,9 @@
+import React from "react";
+
 import { useContext, lazy, Suspense } from "react";
 import "./showroom.styles.scss";
 import { UserContext } from "../../context/user/user.context";
+import Loading from "../../components/loading/loading.component";
 
 const LazyStreamContainer = lazy(() =>
   import("./stream-container/stream-container.component")
@@ -15,11 +18,11 @@ const Showroom = () => {
 
   return (
     <div className="showroom-container">
-      <Suspense fallback={<div className="loading-screen">Loading Stream...</div>}>
+      <Suspense fallback={<Loading />}>
         <div className="stream-container">
           <LazyStreamContainer />
         </div>
-        <Suspense fallback={<div className="loading-screen">Loading Chat...</div>}>
+        <Suspense fallback={<Loading />}>
           <div className="chat-container">
             <LazyCommentContainer currentUser={currentUser} />
           </div>

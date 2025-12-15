@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from "react";
 import { updateProfile, updatePassword } from "firebase/auth";
 import {

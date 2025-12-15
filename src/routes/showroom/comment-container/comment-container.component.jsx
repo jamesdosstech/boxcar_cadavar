@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useState, useLayoutEffect, useRef } from "react";
 import Button from "../../../components/button/button.component";
 import { sendMessage } from "../../../utils/firebase/firebase.utils";

@@ -1,3 +1,4 @@
+import React from 'react';
 import ShopIconImg from '../../assets/shopping-cart.svg';
 import './cart-icon.styles.scss';
 
