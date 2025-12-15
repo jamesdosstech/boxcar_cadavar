@@ -1,3 +1,4 @@
+import React from 'react';
 import './StepLayout.styles.scss'
 const StepLayout = ({title, children}) => {
   return (

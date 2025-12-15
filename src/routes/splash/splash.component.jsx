@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import "./splash.styles.scss";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";

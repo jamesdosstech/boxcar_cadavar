@@ -1,3 +1,5 @@
+import React from "react";
+
 import { createBrowserRouter } from "react-router-dom";
 
 import Splash from "./routes/splash/splash.component";
@@ -19,6 +21,7 @@ import ProductList from "./routes/Product/ProductList";
 import ProductNew from "./routes/Product/ProductNew";
 import ProductEdit from "./routes/Product/ProductEdit";
 import ProductDetails from "./routes/Product/ProductDetails";
+
 import BlogPage from "./routes/Blog/BlogPage";
 //blog
 import BlogEntry from './routes/dashboard/pages/Blog/BlogEntry/BlogEntry'

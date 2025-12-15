@@ -1,3 +1,4 @@
+import React from 'react';
 import DateDisplay from '../date-display/date-display.component';
 import ImageIcon from '../image-icon/image-icon.component';
 import './splash-timer.styles.scss';

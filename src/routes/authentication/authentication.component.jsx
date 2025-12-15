@@ -1,3 +1,4 @@
+import React from 'react';
 import "./authentication.styles.scss";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";

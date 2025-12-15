@@ -1,3 +1,5 @@
+import React from "react";
+
 import { useContext, lazy, Suspense } from "react";
 import "./showroom.styles.scss";
 import { UserContext } from "../../context/user/user.context";
