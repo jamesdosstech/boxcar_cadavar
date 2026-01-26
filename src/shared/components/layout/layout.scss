@@ -1,0 +1,31 @@
+.ds-container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ds-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.ds-h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.ds-muted {
+  color: var(--text-muted);
+  margin: 6px 0 0 0;
+}
+
+.ds-page-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}

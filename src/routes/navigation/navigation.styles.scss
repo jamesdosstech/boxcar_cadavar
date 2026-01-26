@@ -1,41 +1,77 @@
-.scroll-x {
+.ds-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11, 12, 16, 0.72); /* theatre overlay */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.ds-nav-scroll {
   display: flex;
-  justify-content: left;
-  // background-color: green;
-  overflow: auto;
+  gap: 10px;
+  padding: 10px 12px;
+  overflow-x: auto;
   white-space: nowrap;
-  scrollbar-color: none;
+
+  /* hide scrollbar (still scrollable) */
+  scrollbar-width: none;
+}
+.ds-nav-scroll::-webkit-scrollbar {
+  display: none;
 }
 
-
-a, .nav-link {
-  color: white;
-  margin: .5rem;
-  padding: .5rem;
-  font-size: 1rem;
+.ds-nav-link {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 10px 14px;
+  margin: 0;
+  font-size: 0.95rem;
   text-decoration: none;
-  position: relative;
-  background-color: black;
-  border-radius: 100px;
-  border: .1rem solid transparent;
-  background: 
-    linear-gradient(black, black) padding-box, /* inner background */
-    linear-gradient(to right, #ff79c6, #44b1ff) border-box; /* border */
-  // border-image: linear-gradient(to right, #ff79c6, #44b1ff ) 1;
-  // overflow: hidden;
-  // color: #ff79c6;
+  cursor: pointer;
 
-  // color: #fff;
-  // color: black;
-  color: white;
-  transition: color 0.3s ease;
+  color: var(--text);
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(to right, var(--accent-pink), var(--accent-blue)) border-box;
+
+  transition: transform 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
 
-a:hover, .nav-link:hover, .active{
-/* Cotton candy blue */
-  color: #44b1ff;
-  // background: 
-  //   linear-gradient(to right, black, #ff79c6) padding-box, /* inner background */
-  //   linear-gradient(to right, #ff79c6, #44b1ff) border-box; /* border */
-} 
+.ds-nav-link:hover {
+  color: var(--accent-blue);
+  transform: translateY(-1px);
+}
 
+.ds-nav-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ds-nav-link.is-active {
+  color: var(--accent-blue);
+  box-shadow: 0 0 0 1px rgba(68, 177, 255, 0.35) inset;
+}
+
+/* Buttons that look like links */
+.ds-nav-button {
+  background-color: transparent;
+}
+.ds-nav-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Screen-reader utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

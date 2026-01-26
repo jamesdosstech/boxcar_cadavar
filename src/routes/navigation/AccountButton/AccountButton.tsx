@@ -1,21 +1,19 @@
 import React from "react";
-import AccountModal from "../AccountModal/AccountModal";
 
-interface AccountButtonProps {
-    currentUser: any,
-    isModalOpen: any,
-    toggleModal: any
-}
+type Props = {
+  label: string;
+  onClick: () => void;
+};
 
-const AccountButton: React.FC<AccountButtonProps> = ({ currentUser, isModalOpen, toggleModal }) => (
-  <>
-    <button style={{textAlign: "left"}} className="nav-link" onClick={toggleModal}>
-      {currentUser.displayName || "User"}
+export default function AccountButton({ label, onClick }: Props) {
+  return (
+    <button
+      type="button"
+      className="ds-nav-link ds-nav-button"
+      onClick={onClick}
+      style={{ textAlign: "left" }}
+    >
+      {label}
     </button>
-    {isModalOpen && (
-      <AccountModal currentUser={currentUser} onClose={toggleModal} />
-    )}
-  </>
-);
-
-export default AccountButton;
+  );
+}
