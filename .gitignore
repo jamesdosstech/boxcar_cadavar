@@ -25,3 +25,9 @@ yarn-error.log*
 
 # Local Netlify folder
 .netlify
+
+# Firebase admin secrets (LOCAL ONLY)
+scripts/setAdmin.js
+scripts/serviceAccount.json
+
+

@@ -32,11 +32,11 @@ import { getStorage } from "firebase/storage";
 
 // Initialize Firebase app
 export const doosetrainApp =
-  getApps.length > 0 ? getApp() : initializeApp(firebaseConfig);
+  getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
 // Firebase services
-export const auth = getAuth();
-export const db = getFirestore();
+export const auth = getAuth(doosetrainApp);
+export const db = getFirestore(doosetrainApp);
 export const storage = getStorage(doosetrainApp);
 
 // User authentication functions

@@ -31,6 +31,8 @@ import BlogPost from "./routes/Blog/BlogPost/BlogPost";
 import MainBlogLayout from "./routes/Blog/MainBlogLayout";
 import BlogDetails from "./routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
 import BlogEdit from "./routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
+import CheckoutSuccess from "./routes/checkout/CheckoutSuccess";
+import CartPage from "./routes/Cart/CartPage";
 
 export const router = createBrowserRouter([
     {
@@ -75,12 +77,20 @@ export const router = createBrowserRouter([
                 element: <DoosetrainStore />,
             },
             {
+                path: 'cart',
+                element: <CartPage />
+            },
+            {
                 path: 'product/:productId',
                 element: <ProductDetails />
             },
             {
                 path: 'checkout',
                 element: <Checkout />
+            },
+            {
+                path: 'checkout/success',
+                element: <CheckoutSuccess />
             },
             {
                 path: 'admin',

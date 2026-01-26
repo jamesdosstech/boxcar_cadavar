@@ -1,77 +1,117 @@
-import { useElements, useStripe, PaymentElement } from '@stripe/react-stripe-js'
-import{ useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
+import { useElements, useStripe, PaymentElement } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../../context/shoppingCart/shoppingCart.context"; // adjust path if needed
 
-const CheckoutForm = ({ total }) => {
-    const stripe = useStripe();
-    const elements = useElements();
+const CheckoutForm = ({ clientSecret, orderId }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const navigate = useNavigate();
+  const { clearCart } = useCart();
 
-    const [clientSecret, setClientSecret] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
-    // const CARD_ELEMENT_OPTIONS = {
-    //     style: {
-    //         base: {
-    //             color: '#32325d',
-    //             fontSize: '16px',
-    //             fontFamily: "Arial, sans-serif",
-    //             fontSmoothing: "antialiased",
-    //             "::placeholder": {
-    //                 color: "#aab7c4",
-    //             },
-    //         },
-    //         invalid: {
-    //             color: '#fa755a',
-    //             iconColor: '#fa755a'
-    //         }
-    //     }
-    // }
-    const returnUrl = `${window.location.origin}/checkout/success`;
-    // useEffect(() => {
-    //     //call netlify action
-    //     fetch('/.netlify/functions/create-payment-intent', {
-    //         method: 'POST',
-    //         headers: {'Content-Type': 'application/json'},
-    //         body: JSON.stringify({amount: total}),
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => setClientSecret(data.clientSecret));
-    // }, [total]);
+  // optional: show status if Stripe returns user here with redirect params (succeeded/failed)
+  useEffect(() => {
+    if (!stripe || !clientSecret) return;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!stripe || !elements || !clientSecret) return;
+    const checkStatus = async () => {
+      try {
+        const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+        if (!paymentIntent) return;
 
-        setLoading(true);
-
-        const {error, paymentIntent} = await stripe.confirmCardPayment({
-            elements,
-            confirmParams: {
-                return_url: returnUrl
-            }
-        });
-
-        if(error) {
-            setMessage(error.message);
-        } else if (paymentIntent.status === 'succeeded') {
-            setMessage('Payment successful!')
+        switch (paymentIntent.status) {
+          case "succeeded":
+            setMessage("Payment succeeded ✅");
+            // clear cart locally
+            clearCart?.();
+            // send to clean success route (no query string)
+            navigate(`/checkout/success?orderId=${encodeURIComponent(orderId || "")}`, { replace: true });
+            break;
+          case "processing":
+            setMessage("Payment processing…");
+            break;
+          case "requires_payment_method":
+            setMessage("Payment failed. Please try another payment method.");
+            break;
+          default:
+            // leave quiet
+            break;
         }
+      } catch (e) {
+        // ignore noisy errors
+      }
+    };
 
-        setLoading(false);
+    checkStatus();
+  }, [stripe, clientSecret, orderId, navigate, clearCart]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements || !clientSecret) return;
+    if (loading) return; // prevents double-click submits
+
+    setLoading(true);
+    setMessage("");
+
+    const returnUrl = `${window.location.origin}/checkout/success?orderId=${encodeURIComponent(orderId)}`;
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: { return_url: returnUrl },
+      redirect: "if_required", // ✅ keeps you in SPA for cards that don’t require redirect
+    });
+
+    if (error) {
+      setMessage(error.message || "Payment failed. Please try again.");
+      setLoading(false);
+      return;
     }
-    return (
-        <form onSubmit={handleSubmit}>
-            <div style={{ maxWidth: '400px', margin: '0 auto'}}>
-                <PaymentElement />
-                {/* <CardElement options={{CARD_ELEMENT_OPTIONS}}/>     */}
-            </div>
-            
-            <button disabled={loading || !stripe}>
-                {loading ? 'Processing...' : 'Pay'}
-            </button>
-            {message && <div>{message}</div>}
-        </form>
-    )
-}
 
-export default CheckoutForm
+    // If no error, either:
+    // - it redirected (3DS, etc), OR
+    // - it succeeded without redirect; our retrievePaymentIntent effect will catch it.
+    setLoading(false);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} style={{ display: "grid", gap: "1rem" }}>
+      <div style={{ maxWidth: 520, margin: "0 auto", width: "100%" }}>
+        <PaymentElement />
+      </div>
+
+      <button
+        disabled={loading || !stripe || !elements}
+        style={{
+          padding: ".9rem 1.1rem",
+          fontWeight: 900,
+          cursor: loading ? "not-allowed" : "pointer",
+          opacity: loading ? 0.8 : 1,
+        }}
+      >
+        {loading ? "Processing…" : "Pay"}
+      </button>
+
+      {message && (
+        <div
+          style={{
+            padding: ".75rem 1rem",
+            borderRadius: 12,
+            background: "rgba(0,0,0,0.35)",
+            opacity: 0.95,
+          }}
+        >
+          {message}
+        </div>
+      )}
+
+      <div style={{ opacity: 0.7, fontSize: ".9rem", textAlign: "center" }}>
+        By paying, you agree to place an order. You’ll receive a confirmation email from Stripe.
+      </div>
+    </form>
+  );
+};
+
+export default CheckoutForm;

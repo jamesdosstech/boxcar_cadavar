@@ -58,15 +58,15 @@ const NavigationLinkDetails = [
     title: 'Blog',
     link: 'blog'
   }, 
-  // {
-  //   title: 'Shop',
-  //   link: 'shop'
-  // }
+  {
+    title: 'Shop',
+    link: 'shop'
+  }
 ]
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext);
-  const { cartItems } = useCart()
+  const { itemCount } = useCart()
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [step, setStep] = useState(currentUser ? 1 : 4); // default step
@@ -95,9 +95,17 @@ const Navigation = () => {
           )
         })}
         {/* Shopping Cart */}
-        {/* <button className="nav-link" onClick={() => setIsCartOpen(true)}>
-          <span><i className="bi bi-cart"></i> {cartItems.length}</span>
-        </button> */}
+        <button
+          type="button"
+          className="nav-link"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsCartOpen(true);
+          }}
+        >
+          <span><i className="bi bi-cart"></i> {itemCount}</span>
+        </button>
         {isAdmin && <NavLink to={'/admin'}>Admin</NavLink>}
         {currentUser ? (
             <AccountButton 
