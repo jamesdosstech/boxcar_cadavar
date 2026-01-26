@@ -33,6 +33,7 @@ import BlogDetails from "../../routes/dashboard/pages/Blog/BlogDetails/BlogDetai
 import BlogEdit from "../../routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
 import CheckoutSuccess from "../../routes/checkout/CheckoutSuccess";
 import CartPage from "../../routes/Cart/CartPage";
+import AdminLayout from "../../routes/Admin/AdminLayout";
 
 export const router = createBrowserRouter([
     {
@@ -93,63 +94,38 @@ export const router = createBrowserRouter([
                 element: <CheckoutSuccess />
             },
             {
-                path: 'admin',
+                path: "admin",
                 element: <ProtectedGuard />,
                 children: [
                     {
-                        index: true,
-                        element: <Home />
-                    },
-                    {
-                        path: 'users',
-                        element: <Users />
-                    },
-                    {
-                        path: 'products',
+                    element: <AdminLayout />,
+                    children: [
+                        { index: true, element: <Home /> },
+                        { path: "users", element: <Users /> },
+                        {
+                        path: "products",
                         element: <ProductLayout />,
                         children: [
-                            {
-                                index: true,
-                                element: <ProductList />
-                            },
-                            {
-                                path: 'new-product',
-                                element: <ProductNew />
-                            },
-                            {
-                                path: 'edit/:productId',
-                                element: <ProductEdit />
-                            }
-                        ]
-                    },
-                    {
-                        path: 'blog',
+                            { index: true, element: <ProductList /> },
+                            { path: "new-product", element: <ProductNew /> },
+                            { path: "edit/:productId", element: <ProductEdit /> },
+                        ],
+                        },
+                        {
+                        path: "blog",
                         element: <BlogLayout />,
                         children: [
-                            {
-                                index: true,
-                                element: <BlogList />
-                            },
-                            {
-                                path: 'new-post',
-                                element: <BlogEntry />
-                            },
-                            {
-                                path: ':postId',
-                                element: <BlogDetails />
-                            },
-                            {
-                                path: ':postId/edit',
-                                element: <BlogEdit />
-                            }
-                        ]
+                            { index: true, element: <BlogList /> },
+                            { path: "new-post", element: <BlogEntry /> },
+                            { path: ":postId", element: <BlogDetails /> },
+                            { path: ":postId/edit", element: <BlogEdit /> },
+                        ],
+                        },
+                        { path: "orders", element: <Orders /> },
+                    ],
                     },
-                    {
-                        path: 'orders',
-                        element: <Orders />
-                    },
-                ]
-            }
+                ],
+                }
         ]
     }
 ])
