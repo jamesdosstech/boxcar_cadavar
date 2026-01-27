@@ -3,146 +3,82 @@
   background: radial-gradient(circle, #1a1a1a, #282a36);
   display: flex;
   justify-content: center;
-  // align-items: center;
+  min-height: 0; // important for flex layouts
+}
 
-  // new styles for traveling player
-  .stream-player {
-    position: fixed;
-    transition: all 0.5s ease-in-out;
-  
-    &.mini {
-      bottom: 1rem;
-      right: 1rem;
-      width: 16rem;
-      height: 9rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-      z-index: 50;
-    }
-  
-    &.full {
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 40;
-    }
-  }
-  
+.stream-stage {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
 
-  iframe,
-  .react-player-container {
-    width: 100%;
-    height: 100%;
-    border: 2px solid #6272a4; /* Subtle cotton candy blue outline */
-    box-shadow: 0px 0px 15px 5px rgba(98, 114, 164, 0.5); /* Blue glow */
-  }
-  .hidden {
+/* Shared stage frame */
+.react-player-container,
+.twitch-embed {
+  width: 100%;
+  height: 100%;
+}
+
+/* Make player container a positioning context for overlay + button */
+.react-player-container {
+  position: relative; // ✅ REQUIRED for scoped overlay/button
+  border: 2px solid #6272a4;
+  box-shadow: 0px 0px 15px 5px rgba(98, 114, 164, 0.5);
+  overflow: hidden; // keeps overlay corners clean
+}
+
+/* Twitch layer */
+.twitch-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  &.is-hidden {
     display: none;
   }
-  .visible {
+
+  &.is-visible {
     display: block;
   }
-  /* Light up the background when the user hovers */
-  &:hover {
-    background: linear-gradient(145deg, #44475a, #1a1a1a);
+
+  .twitch-embed {
+    border: 2px solid #6272a4;
+    box-shadow: 0px 0px 15px 5px rgba(98, 114, 164, 0.5);
   }
 }
 
- // --- YouTube Video List Section ---
- // Overlayed YouTube list for better layout balance
-// .video-list-overlay {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-//   height: 35%;
-//   background: rgba(0, 0, 0, 0.85);
-//   backdrop-filter: blur(10px);
-//   border-top: 1px solid rgba(255, 255, 255, 0.1);
-//   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
-//   display: flex;
-//   flex-direction: column;
-//   transition: transform 0.4s ease, opacity 0.4s ease;
-//   transform: translateY(100%);
-//   opacity: 0;
-//   z-index: 100; /* Above chatroom, below modals */
-//   overflow: hidden;
+/* YouTube layer (behind Twitch) */
+.youtube-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
 
-//   &.active {
-//     transform: translateY(0);
-//     opacity: 1;
-//   }
-
-//   header {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     padding: 0.8rem 1.2rem;
-//     font-size: 0.9rem;
-//     color: #ffbde4;
-//     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-//     background: rgba(0, 0, 0, 0.3);
-
-//     button {
-//       background: none;
-//       border: none;
-//       color: #8be9fd;
-//       cursor: pointer;
-//       font-size: 1rem;
-//       transition: 0.3s;
-//       &:hover {
-//         color: #ff79c6;
-//       }
-//     }
-//   }
-
-//   .video-list {
-//     flex: 1;
-//     display: flex;
-//     align-items: flex-start;
-//     gap: 1.2rem;
-//     padding: 1rem;
-//     overflow-x: auto;
-//     overflow-y: hidden;
-//     scroll-behavior: smooth;
-
-//     .video-thumb {
-//       width: 160px;
-//       img {
-//         height: 90px;
-//       }
-//     }
-//   }
-// }
-
+/* Scoped overlay: ABSOLUTE inside player container */
 .video-list-overlay {
-  position: fixed; /* Changed from absolute to fixed so it floats above layout */
-  bottom: 0;
+  position: absolute; // ✅ scoped
   left: 0;
   right: 0;
-  height: 35%;
+  bottom: 0;
+  height: 42%;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
-  transition: transform 0.6s ease, opacity 0.4s ease;
+
   transform: translateY(100%);
   opacity: 0;
-  pointer-events: none; /* prevents hidden overlay from blocking clicks */
-  z-index: 100; /* Above chatroom, below modals */
-  overflow: hidden;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.25s ease;
+  z-index: 4;
 
-  /* When active, fade in gracefully */
   &.active {
     transform: translateY(0);
     opacity: 1;
     pointer-events: auto;
-    animation: fadeInUp 0.5s ease-out;
   }
 
   header {
@@ -153,7 +89,7 @@
     font-size: 0.9rem;
     color: #ffbde4;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.25);
 
     button {
       background: none;
@@ -161,7 +97,7 @@
       color: #8be9fd;
       cursor: pointer;
       font-size: 1rem;
-      transition: 0.3s;
+
       &:hover {
         color: #ff79c6;
       }
@@ -171,102 +107,119 @@
   .video-list {
     flex: 1;
     display: flex;
-    align-items: flex-start;
-    gap: 1.2rem;
+    gap: 1.1rem;
     padding: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
+  }
 
-    .video-thumb {
-      width: 160px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
+  .video-thumb {
+    width: 160px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: inherit;
+    text-align: center;
+    transition: transform 0.2s ease;
 
-      img {
-        width: 100%;
-        height: 90px;
-        object-fit: cover;
-        border-radius: 0.75rem;
-        border: 2px solid transparent;
-        transition: all 0.3s ease-in-out;
-      }
+    &:hover {
+      transform: translateY(-2px);
+    }
 
-      &:hover img {
-        border-color: #8be9fd;
-        box-shadow: 0 0 10px rgba(139, 233, 253, 0.6);
-        transform: scale(1.05);
-      }
+    img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 0.75rem;
+      border: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
 
-      &.active img {
-        border-color: #ff79c6;
-        box-shadow: 0 0 12px rgba(255, 121, 198, 0.7);
-      }
+    &:hover img {
+      border-color: #8be9fd;
+      box-shadow: 0 0 10px rgba(139, 233, 253, 0.6);
+    }
 
-      &.active p {
-        color: #ffbde4;
-      }
+    &.active img {
+      border-color: #ff79c6;
+      box-shadow: 0 0 12px rgba(255, 121, 198, 0.7);
+    }
 
-      p {
-        font-size: 0.8rem;
-        color: #cfcfcf;
-        margin-top: 0.4rem;
-        line-height: 1.2;
-      }
+    p {
+      font-size: 0.8rem;
+      color: #cfcfcf;
+      margin-top: 0.4rem;
+      line-height: 1.2;
+    }
+
+    &.active p {
+      color: #ffbde4;
     }
   }
 }
 
-/* Subtle fade-in from bottom animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-// Small toggle button that sits in video corner
+/* Button sits inside player */
 .toggle-video-list-btn {
   position: absolute;
-  top: 8rem;
-  left: 1rem;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid #6272a4;
-  border-radius: 8px;
-  color: #8be9fd;
-  font-size: 0.9rem;
-  padding: 0.5rem 0.8rem;
+  top: 2.75rem;
+  left: 1.25rem;
+  width: 5rem;
+
+  /* FORCE dark glass look */
+  background-color: rgba(10, 10, 20, 0.45) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  color: #8be9fd !important;
+  border: 1px solid rgba(139, 233, 253, 0.45);
+
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.75rem;
   cursor: pointer;
-  z-index: 110;
-  transition: all 0.3s ease;
+  z-index: 5;
+
+  /* kill browser defaults */
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+
+  transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(255, 121, 198, 0.2);
+    background-color: rgba(255, 121, 198, 0.18) !important;
     border-color: #ff79c6;
-    color: #ffbde4;
+    color: #ffbde4 !important;
+  }
+
+  &:active {
+    transform: translateY(1px);
   }
 }
 
-// .stream-container {
-//   flex: 3;
-//   background: #000;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
+.now-playing {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  max-width: calc(100% - 2rem);
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
-//   iframe,
-//   .react-player-container {
-//     width: 100%;
-//     height: 100%;
-//   }
-
-//   /* Make sure the background color contrasts well */
-//   background-color: #1a1a1a;
-//   color: #ffffff; /* Light text for contrast */
-// }
+  .label {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.85;
+  }
+  .title {
+    display: block;
+    font-weight: 800;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

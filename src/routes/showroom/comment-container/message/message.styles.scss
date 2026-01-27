@@ -1,0 +1,49 @@
+/* message.styles.scss */
+.ds-msg {
+  max-width: 85%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 14px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.22);
+
+  overflow-wrap: anywhere;
+  word-break: break-word;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.28);
+  }
+}
+
+.ds-msg__sender {
+  font-size: 0.78rem;
+  font-weight: 800;
+  opacity: 0.82;
+  margin-bottom: 0.25rem;
+}
+
+.ds-msg__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+}
+
+.ds-msg.is-own {
+  align-self: flex-end;
+  background: linear-gradient(to right, rgba(98, 114, 164, 0.9), rgba(68, 71, 90, 0.9));
+  border: 1px solid rgba(255, 121, 198, 0.35);
+}
+
+.ds-msg.is-other {
+  align-self: flex-start;
+  background: linear-gradient(to right, rgba(243, 144, 200, 0.9), rgba(189, 147, 249, 0.9));
+  border: 1px solid rgba(139, 233, 253, 0.28);
+}
+
+@media (min-width: 900px) {
+  .ds-msg {
+    max-width: 78%;
+  }
+}

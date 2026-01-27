@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useReducer, useRef } from "react";
 
 const CartContext = createContext(null);
 
@@ -14,6 +14,7 @@ const toNumber = (v, fallback = 0) => {
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
 const cartReducer = (state, action) => {
+  console.log("CartProvider mounted");
   switch (action.type) {
     case "ADD_ITEM": {
       const p = action.payload;
@@ -115,7 +116,10 @@ const init = () => {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState, init);
-
+  const instanceId = useRef(Math.random().toString(16).slice(2)).current;
+useEffect(() => {
+  console.log("CartProvider mounted:", instanceId);
+}, [instanceId]);
   // Persist exactly once per state change
   useEffect(() => {
     try {

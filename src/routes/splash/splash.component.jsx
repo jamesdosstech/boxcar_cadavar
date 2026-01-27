@@ -94,78 +94,155 @@ export default function Splash() {
       </div>
     );
   }
-
   return (
-    <div className="splash">
-      {/* HERO */}
-      <section className="hero">
-        <div className="hero-left">
-          <div className="hero-title">
-            <h1>Doosetrain</h1>
-            <p>Live sets • Original paintings • Blog updates</p>
-          </div>
-
-          <div className="timer-card">
-            <div className="timer-label">Next show</div>
-            <div className="timer-value">{timeText}</div>
-            <div className="timer-actions">
-              <Link className="btn primary" to="/showroom">
-                View Showroom
-              </Link>
-              <Link className="btn ghost" to="/shop">
-                Shop Paintings
-              </Link>
-            </div>
-          </div>
+  <div className="splash">
+    <section className="hero-grid">
+      {/* LEFT COLUMN */}
+      <div className="hero-left">
+        <div className="hero-title">
+          <h1>Doosetrain</h1>
+          <p>Live sets • Original paintings • Blog updates</p>
         </div>
 
-        <div className="hero-right">
-          <div className="feature-card">
-            <div className="feature-image">
-              <img src={latestProduct.imageUrl} alt={latestProduct.name} />
-            </div>
-            <div className="feature-meta">
-              <div className="badge">Latest Drop</div>
-              <h2>{latestProduct.name}</h2>
-              <p className="muted">{latestProduct.description}</p>
-              <div className="price-row">
-                <span className="price">{productPrice}</span>
-                <span className="stock">
-                  {Number(latestProduct.quantity) > 0 ? "In stock" : "Sold out"}
-                </span>
-              </div>
-              <div className="feature-actions">
-                <Link className="btn primary" to={`/product/${latestProduct.id}`}>
-                  View Details
-                </Link>
-                <Link className="btn ghost" to="/shop">
-                  Browse All
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LATEST BLOG */}
-      <section className="latest">
-        <div className="section-head">
-          <h3>Latest Blog</h3>
-          <Link className="link" to="/blog">
-            View all
-          </Link>
-        </div>
-
-        <div className="blog-preview">
-          <div className="blog-body">
-            <h4>{latestPost.title}</h4>
-            <p className="muted">{excerpt(latestPost.content, 220)}</p>
-            <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
-              Read more
+        <div className="timer-card">
+          <div className="timer-label">Next show</div>
+          <div className="timer-value">{timeText}</div>
+          <div className="timer-actions">
+            <Link className="btn primary" to="/showroom">
+              View Showroom
+            </Link>
+            <Link className="btn ghost" to="/shop">
+              Shop Paintings
             </Link>
           </div>
         </div>
-      </section>
-    </div>
-  );
+
+        {/* BLOG MOVED UNDER TIMER */}
+        <section className="latest latest-under-timer">
+          <div className="section-head">
+            <h3>Latest Blog</h3>
+            <Link className="link" to="/blog">
+              View all
+            </Link>
+          </div>
+
+          <div className="blog-preview">
+            <div className="blog-body">
+              <h4>{latestPost.title}</h4>
+              <p className="muted">{excerpt(latestPost.content, 220)}</p>
+              <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
+                Read more
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* RIGHT COLUMN */}
+      <div className="hero-right">
+        <div className="feature-card">
+          <div className="feature-image">
+            <img src={latestProduct.imageUrl} alt={latestProduct.name} />
+          </div>
+          <div className="feature-meta">
+            <div className="badge">Latest Drop</div>
+            <h2>{latestProduct.name}</h2>
+            <p className="muted">{latestProduct.description}</p>
+
+            <div className="price-row">
+              <span className="price">{productPrice}</span>
+              <span className="stock">
+                {Number(latestProduct.quantity) > 0 ? "In stock" : "Sold out"}
+              </span>
+            </div>
+
+            <div className="feature-actions">
+              <Link className="btn primary" to={`/product/${latestProduct.id}`}>
+                View Details
+              </Link>
+              <Link className="btn ghost" to="/shop">
+                Browse All
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+);
+
+
+  // return (
+  //   <div className="splash">
+  //     {/* HERO */}
+  //     <section className="hero">
+  //       <div className="hero-left">
+  //         <div className="hero-title">
+  //           <h1>Doosetrain</h1>
+  //           <p>Live sets • Original paintings • Blog updates</p>
+  //         </div>
+
+  //         <div className="timer-card">
+  //           <div className="timer-label">Next show</div>
+  //           <div className="timer-value">{timeText}</div>
+  //           <div className="timer-actions">
+  //             <Link className="btn primary" to="/showroom">
+  //               View Showroom
+  //             </Link>
+  //             <Link className="btn ghost" to="/shop">
+  //               Shop Paintings
+  //             </Link>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //       <div className="hero-right">
+  //         <div className="feature-card">
+  //           <div className="feature-image">
+  //             <img src={latestProduct.imageUrl} alt={latestProduct.name} />
+  //           </div>
+  //           <div className="feature-meta">
+  //             <div className="badge">Latest Drop</div>
+  //             <h2>{latestProduct.name}</h2>
+  //             <p className="muted">{latestProduct.description}</p>
+  //             <div className="price-row">
+  //               <span className="price">{productPrice}</span>
+  //               <span className="stock">
+  //                 {Number(latestProduct.quantity) > 0 ? "In stock" : "Sold out"}
+  //               </span>
+  //             </div>
+  //             <div className="feature-actions">
+  //               <Link className="btn primary" to={`/product/${latestProduct.id}`}>
+  //                 View Details
+  //               </Link>
+  //               <Link className="btn ghost" to="/shop">
+  //                 Browse All
+  //               </Link>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </section>
+
+  //     {/* LATEST BLOG */}
+  //     <section className="latest">
+  //       <div className="section-head">
+  //         <h3>Latest Blog</h3>
+  //         <Link className="link" to="/blog">
+  //           View all
+  //         </Link>
+  //       </div>
+
+  //       <div className="blog-preview">
+  //         <div className="blog-body">
+  //           <h4>{latestPost.title}</h4>
+  //           <p className="muted">{excerpt(latestPost.content, 220)}</p>
+  //           <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
+  //             Read more
+  //           </Link>
+  //         </div>
+  //       </div>
+  //     </section>
+  //   </div>
+  // );
 }

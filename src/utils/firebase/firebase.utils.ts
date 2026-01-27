@@ -183,10 +183,11 @@ export const getOrdersMissingCreatedAt = async (): Promise<string[]> => {
 export const createAuthUserWithEmailAndPassword = async (
   email: string,
   password: string
-): Promise<UserCredential | void> => {
-  if (!email || !password) return;
+): Promise<UserCredential> => {
+  if (!email || !password) throw new Error("Missing email or password");
   return createUserWithEmailAndPassword(auth, email, password);
 };
+
 
 export const signInUser = async (email: string, password: string): Promise<User> => {
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -229,13 +230,18 @@ export const createUserDocumentFromAuth = async (
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth;
-    const createdAt = new Date();
+    const email = userAuth.email ?? null;
 
+    const finalDisplayName =
+      (additionalInformation.displayName as string | undefined) ??
+      userAuth.displayName ??
+      null;
+
+    // Prefer serverTimestamp for consistency
     await setDoc(userDocRef, {
-      displayName,
+      displayName: finalDisplayName,
       email,
-      createdAt,
+      createdAt: serverTimestamp(),
       ...additionalInformation,
     });
   }

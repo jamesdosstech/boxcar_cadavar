@@ -1,97 +1,173 @@
-import React, { useEffect, useState } from "react";
-import { useProductsContext } from "../../context/product/product.context";
+import React, { useEffect, useMemo, useState } from "react";
 import "./DoosetrainStore.styles.scss";
-import UnderConstruction from "../../components/under-construction/under-contstruction.component";
 import { getAllProducts } from "../../utils/firebase/firebase.utils";
 import ProductCard from "../Product/ProductCard/ProductCard";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+
+const formatMoney = (cents, currency = "usd") => {
+  const cur = (currency ?? "usd").toUpperCase();
+  const amount = Number(cents ?? 0) / 100;
+  return `${amount.toFixed(2)} ${cur}`;
+};
 
 const DoosetrainStore = () => {
   const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [addedProduct, setAddedProduct] = useState(null);
+  const [search, setSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [sort, setSort] = useState("newest"); // newest | priceAsc | priceDesc | nameAsc
+  const [toast, setToast] = useState(null);
 
-  //context action
-  const { addItem, cartItems } = useCart()
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  const { addItem, cartItems } = useCart();
 
   useEffect(() => {
-    getAllProducts().then(setProducts)
-  },[]);
+    let mounted = true;
+    setLoading(true);
+    setError("");
+
+    getAllProducts()
+      .then((data) => {
+        if (!mounted) return;
+        setProducts(Array.isArray(data) ? data : []);
+      })
+      .catch((e) => {
+        if (!mounted) return;
+        setError(e?.message || "Failed to load products.");
+      })
+      .finally(() => mounted && setLoading(false));
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const categories = useMemo(() => {
+    const set = new Set(
+      (products || [])
+        .map((p) => (p?.category || "").trim())
+        .filter(Boolean)
+    );
+    return Array.from(set).sort((a, b) => a.localeCompare(b));
+  }, [products]);
+
+  const filteredProducts = useMemo(() => {
+    const s = search.trim().toLowerCase();
+
+    let list = (products || []).filter((p) => {
+      const name = (p?.name || "").toLowerCase();
+      const matchesSearch = s ? name.includes(s) : true;
+      const matchesCategory = categoryFilter ? p?.category === categoryFilter : true;
+      return matchesSearch && matchesCategory;
+    });
+
+    list = list.slice().sort((a, b) => {
+      if (sort === "priceAsc") return Number(a?.price ?? 0) - Number(b?.price ?? 0);
+      if (sort === "priceDesc") return Number(b?.price ?? 0) - Number(a?.price ?? 0);
+      if (sort === "nameAsc") return (a?.name || "").localeCompare(b?.name || "");
+      // newest (best effort)
+      const aMs = a?.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+      const bMs = b?.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+      return bMs - aMs;
+    });
+
+    return list;
+  }, [products, search, categoryFilter, sort]);
 
   const handleAddToCart = (product) => {
-    console.log('added ', product)
     addItem(product);
-    setAddedProduct(product.name);
-    setTimeout(() => setAddedProduct(null), 2000)
-  }
-
-  const categories = [...new Set(products.map((p) => p.category))];
-
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = categoryFilter ? product.category === categoryFilter : true;
-    return matchesSearch && matchesCategory;
-  });
+    setToast({ type: "success", message: `Added ${product?.name || "item"} to cart` });
+    window.clearTimeout((handleAddToCart)._t);
+    (handleAddToCart)._t = window.setTimeout(() => setToast(null), 1800);
+  };
 
   return (
-    <div className="shop-container">
-      <div className="shop-title">Shop All Products</div>
+    <div className="shop">
+      <header className="shop-head">
+        <div>
+          <h1 className="shop-title">Shop</h1>
+          <p className="shop-subtitle">Original paintings and drops.</p>
+        </div>
+
+        <Link className="shop-cart-link" to="/cart">
+          Cart
+          {cartItems?.length ? <span className="shop-cart-badge">{cartItems.length}</span> : null}
+        </Link>
+      </header>
+
       <div className="shop-filters">
-        <input
-          style={{backgroundColor: 'white'}}
-          type="text"
-          placeholder="Search by name..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <select
-          style={{backgroundColor: 'white'}}
-          value={categoryFilter}
-          onChange={(e) => setCategoryFilter(e.target.value)}
-        >
-          <option value="">All Categories</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </option>
-          ))}
-        </select>
+        <div className="shop-search">
+          <input
+            type="text"
+            placeholder="Search products…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <div className="shop-selects">
+          <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
+          </select>
+
+          <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <option value="newest">Newest</option>
+            <option value="priceAsc">Price: Low → High</option>
+            <option value="priceDesc">Price: High → Low</option>
+            <option value="nameAsc">Name: A → Z</option>
+          </select>
+        </div>
       </div>
-      <div className="shop-grid">
-        {filteredProducts.map((product) => {
-          const cartItem = cartItems.find((item)=> item.id === product.id)
-          const stock = product.quantity;
-          const quantityInCart = cartItem ? cartItem.quantity : 0
-          const isOutOfStock = quantityInCart >= stock;
-          return (
-            <ProductCard 
-              key={product.id} 
-              product={product}
-              actions={
-                <>
-                  <button
-                    className="nav-link"
-                    // className="add-to-cart-button"
-                    onClick={() => handleAddToCart(product)}
-                    disabled={isOutOfStock}
-                  >
-                    {isOutOfStock ? "Out of Stock" : "Add to Cart"}
-                  </button>
-                  <NavLink
-                    to={`/product/${product.id}`}
-                  >
-                    Details
-                  </NavLink>
-                </>
-              }
-            />  
-          )
-        })}
-        {addedProduct && <div className="add-notification">Added {addedProduct} to cart</div>}
-      </div>
+
+      {loading ? (
+        <div className="shop-state">Loading products…</div>
+      ) : error ? (
+        <div className="shop-state error">{error}</div>
+      ) : filteredProducts.length === 0 ? (
+        <div className="shop-state">No products match your filters.</div>
+      ) : (
+        <div className="shop-grid">
+          {filteredProducts.map((product) => {
+            const cartItem = cartItems.find((item) => item.id === product.id);
+            const stock = Number(product.quantity ?? 0);
+            const quantityInCart = cartItem ? Number(cartItem.quantity ?? 0) : 0;
+            const isOutOfStock = stock > 0 ? quantityInCart >= stock : stock === 0;
+
+            return (
+              <ProductCard
+                key={product.id}
+                product={product}
+                actions={
+                  <>
+                    <button
+                      className="shop-btn primary"
+                      onClick={() => handleAddToCart(product)}
+                      disabled={isOutOfStock}
+                      aria-disabled={isOutOfStock}
+                      title={isOutOfStock ? "Out of stock" : "Add to cart"}
+                    >
+                      {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+                    </button>
+
+                    <NavLink className="shop-btn ghost" to={`/product/${product.id}`}>
+                      Details
+                    </NavLink>
+                  </>
+                }
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {toast ? <div className="shop-toast">{toast.message}</div> : null}
     </div>
   );
 };

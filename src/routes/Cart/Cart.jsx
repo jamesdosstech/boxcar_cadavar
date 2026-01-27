@@ -1,20 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Cart.styles.scss";
 
-const money = (cents) => `$${(cents / 100).toFixed(2)}`;
+const money = (cents) => `$${(Number(cents || 0) / 100).toFixed(2)}`;
 
 const CartModal = ({ onClose }) => {
-  const { cartItems, addItem, decrementItem, removeItem, subtotalCents, itemCount } = useCart();
+  const { cartItems, removeItem, subtotalCents, itemCount } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
+   const firstRun = useRef(true);
 
-  // // Close modal on route change (prevents weird “modal stays open” moments)
-  // useEffect(() => {
-  //   onClose?.();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [location.pathname]);
+  // Close modal on route change (prevents “modal stays open”)
+  useEffect(() => {
+    if(firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    onClose?.();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, onClose]);
 
   // Escape key to close
   useEffect(() => {
@@ -35,66 +40,80 @@ const CartModal = ({ onClose }) => {
     navigate("/cart");
   };
 
+  const goShop = () => {
+    onClose?.();
+    navigate("/shop");
+  };
+
+  const itemsPreview = useMemo(() => {
+    // show up to 4 items; keeps modal short + “preview” vibe
+    const list = Array.isArray(cartItems) ? cartItems : [];
+    return list.slice(0, 4);
+  }, [cartItems]);
+
+  const hasMore = cartItems.length > itemsPreview.length;
+
   return (
     <div
       className="cart-modal-backdrop"
       onMouseDown={(e) => {
-        // close if clicking the backdrop (not inside modal)
         if (e.target === e.currentTarget) onClose?.();
       }}
     >
-      <div className="cart-modal">
+      <div className="cart-modal" role="dialog" aria-modal="true" aria-label="Cart">
         <button className="close-btn" onClick={onClose} aria-label="Close cart">
           ×
         </button>
 
-        <h3>Your Cart {itemCount ? <span style={{ opacity: 0.8 }}>({itemCount})</span> : null}</h3>
+        <h3>
+          Your Cart {itemCount ? <span style={{ opacity: 0.8 }}>({itemCount})</span> : null}
+        </h3>
 
         {cartItems.length === 0 ? (
           <div style={{ textAlign: "center" }}>
             <p>Your cart is empty.</p>
-            <button className="checkout-btn" onClick={() => { onClose?.(); navigate("/shop"); }}>
+            <button className="checkout-btn" onClick={goShop}>
               Browse Shop
             </button>
           </div>
         ) : (
           <>
-            {cartItems.map((item) => (
-              <div key={item.id} className="cart-item">
-                <img src={item.imageUrl} alt={item.name} className="cart-img" />
+            {itemsPreview.map((item) => {
+              const stock = Number(item.stock ?? item.quantity ?? 0); // safe fallback
+              return (
+                <div key={item.id} className="cart-item">
+                  <img src={item.imageUrl} alt={item.name} className="cart-img" />
 
-                <div className="cart-details">
-                  <h4>{item.name}</h4>
+                  <div className="cart-details">
+                    <h4>{item.name}</h4>
 
-                  <div className="quantity-control">
-                    <button onClick={() => decrementItem(item.id)} aria-label="Decrease quantity">
-                      -
+                    {/* PREVIEW ONLY: show quantity but no +/- controls */}
+                    <div style={{ display: "flex", gap: ".6rem", alignItems: "center", margin: ".5rem 0" }}>
+                      <span style={{ fontWeight: 800 }}>Qty:</span>
+                      <span>{item.quantity}</span>
+                      {stock ? (
+                        <span style={{ marginLeft: ".25rem", opacity: 0.85 }}>/ {stock}</span>
+                      ) : null}
+                    </div>
+
+                    <p>
+                      {money(item.price * item.quantity)}{" "}
+                      {String(item.currency || "usd").toUpperCase()}
+                    </p>
+
+                    <button onClick={() => removeItem(item.id)} className="remove-btn">
+                      Remove
                     </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      onClick={() => addItem(item)}
-                      disabled={item.quantity >= item.stock}
-                      aria-label="Increase quantity"
-                      title={item.quantity >= item.stock ? "No more stock available" : "Add one"}
-                    >
-                      +
-                    </button>
-                    <span style={{ marginLeft: ".5rem", opacity: 0.85 }}>
-                      / {item.stock}
-                    </span>
                   </div>
-
-                  <p>
-                    {money(item.price * item.quantity)}{" "}
-                    {String(item.currency || "usd").toUpperCase()}
-                  </p>
-
-                  <button onClick={() => removeItem(item.id)} className="remove-btn">
-                    Remove
-                  </button>
                 </div>
+              );
+            })}
+
+            {hasMore ? (
+              <div style={{ textAlign: "center", opacity: 0.85, marginTop: ".25rem" }}>
+                + {cartItems.length - itemsPreview.length} more item(s) in cart
               </div>
-            ))}
+            ) : null}
 
             <div className="cart-footer">
               <div className="cart-total">
@@ -105,11 +124,10 @@ const CartModal = ({ onClose }) => {
                 <button className="checkout-btn" onClick={goCheckout}>
                   Checkout
                 </button>
-                <button className="checkout-btn" onClick={goCart} style={{ backgroundColor: "#7a1c6e" }}>
+                <button className="checkout-btn checkout-btn--alt" onClick={goCart}>
                   View Cart
                 </button>
               </div>
-
               <div style={{ marginTop: "0.75rem", opacity: 0.8, fontSize: ".9rem" }}>
                 Shipping and taxes calculated at checkout.
               </div>

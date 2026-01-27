@@ -63,7 +63,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
 
   const handleSignOut = () => {
     signOutUser();
-    onClose();
+    setStep(4);
   };
 
   const handleUsernameChange = async (e: React.FormEvent) => {
@@ -270,11 +270,15 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
             </p>
           </StepLayout>
         )}
-
         {step === 5 && (
           <StepLayout>
             <h3 className="ds-center">Sign Up</h3>
-            <SignUpForm />
+            <SignUpForm
+              onSuccess={() => {
+                setConfirmationMessage("Account created successfully!");
+                setStep(6);
+              }}
+            />
             <p className="ds-center">
               Already have an account?{" "}
               <button className="ds-link-btn" type="button" onClick={() => setStep(4)}>
@@ -283,7 +287,6 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
             </p>
           </StepLayout>
         )}
-
         {step === 6 && (
           <StepLayout>
             <h3 className="ds-center">{confirmationMessage}</h3>

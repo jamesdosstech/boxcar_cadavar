@@ -12,16 +12,25 @@ const items = [
 export default function DashboardNavigation() {
   return (
     <nav className="ds-admin-nav" aria-label="Admin navigation">
-      {items.map((i) => (
-        <NavLink
-          key={i.label}
-          to={i.to}
-          end={i.to === ""}
-          className={({ isActive }) => (isActive ? "active" : "")}
-        >
-          {i.label}
-        </NavLink>
-      ))}
+      <div className="ds-admin-nav-header">
+        <div className="ds-admin-nav-brand">Admin</div>
+        <div className="ds-admin-nav-subtitle">Manage the store</div>
+      </div>
+
+      <div className="ds-admin-nav-links">
+        {items.map((i) => (
+          <NavLink
+            key={i.label}
+            to={i.to}
+            end={i.to === ""}
+            className={({ isActive }) =>
+              `ds-admin-nav-link ${isActive ? "is-active" : ""}`
+            }
+          >
+            <span className="ds-admin-nav-link-text">{i.label}</span>
+          </NavLink>
+        ))}
+      </div>
     </nav>
   );
 }

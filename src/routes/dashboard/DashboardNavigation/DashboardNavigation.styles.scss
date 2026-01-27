@@ -63,42 +63,10 @@
   gap: 8px;
 }
 
-.ds-admin-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.ds-admin-nav a {
-  text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 12px;
-  color: var(--text-muted);
-  border: 1px solid transparent;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-}
-
-.ds-admin-nav a:hover,
-.ds-admin-nav a:focus-visible {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
-  outline: none;
-}
-
-.ds-admin-nav a.active {
-  color: var(--text);
-  border-color: rgba(255, 255, 255, 0.08);
-  background: linear-gradient(
-    90deg,
-    rgba(255, 121, 198, 0.18),
-    rgba(68, 177, 255, 0.18)
-  );
-}
-
 /* Mobile: turn links into scrollable tabs */
 @media (max-width: 900px) {
   .ds-admin-nav-header {
-    display: none; /* keep mobile compact */
+    display: none;
   }
 
   .ds-admin-nav-links {
@@ -106,9 +74,23 @@
     overflow-x: auto;
     white-space: nowrap;
     padding-bottom: 6px;
+    gap: 10px;
+
+    /* nice scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
+
+    /* optional: hide scrollbar (webkit) */
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
   }
 
   .ds-admin-nav-link {
     flex: 0 0 auto;
+    transform: none; /* prevents “jump” on tap */
+  }
+
+  .ds-admin-nav-link:hover {
+    transform: none;
   }
 }

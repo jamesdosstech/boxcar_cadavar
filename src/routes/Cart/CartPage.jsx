@@ -1,8 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
+import "./CartPage.styles.scss";
 
-const money = (cents) => `$${(cents / 100).toFixed(2)}`;
+const money = (cents) => `$${(Number(cents || 0) / 100).toFixed(2)}`;
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -10,93 +11,113 @@ export default function CartPage() {
 
   if (!cartItems.length) {
     return (
-      <div style={{ padding: "2rem", color: "white" }}>
-        <h2>Your cart is empty</h2>
-        <Link to="/shop">Go to shop</Link>
+      <div className="cart">
+        <div className="cart-empty">
+          <h2>Your cart is empty</h2>
+          <Link className="cart-link" to="/shop">
+            Go to shop
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: "2rem", color: "white", maxWidth: 900, margin: "0 auto" }}>
-      <h2>Your Cart</h2>
+    <div className="cart">
+      <header className="cart-head">
+        <h2>Your Cart</h2>
+        <Link className="cart-link" to="/shop">
+          Continue shopping
+        </Link>
+      </header>
 
-      <div style={{ display: "grid", gap: "1rem", marginTop: "1rem" }}>
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "100px 1fr auto",
-              gap: "1rem",
-              alignItems: "center",
-              padding: "1rem",
-              borderRadius: 12,
-              background: "rgba(0,0,0,0.35)",
-            }}
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.name}
-              style={{ width: 100, height: 90, objectFit: "cover", borderRadius: 10 }}
-            />
+      <div className="cart-items">
+        {cartItems.map((item) => {
+          const stock = Number(item.stock ?? item.quantity ?? 0);
+          const maxQty = stock > 0 ? stock : 1;
+          const qty = Number(item.quantity ?? 1);
 
-            <div>
-              <div style={{ fontWeight: 800 }}>{item.name}</div>
-              <div style={{ opacity: 0.9 }}>{money(item.price)} each</div>
+          const canIncrement = stock > 0 ? qty < stock : true;
 
-              <div style={{ display: "flex", gap: ".5rem", alignItems: "center", marginTop: ".6rem" }}>
-                <button onClick={() => decrementItem(item.id)}>-</button>
+          return (
+            <div key={item.id} className="cart-item">
+              <div className="cart-item-media">
+                {item.imageUrl ? (
+                  <img src={item.imageUrl} alt={item.name} loading="lazy" decoding="async" />
+                ) : (
+                  <div className="cart-item-placeholder" aria-hidden="true">
+                    No image
+                  </div>
+                )}
+              </div>
 
-                <input
-                  type="number"
-                  min={1}
-                  max={item.stock}
-                  value={item.quantity}
-                  onChange={(e) => setItemQty(item.id, e.target.value)}
-                  style={{ width: 70 }}
-                />
+              <div className="cart-item-main">
+                <div className="cart-item-title">{item.name}</div>
+                <div className="cart-item-sub">{money(item.price)} each</div>
 
-                <button onClick={() => addItem(item)} disabled={item.quantity >= item.stock}>
-                  +
+                <div className="cart-qty">
+                  <button className="cart-qty-btn" onClick={() => decrementItem(item.id)} aria-label="Decrease quantity">
+                    −
+                  </button>
+
+                  <input
+                    className="cart-qty-input"
+                    type="number"
+                    min={1}
+                    max={maxQty}
+                    value={qty}
+                    onChange={(e) => {
+                      const n = Number(e.target.value);
+                      const clamped = Number.isFinite(n)
+                        ? Math.max(1, Math.min(maxQty, n))
+                        : 1;
+                      setItemQty(item.id, clamped);
+                    }}
+                  />
+
+                  <button
+                    className="cart-qty-btn"
+                    onClick={() => addItem(item)}
+                    disabled={!canIncrement}
+                    aria-label="Increase quantity"
+                    title={!canIncrement ? "Out of stock" : "Increase quantity"}
+                  >
+                    +
+                  </button>
+
+                  {stock > 0 ? (
+                    <span className="cart-qty-stock">/ {stock} available</span>
+                  ) : (
+                    <span className="cart-qty-stock muted">(stock unavailable)</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="cart-item-side">
+                <div className="cart-item-total">{money(item.price * qty)}</div>
+                <button className="cart-remove" onClick={() => removeItem(item.id)}>
+                  Remove
                 </button>
-
-                <span style={{ opacity: 0.85, marginLeft: ".5rem" }}>/ {item.stock} available</span>
               </div>
             </div>
-
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontWeight: 800 }}>{money(item.price * item.quantity)}</div>
-              <button onClick={() => removeItem(item.id)} style={{ marginTop: ".5rem" }}>
-                Remove
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      <div
-        style={{
-          marginTop: "1.5rem",
-          padding: "1rem",
-          borderRadius: 12,
-          background: "rgba(0,0,0,0.35)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
-        <div>
-          <div style={{ opacity: 0.9 }}>Subtotal</div>
-          <div style={{ fontSize: "1.3rem", fontWeight: 900 }}>{money(subtotalCents)}</div>
+      <footer className="cart-summary">
+        <div className="cart-summary-left">
+          <div className="cart-summary-label">Subtotal</div>
+          <div className="cart-summary-value">{money(subtotalCents)}</div>
         </div>
 
-        <button onClick={() => navigate("/checkout")} style={{ padding: "0.8rem 1.2rem" }}>
+        <button
+          className="cart-checkout"
+          onClick={() => navigate("/checkout")}
+          disabled={Number(subtotalCents || 0) <= 0}
+        >
           Proceed to Checkout
         </button>
-      </div>
+      </footer>
     </div>
   );
 }

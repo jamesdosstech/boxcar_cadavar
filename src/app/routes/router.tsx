@@ -44,7 +44,6 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Splash
-                    data={splashMessage}
                 />
             },
             {

@@ -95,8 +95,7 @@ export default function Navigation() {
           )}
         </div>
       </nav>
-
-      {state.isModalOpen && currentUser && (
+      {state.isModalOpen && (
         <AccountModal
           currentUser={currentUser}
           step={step}
@@ -104,7 +103,6 @@ export default function Navigation() {
           onClose={() => dispatch({ type: "TOGGLE_MODAL" })}
         />
       )}
-
       {isCartOpen && <CartModal onClose={() => setIsCartOpen(false)} />}
     </>
   );
