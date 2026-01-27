@@ -98,34 +98,34 @@ export const router = createBrowserRouter([
                 element: <ProtectedGuard />,
                 children: [
                     {
-                    element: <AdminLayout />,
-                    children: [
-                        { index: true, element: <Home /> },
-                        { path: "users", element: <Users /> },
-                        {
-                        path: "products",
-                        element: <ProductLayout />,
+                        element: <AdminLayout />,
                         children: [
-                            { index: true, element: <ProductList /> },
-                            { path: "new-product", element: <ProductNew /> },
-                            { path: "edit/:productId", element: <ProductEdit /> },
+                            { index: true, element: <Home /> },
+                            { path: "users", element: <Users /> },
+                            {
+                            path: "products",
+                            element: <ProductLayout />,
+                            children: [
+                                { index: true, element: <ProductList /> },
+                                { path: "new-product", element: <ProductNew /> },
+                                { path: "edit/:productId", element: <ProductEdit /> },
+                            ],
+                            },
+                            {
+                            path: "blog",
+                            element: <BlogLayout />,
+                            children: [
+                                { index: true, element: <BlogList /> },
+                                { path: "new-post", element: <BlogEntry /> },
+                                { path: ":postId", element: <BlogDetails /> },
+                                { path: ":postId/edit", element: <BlogEdit /> },
+                            ],
+                            },
+                            { path: "orders", element: <Orders /> },
                         ],
-                        },
-                        {
-                        path: "blog",
-                        element: <BlogLayout />,
-                        children: [
-                            { index: true, element: <BlogList /> },
-                            { path: "new-post", element: <BlogEntry /> },
-                            { path: ":postId", element: <BlogDetails /> },
-                            { path: ":postId/edit", element: <BlogEdit /> },
-                        ],
-                        },
-                        { path: "orders", element: <Orders /> },
-                    ],
                     },
                 ],
-                }
+            }
         ]
     }
 ])

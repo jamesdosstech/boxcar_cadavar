@@ -146,6 +146,7 @@ exports.handler = async (event) => {
                     totalCents,
                     currency: "usd",
                     status: existingOrder?.status || "pending",
+                    createdAt: existingOrder?.createdAt || admin.firestore.FieldValue.serverTimestamp(),
                     contact: {
                         name: shipping.name,
                         email: shipping.email,

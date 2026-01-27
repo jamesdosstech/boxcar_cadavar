@@ -1,0 +1,56 @@
+.ds-admin-card {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
+}
+
+.ds-admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.ds-admin-card-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.ds-admin-card-subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.ds-table-wrap { overflow: auto; }
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    text-align: left;
+  }
+
+  th {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+}
+
+.ds-row-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.ds-link {
+  text-decoration: none;
+  color: var(--accent-blue);
+}
+.ds-link:hover { text-decoration: underline; }

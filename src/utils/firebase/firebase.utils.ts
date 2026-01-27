@@ -1,5 +1,6 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { firebaseConfig } from "../../constants";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -30,20 +31,155 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  type QueryDocumentSnapshot,
   type DocumentData,
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
 
-// Initialize Firebase app
-export const doosetrainApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+// -------------------- Firebase init --------------------
+export const doosetrainApp =
+  getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// Firebase services
 export const auth = getAuth(doosetrainApp);
 export const db = getFirestore(doosetrainApp);
 export const storage = getStorage(doosetrainApp);
 
-// ---------- Auth helpers ----------
+// -------------------- Orders --------------------
+export type OrderStatus = "pending" | "paid" | "failed" | "refunded";
+
+export type OrderContact = {
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+export type OrderItemSnapshot = {
+  productId: string;
+  qty: number;
+  nameSnapshot: string;
+  priceCentsSnapshot: number;
+  imageSnapshot?: string;
+};
+
+export type ShippingAddress = {
+  city: string;
+  country: string;
+  line1: string;
+  line2?: string;
+  postal_code: string;
+  state: string;
+};
+
+export type Order = {
+  id: string;
+  uid: string;
+
+  createdAt: Date | null;
+  status: OrderStatus;
+  currency: string;
+
+  totalCents: number;
+  subtotalCents: number;
+  shippingCents: number;
+
+  contact: OrderContact;
+
+  items?: OrderItemSnapshot[];
+  shippingAddress?: ShippingAddress;
+
+  deliveryNotes?: string;
+  inventoryApplied?: boolean;
+  paymentIntentId?: string;
+};
+
+export const upsertOrderById = async (
+  orderId: string,
+  data: Omit<Order, "id" | "createdAt"> & { createdAt?: unknown }
+): Promise<void> => {
+  const ref = doc(db, "orders", orderId);
+  await setDoc(
+    ref,
+    {
+      ...data,
+      // always set createdAt once, keep if already there
+      createdAt: (data as any).createdAt ?? serverTimestamp(),
+    },
+    { merge: true }
+  );
+};
+
+export type CreateOrderInput = Omit<Order, "id" | "createdAt">;
+
+const ordersRef = collection(db, "orders");
+
+const toDate = (v: unknown): Date | null => {
+  if (v instanceof Timestamp) return v.toDate();
+  return null;
+};
+
+const normalizeStatus = (v: unknown): OrderStatus => {
+  const s = String(v ?? "pending").toLowerCase();
+  if (s === "pending" || s === "paid" || s === "failed" || s === "refunded") return s;
+  return "pending";
+};
+
+const mapOrder = (docSnap: QueryDocumentSnapshot<DocumentData>): Order => {
+  const data = docSnap.data() as Record<string, unknown>;
+  const contactRaw = (data.contact ?? {}) as Record<string, unknown>;
+
+  return {
+    id: docSnap.id,
+    uid: String(data.uid ?? ""),
+
+    createdAt: toDate(data.createdAt),
+    status: normalizeStatus(data.status),
+    currency: String(data.currency ?? "usd"),
+
+    totalCents: Number(data.totalCents ?? 0),
+    subtotalCents: Number(data.subtotalCents ?? 0),
+    shippingCents: Number(data.shippingCents ?? 0),
+
+    contact: {
+      name: (contactRaw.name as string) ?? null,
+      email: (contactRaw.email as string) ?? null,
+      phone: (contactRaw.phone as string) ?? null,
+    },
+
+    items: (data.items as OrderItemSnapshot[]) ?? [],
+    shippingAddress: (data.shippingAddress as ShippingAddress) ?? undefined,
+
+    deliveryNotes: (data.deliveryNotes as string) ?? "",
+    inventoryApplied: Boolean(data.inventoryApplied ?? false),
+    paymentIntentId: (data.paymentIntentId as string) ?? "",
+  };
+};
+
+export const getRecentOrders = async (max = 8): Promise<Order[]> => {
+  const q = query(ordersRef, orderBy("createdAt", "desc"), limit(max));
+  const snap = await getDocs(q);
+  return snap.docs.map(mapOrder);
+};
+
+/**
+ * Use this whenever you create an order from your app.
+ * Guarantees createdAt is always present and consistent.
+ */
+export const createOrder = async (data: CreateOrderInput): Promise<{ id: string }> => {
+  const docRef = await addDoc(ordersRef, {
+    ...data,
+    createdAt: serverTimestamp(),
+  });
+  return { id: docRef.id };
+};
+
+// Optional helper: quick audit
+export const getOrdersMissingCreatedAt = async (): Promise<string[]> => {
+  const snap = await getDocs(collection(db, "orders"));
+  return snap.docs.filter((d) => !d.data()?.createdAt).map((d) => d.id);
+};
+
+// -------------------- Auth helpers --------------------
 export const createAuthUserWithEmailAndPassword = async (
   email: string,
   password: string
@@ -74,7 +210,6 @@ export const reauthenticateUserWithPassword = async (
   return reauthenticateWithCredential(user, credential);
 };
 
-// Update Username
 export const updateUserName = async (displayName: string): Promise<void> => {
   if (!auth.currentUser) throw new Error("No user signed in");
   await updateProfile(auth.currentUser, { displayName });
@@ -83,7 +218,7 @@ export const updateUserName = async (displayName: string): Promise<void> => {
 export const onAuthStateChangedListener = (callback: (user: User | null) => void) =>
   onAuthStateChanged(auth, callback);
 
-// ---------- User doc ----------
+// -------------------- User doc --------------------
 export const createUserDocumentFromAuth = async (
   userAuth: User,
   additionalInformation: Record<string, unknown> = {}
@@ -108,8 +243,9 @@ export const createUserDocumentFromAuth = async (
   return userDocRef;
 };
 
-// ---------- Messaging ----------
-const expirationTime = Timestamp.fromMillis(Date.now() + 60 * 60 * 1000);
+// -------------------- Messaging --------------------
+// IMPORTANT: TTL should be calculated per message (not once at module load)
+const getExpirationTime = () => Timestamp.fromMillis(Date.now() + 60 * 60 * 1000);
 
 export const sendMessage = async (user: User, text: string): Promise<void> => {
   await addDoc(collection(db, "messages"), {
@@ -117,11 +253,13 @@ export const sendMessage = async (user: User, text: string): Promise<void> => {
     displayName: user.displayName,
     text: text.trim(),
     timestamp: serverTimestamp(),
-    ttl: expirationTime,
+    ttl: getExpirationTime(),
   });
 };
 
-export const getMessages = (callback: (messages: Array<{ id: string } & DocumentData>) => void) => {
+export const getMessages = (
+  callback: (messages: Array<{ id: string } & DocumentData>) => void
+) => {
   return onSnapshot(
     query(collection(db, "messages"), orderBy("timestamp", "desc"), limit(10)),
     (querySnapshot) => {
@@ -134,7 +272,7 @@ export const getMessages = (callback: (messages: Array<{ id: string } & Document
   );
 };
 
-// ---------- Store ----------
+// -------------------- Store (Products) --------------------
 const productsRef = collection(db, "products");
 
 export const getAllProducts = async (): Promise<Array<{ id: string } & DocumentData>> => {
@@ -165,4 +303,44 @@ export const updateProduct = async (id: string, data: Record<string, unknown>): 
 export const deleteProduct = async (id: string): Promise<void> => {
   const docRef = doc(db, "products", id);
   await deleteDoc(docRef);
+};
+
+// Blog
+
+
+export const blogPostsRef = collection(db, "blogPosts");
+
+export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
+  const q = query(blogPostsRef, orderBy("createdAt", "desc"));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...(d.data() as any) }));
+};
+
+export const getBlogPost = async (id: string): Promise<BlogPost> => {
+  const ref = doc(db, "blogPosts", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) throw new Error("Post not found");
+  return { id: snap.id, ...(snap.data() as any) };
+};
+
+export const createBlogPost = async (data: BlogPostInput): Promise<{ id: string }> => {
+  const docRef = await addDoc(blogPostsRef, {
+    ...data,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+  return { id: docRef.id };
+};
+
+export const updateBlogPost = async (id: string, data: BlogPostInput): Promise<void> => {
+  const ref = doc(db, "blogPosts", id);
+  await updateDoc(ref, {
+    ...data,
+    updatedAt: serverTimestamp(),
+  });
+};
+
+export const deleteBlogPost = async (id: string): Promise<void> => {
+  const ref = doc(db, "blogPosts", id);
+  await deleteDoc(ref);
 };

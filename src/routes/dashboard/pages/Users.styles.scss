@@ -1,47 +1,100 @@
-.users-container {
-    padding: 20px;
-    background: #1a1a2e;
-    color: #fff;
-    border-radius: 8px;
-  }
-  
-  .users-title {
-    font-size: 24px;
-    margin-bottom: 16px;
-    text-align: center;
-  }
-  
-  .loading, .error {
-    text-align: center;
-    font-size: 18px;
-    color: #ffcc00;
-  }
-  
-  .error {
-    color: #ff4d4d;
-  }
-  
-  .users-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #16213e;
-    color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .users-table th, .users-table td {
-    padding: 12px;
-    border-bottom: 1px solid #0f3460;
-    text-align: left;
-  }
-  
-  .users-table th {
-    background: #0f3460;
-  }
-  
-  .no-users {
-    text-align: center;
-    color: #ffcc00;
-  }
-  
+.ds-users {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-users-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
+}
+
+.ds-users-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.ds-users-subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.ds-users-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ds-users-search {
+  min-width: 260px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.ds-users-search:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ds-users-count {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.ds-table-wrap {
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+}
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+.ds-table th,
+.ds-table td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.ds-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.ds-strong {
+  font-weight: 800;
+}
+
+.ds-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+}
+
+.ds-muted {
+  color: var(--text-muted);
+}
+
+.ds-error {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 92, 122, 0.12);
+  border: 1px solid rgba(255, 92, 122, 0.25);
+}

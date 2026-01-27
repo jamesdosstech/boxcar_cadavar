@@ -1,0 +1,38 @@
+.ds-products {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ds-products-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 220px auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.ds-products-toolbar-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.ds-empty {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
+}
+
+.ds-muted { color: var(--text-muted); }
+
+@media (max-width: 900px) {
+  .ds-products-toolbar {
+    grid-template-columns: 1fr;
+  }
+}

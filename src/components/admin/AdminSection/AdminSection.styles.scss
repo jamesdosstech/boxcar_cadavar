@@ -1,0 +1,33 @@
+.ds-admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-admin-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ds-admin-section-title h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.ds-admin-section-subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.ds-admin-section-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ds-admin-section-body {
+  padding-top: 6px;
+}

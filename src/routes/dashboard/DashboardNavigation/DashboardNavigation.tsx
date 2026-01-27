@@ -1,14 +1,8 @@
 import { NavLink } from "react-router-dom";
 import "./DashboardNavigation.styles.scss";
 
-type AdminNavItem = {
-  label: string;
-  to: string;
-  end?: boolean;
-};
-
-const adminNavItems: AdminNavItem[] = [
-  { label: "Dashboard", to: "", end: true },
+const items = [
+  { label: "Dashboard", to: "" },
   { label: "Orders", to: "orders" },
   { label: "Products", to: "products" },
   { label: "Users", to: "users" },
@@ -18,21 +12,16 @@ const adminNavItems: AdminNavItem[] = [
 export default function DashboardNavigation() {
   return (
     <nav className="ds-admin-nav" aria-label="Admin navigation">
-      <ul className="ds-admin-nav-list">
-        {adminNavItems.map(({ label, to, end }) => (
-          <li key={label}>
-            <NavLink
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `ds-admin-nav-link ${isActive ? "is-active" : ""}`
-              }
-            >
-              {label}
-            </NavLink>
-          </li>
-        ))}
-      </ul>
+      {items.map((i) => (
+        <NavLink
+          key={i.label}
+          to={i.to}
+          end={i.to === ""}
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          {i.label}
+        </NavLink>
+      ))}
     </nav>
   );
 }

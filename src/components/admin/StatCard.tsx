@@ -1,9 +1,15 @@
-import React from 'react'
+type Props = {
+  title: string;
+  value: string | number;
+  subtitle?: string;
+};
 
-const StatCard = () => {
+export default function StatCard({ title, value, subtitle }: Props) {
   return (
-    <div>StatCard</div>
-  )
+    <div className="ds-stat-card">
+      <div className="ds-stat-card-label">{title}</div>
+      <div className="ds-stat-card-value">{value}</div>
+      {subtitle && <div className="ds-stat-card-sub">{subtitle}</div>}
+    </div>
+  );
 }
-
-export default StatCard
