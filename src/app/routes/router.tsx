@@ -3,11 +3,11 @@ import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 
 import Splash from "../../routes/splash/splash.component";
-import Showroom from "../../routes/showroom/showroom.component";
+import Showroom from "../../features/showroom/showroom.component";
 import ResetPassword from "../../routes/forgot-password/ResetPassword";
-import Authentication from "../../routes/authentication/authentication.component";
+import Authentication from "../../features/authentication/authentication.component";
 import DoosetrainStore from "../../routes/store/DoosetrainStore";
-import Checkout from "../../routes/checkout/checkout.component";
+import Checkout from "../../features/checkout/checkout.component";
 import { splashMessage } from '../../constants'
 import ErrorPage from "../../routes/ErrorPage/ErrorPage";
 import RootLayout from "../../routes/Root/RootLayout";
@@ -22,16 +22,16 @@ import ProductNew from "../../routes/Product/ProductNew";
 import ProductEdit from "../../routes/Product/ProductEdit";
 import ProductDetails from "../../routes/Product/ProductDetails";
 
-import BlogPage from "../../routes/Blog/BlogPage";
+import BlogPage from "../../features/Blog/BlogPage";
 //blog
 import BlogEntry from '../../routes/dashboard/pages/Blog/BlogEntry/BlogEntry'
 import BlogLayout from "../../routes/dashboard/pages/Blog/BlogLayout";
 import BlogList from '../../routes/dashboard/pages/Blog/BlogList/BlogList';
-import BlogPost from "../../routes/Blog/BlogPost/BlogPost";
-import MainBlogLayout from "../../routes/Blog/MainBlogLayout";
+import BlogPost from "../../features/Blog/BlogPost/BlogPost";
+import MainBlogLayout from "../../features/Blog/MainBlogLayout";
 import BlogDetails from "../../routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
 import BlogEdit from "../../routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
-import CheckoutSuccess from "../../routes/checkout/CheckoutSuccess";
+import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
 import CartPage from "../../routes/Cart/CartPage";
 import AdminLayout from "../../routes/Admin/AdminLayout";
 

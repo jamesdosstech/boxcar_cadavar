@@ -1,6 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Navigation from "../navigation/navigation.component";
-import StreamContainer from "../showroom/stream-container/stream-container.component";
+import StreamContainer from "../../features/showroom/stream-container/stream-container.component";
 import "./RootLayout.styles.scss";
 
 const HIDE_PLAYER_PREFIXES = ["/sign-in", "/pass-reset", "/checkout", "/admin"] as const;

@@ -6,8 +6,8 @@ import { updatePassword, User } from "firebase/auth";
 
 import { db, reauthenticateUserWithPassword, signOutUser, updateUserName } from "../../../utils/firebase/firebase.utils";
 
-import SignInForm from "../../authentication/sign-in-form/sign-in-form.component";
-import SignUpForm from "../../authentication/sign-up-form/sign-up-form.component";
+import SignInForm from "../../../features/authentication/sign-in-form/sign-in-form.component";
+import SignUpForm from "../../../features/authentication/sign-up-form/sign-up-form.component";
 import StepLayout from "./StepLayout.component";
 
 export type Step = 1 | 2 | 3 | 4 | 5 | 6;

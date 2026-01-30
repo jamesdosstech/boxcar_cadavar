@@ -12,7 +12,7 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  // optional: show status if Stripe returns user here with redirect params (succeeded/failed)
+  // Handles the case where Stripe redirects (3DS/etc) and the user comes back
   useEffect(() => {
     if (!stripe || !clientSecret) return;
 
@@ -24,23 +24,26 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
         switch (paymentIntent.status) {
           case "succeeded":
             setMessage("Payment succeeded ✅");
-            // clear cart locally
             clearCart?.();
-            // send to clean success route (no query string)
-            navigate(`/checkout/success?orderId=${encodeURIComponent(orderId || "")}`, { replace: true });
+            navigate(
+              `/checkout/success?orderId=${encodeURIComponent(orderId || "")}`,
+              { replace: true }
+            );
             break;
+
           case "processing":
             setMessage("Payment processing…");
             break;
+
           case "requires_payment_method":
             setMessage("Payment failed. Please try another payment method.");
             break;
+
           default:
-            // leave quiet
             break;
         }
-      } catch (e) {
-        // ignore noisy errors
+      } catch {
+        // keep quiet (Stripe can throw in dev if clientSecret invalid/expired)
       }
     };
 
@@ -51,29 +54,51 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
     e.preventDefault();
 
     if (!stripe || !elements || !clientSecret) return;
-    if (loading) return; // prevents double-click submits
+    if (loading) return;
 
     setLoading(true);
     setMessage("");
 
-    const returnUrl = `${window.location.origin}/checkout/success?orderId=${encodeURIComponent(orderId)}`;
+    const returnUrl = `${window.location.origin}/checkout/success?orderId=${encodeURIComponent(
+      orderId || ""
+    )}`;
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: { return_url: returnUrl },
-      redirect: "if_required", // ✅ keeps you in SPA for cards that don’t require redirect
-    });
+    try {
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: returnUrl },
+        redirect: "if_required", // stays in SPA when no redirect is needed
+      });
 
-    if (error) {
-      setMessage(error.message || "Payment failed. Please try again.");
+      // 1) Error path
+      if (result.error) {
+        setMessage(result.error.message || "Payment failed. Please try again.");
+        setLoading(false);
+        return;
+      }
+
+      // 2) Immediate success path (this is what was missing)
+      const pi = result.paymentIntent;
+      if (pi?.status === "succeeded") {
+        clearCart?.();
+        navigate(
+          `/checkout/success?orderId=${encodeURIComponent(orderId || "")}`,
+          { replace: true }
+        );
+        return; // don't setLoading false after navigating
+      }
+
+      // 3) Processing path (some methods)
+      if (pi?.status === "processing") {
+        setMessage("Payment processing…");
+      }
+
+      // 4) If redirect was required, Stripe will redirect automatically and we won't reach here in that flow.
       setLoading(false);
-      return;
+    } catch (err) {
+      setMessage("Something went wrong confirming payment.");
+      setLoading(false);
     }
-
-    // If no error, either:
-    // - it redirected (3DS, etc), OR
-    // - it succeeded without redirect; our retrievePaymentIntent effect will catch it.
-    setLoading(false);
   };
 
   return (
@@ -83,6 +108,7 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
       </div>
 
       <button
+        type="submit"
         disabled={loading || !stripe || !elements}
         style={{
           padding: ".9rem 1.1rem",
