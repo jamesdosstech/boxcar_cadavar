@@ -33,9 +33,11 @@ import {
   deleteDoc,
   type QueryDocumentSnapshot,
   type DocumentData,
+  type UpdateData
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
+import { BlogPost, BlogPostInput } from "../../routes/dashboard/pages/Blog/blog.types";
 
 // -------------------- Firebase init --------------------
 export const doosetrainApp =
@@ -47,6 +49,12 @@ export const storage = getStorage(doosetrainApp);
 
 // -------------------- Orders --------------------
 export type OrderStatus = "pending" | "paid" | "failed" | "refunded";
+
+type MinimalUser = {
+  uid: string;
+  displayName?: string | null;
+  email?: string | null;
+};
 
 export type OrderContact = {
   name: string | null;
@@ -253,7 +261,7 @@ export const createUserDocumentFromAuth = async (
 // IMPORTANT: TTL should be calculated per message (not once at module load)
 const getExpirationTime = () => Timestamp.fromMillis(Date.now() + 60 * 60 * 1000);
 
-export const sendMessage = async (user: User, text: string): Promise<void> => {
+export const sendMessage = async (user: MinimalUser, text: string): Promise<void> => {
   await addDoc(collection(db, "messages"), {
     uid: user.uid,
     displayName: user.displayName,
@@ -303,7 +311,7 @@ export const createProduct = async (data: Record<string, unknown>): Promise<{ id
 
 export const updateProduct = async (id: string, data: Record<string, unknown>): Promise<void> => {
   const docRef = doc(db, "products", id);
-  await updateDoc(docRef, data);
+  await updateDoc(docRef, data as UpdateData<DocumentData>);
 };
 
 export const deleteProduct = async (id: string): Promise<void> => {

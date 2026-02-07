@@ -8,9 +8,9 @@ import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 
 import AccountModal, { Step } from "./AccountModal/AccountModal";
 import AccountButton from "./AccountButton/AccountButton";
-import CartModal from "../Cart/Cart";
 
 import { initialState, reducer} from "./navReducer";
+import CartModal from "../cart/Cart";
 
 type NavItem = { title: string; link: string };
 

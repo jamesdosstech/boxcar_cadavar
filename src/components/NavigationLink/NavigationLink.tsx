@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './NavigationLink.styles.scss'
-import AccountModal from '../../routes/navigation/AccountModal/AccountModal';
+import AccountModal from '../../features/navigation/AccountModal/AccountModal';
 interface NavigationLinkProps {
   path?: string;
   title?: string;

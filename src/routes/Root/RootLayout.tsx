@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navigation from "../navigation/navigation.component";
+import Navigation from '../../features/navigation/navigation.component';
 import StreamContainer from "../../features/showroom/stream-container/stream-container.component";
 import "./RootLayout.styles.scss";
 

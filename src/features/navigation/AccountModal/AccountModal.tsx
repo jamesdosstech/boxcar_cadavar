@@ -14,9 +14,9 @@ export type Step = 1 | 2 | 3 | 4 | 5 | 6;
 
 type Props = {
   onClose: () => void;
-  currentUser: User | null; // we’ll tighten this later (Firebase User type)
-  step: Step;
-  setStep: (s: Step) => void;
+  currentUser: User | null;
+  step?: number;
+  setStep?: React.Dispatch<React.SetStateAction<Step>>;
 };
 
 export default function AccountModal({ onClose, currentUser, step, setStep }: Props) {
@@ -63,7 +63,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
 
   const handleSignOut = () => {
     signOutUser();
-    setStep(4);
+    setStep?.(4);
   };
 
   const handleUsernameChange = async (e: React.FormEvent) => {
@@ -87,7 +87,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
 
       await updateUserName(next);
       setConfirmationMessage("✅ Username updated successfully!");
-      setStep(6);
+      setStep?.(6);
     } catch (err) {
       setError("Failed to update username.");
     } finally {
@@ -112,7 +112,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
       await reauthenticateUserWithPassword(currentUser, currentPassword);
       await updatePassword(currentUser, newPassword);
       setConfirmationMessage("✅ Password updated successfully!");
-      setStep(6);
+      setStep?.(6);
     } catch (err: any) {
       const msg =
         err?.code === "auth/wrong-password"
@@ -167,10 +167,10 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
             <button className="ds-btn" type="button" onClick={handleSignOut}>
               Sign Out
             </button>
-            <button className="ds-btn" type="button" onClick={() => setStep(2)}>
+            <button className="ds-btn" type="button" onClick={() => setStep?.(2)}>
               Change Username
             </button>
-            <button className="ds-btn" type="button" onClick={() => setStep(3)}>
+            <button className="ds-btn" type="button" onClick={() => setStep?.(3)}>
               Change Password
             </button>
             <button className="ds-btn ds-btn-ghost" type="button" onClick={onClose}>
@@ -203,7 +203,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
                   type="button"
                   onClick={() => {
                     setError("");
-                    setStep(1);
+                    setStep?.(1);
                   }}
                 >
                   Back
@@ -249,7 +249,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
                   type="button"
                   onClick={() => {
                     setError("");
-                    setStep(2);
+                    setStep?.(2);
                   }}
                 >
                   Back
@@ -264,7 +264,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
             <SignInForm onClose={onClose} />
             <p className="ds-center">
               Create an account{" "}
-              <button className="ds-link-btn" type="button" onClick={() => setStep(5)}>
+              <button className="ds-link-btn" type="button" onClick={() => setStep?.(5)}>
                 Sign Up
               </button>
             </p>
@@ -276,12 +276,12 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
             <SignUpForm
               onSuccess={() => {
                 setConfirmationMessage("Account created successfully!");
-                setStep(6);
+                setStep?.(6);
               }}
             />
             <p className="ds-center">
               Already have an account?{" "}
-              <button className="ds-link-btn" type="button" onClick={() => setStep(4)}>
+              <button className="ds-link-btn" type="button" onClick={() => setStep?.(4)}>
                 Sign In
               </button>
             </p>
@@ -290,7 +290,7 @@ export default function AccountModal({ onClose, currentUser, step, setStep }: Pr
         {step === 6 && (
           <StepLayout>
             <h3 className="ds-center">{confirmationMessage}</h3>
-            <button className="ds-btn" type="button" onClick={() => setStep(1)}>
+            <button className="ds-btn" type="button" onClick={() => setStep?.(1)}>
               Continue
             </button>
           </StepLayout>

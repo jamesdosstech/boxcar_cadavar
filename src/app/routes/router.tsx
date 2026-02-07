@@ -4,9 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Splash from "../../routes/splash/splash.component";
 import Showroom from "../../features/showroom/showroom.component";
-import ResetPassword from "../../routes/forgot-password/ResetPassword";
 import Authentication from "../../features/authentication/authentication.component";
-import DoosetrainStore from "../../routes/store/DoosetrainStore";
 import Checkout from "../../features/checkout/checkout.component";
 import { splashMessage } from '../../constants'
 import ErrorPage from "../../routes/ErrorPage/ErrorPage";
@@ -16,11 +14,11 @@ import Users from "../../routes/dashboard/pages/Users";
 // delete
 import Orders from "../../routes/dashboard/pages/Orders";
 import ProtectedGuard from "../../guard/ProtectedGuard";
-import ProductLayout from "../../routes/Product/ProductLayout";
-import ProductList from "../../routes/Product/ProductList";
-import ProductNew from "../../routes/Product/ProductNew";
-import ProductEdit from "../../routes/Product/ProductEdit";
-import ProductDetails from "../../routes/Product/ProductDetails";
+import ProductLayout from "../../features/product/ProductLayout";
+import ProductList from "../../features/product/ProductList";
+import ProductNew from "../../features/product/ProductNew";
+import ProductEdit from "../../features/product/ProductEdit";
+import ProductDetails from "../../features/product/ProductDetails";
 
 import BlogPage from "../../features/Blog/BlogPage";
 //blog
@@ -32,8 +30,10 @@ import MainBlogLayout from "../../features/Blog/MainBlogLayout";
 import BlogDetails from "../../routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
 import BlogEdit from "../../routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
 import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
-import CartPage from "../../routes/Cart/CartPage";
 import AdminLayout from "../../routes/Admin/AdminLayout";
+import DoosetrainStore from "../../features/store/DoosetrainStore";
+import CartPage from "../../features/cart/CartPage";
+import ResetPassword from "../../features/authentication/forgot-password/ResetPassword";
 
 export const router = createBrowserRouter([
     {

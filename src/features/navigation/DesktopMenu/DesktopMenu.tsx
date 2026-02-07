@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import AccountButton from '../AccountButton/AccountButton'
 import { useIsAdmin } from '../../../hooks/useIsAdmin.hook'
-import CartModal from '../../Cart/Cart'
+import CartModal from '../../cart/Cart'
 
 interface DesktopMenuProps {
     state: any,
     dispatch: any,
-    user: any
+    currentUser?: any
 }
 
 const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser}) => {
@@ -32,9 +32,8 @@ const DesktopMenu: React.FC<DesktopMenuProps> = ({state, dispatch, currentUser})
                 {
                     currentUser ? (
                         <AccountButton
-                            currentUser={currentUser}
-                            isModalOpen={state.isModalOpen}
-                            toggleModal={() => dispatch({type: 'TOGGLE_MODAL'})}
+                            label={currentUser}
+                            onClick={() => dispatch({type: 'TOGGLE_MODAL'})}
                         />
                     ) : (
                         <Link to="/sign-in" className="nav-link">

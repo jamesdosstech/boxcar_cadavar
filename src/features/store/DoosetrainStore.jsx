@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./DoosetrainStore.styles.scss";
 import { getAllProducts } from "../../utils/firebase/firebase.utils";
-import ProductCard from "../Product/ProductCard/ProductCard";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import { NavLink, Link } from "react-router-dom";
 
