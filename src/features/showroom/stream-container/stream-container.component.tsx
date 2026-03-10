@@ -168,6 +168,9 @@ export default function StreamContainer(): JSX.Element {
     return t?.high?.url || t?.medium?.url || t?.default?.url || "";
   }, [currentVideo]);
 
+  console.log("Showroom isLive:", isLive, "videos:", videos.length, "currentVideoId:", currentVideoId);
+
+
   return (
     <div className="stream-container">
       <div className="stream-stage">
@@ -184,7 +187,7 @@ export default function StreamContainer(): JSX.Element {
                 width="100%"
                 height="100%"
                 className="react-player"
-                url={currentVideoId ? `https://www.youtube.com/watch?v=${currentVideoId}` : undefined}
+                url={currentVideoId ? `https://www.youtube.com/embed/${currentVideoId}` : undefined}
                 controls
                 config={{
                   youtube: {
@@ -253,12 +256,12 @@ export default function StreamContainer(): JSX.Element {
             </div>
 
             {/* Optional: tiny “now playing” meta under player */}
-            {currentVideo?.snippet?.title ? (
+            {/* {currentVideo?.snippet?.title ? (
               <div className="now-playing">
                 <span className="label">Now Playing</span>
                 <span className="title">{currentVideo.snippet.title}</span>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         )}
       </div>

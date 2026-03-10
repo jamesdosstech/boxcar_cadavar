@@ -8,9 +8,14 @@
 
 .stream-stage {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   min-height: 0;
   position: relative;
+
+
+  /* ✅ add this */
+  // aspect-ratio: 16 / 9;
+  // height: auto;
 }
 
 /* Shared stage frame */
@@ -202,7 +207,7 @@
 .now-playing {
   position: absolute;
   left: 1rem;
-  bottom: 1rem;
+  bottom: 3rem;
   z-index: 3;
   max-width: calc(100% - 2rem);
   padding: 0.5rem 0.75rem;

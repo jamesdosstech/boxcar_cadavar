@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useElements, useStripe, PaymentElement } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../../context/shoppingCart/shoppingCart.context"; // adjust path if needed
 
 const CheckoutForm = ({ clientSecret, orderId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-  const { clearCart } = useCart();
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -23,8 +21,7 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
 
         switch (paymentIntent.status) {
           case "succeeded":
-            setMessage("Payment succeeded ✅");
-            clearCart?.();
+            setMessage("Payment received. Finalizing your order...");
             navigate(
               `/checkout/success?orderId=${encodeURIComponent(orderId || "")}`,
               { replace: true }
@@ -48,7 +45,7 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
     };
 
     checkStatus();
-  }, [stripe, clientSecret, orderId, navigate, clearCart]);
+  }, [stripe, clientSecret, orderId, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +77,6 @@ const CheckoutForm = ({ clientSecret, orderId }) => {
       // 2) Immediate success path (this is what was missing)
       const pi = result.paymentIntent;
       if (pi?.status === "succeeded") {
-        clearCart?.();
         navigate(
           `/checkout/success?orderId=${encodeURIComponent(orderId || "")}`,
           { replace: true }

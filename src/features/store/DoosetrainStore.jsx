@@ -1,14 +1,15 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./DoosetrainStore.styles.scss";
 import { getAllProducts } from "../../utils/firebase/firebase.utils";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import { NavLink, Link } from "react-router-dom";
+import ProductCard from "../product/ProductCard/ProductCard";
 
-const formatMoney = (cents, currency = "usd") => {
-  const cur = (currency ?? "usd").toUpperCase();
-  const amount = Number(cents ?? 0) / 100;
-  return `${amount.toFixed(2)} ${cur}`;
-};
+const formatMoney = (cents, currency = "USD") =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format((Number(cents) || 0) / 100);
 
 const DoosetrainStore = () => {
   const [products, setProducts] = useState([]);
@@ -75,11 +76,14 @@ const DoosetrainStore = () => {
     return list;
   }, [products, search, categoryFilter, sort]);
 
+  const toastTimeoutRef = useRef(null);
+
   const handleAddToCart = (product) => {
     addItem(product);
     setToast({ type: "success", message: `Added ${product?.name || "item"} to cart` });
-    window.clearTimeout((handleAddToCart)._t);
-    (handleAddToCart)._t = window.setTimeout(() => setToast(null), 1800);
+
+    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+    toastTimeoutRef.current = setTimeout(() => setToast(null), 1800);
   };
 
   return (

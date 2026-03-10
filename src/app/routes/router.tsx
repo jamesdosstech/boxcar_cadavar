@@ -2,17 +2,10 @@ import React from "react";
 
 import { createBrowserRouter } from "react-router-dom";
 
-import Splash from "../../routes/splash/splash.component";
 import Showroom from "../../features/showroom/showroom.component";
 import Authentication from "../../features/authentication/authentication.component";
 import Checkout from "../../features/checkout/checkout.component";
 import { splashMessage } from '../../constants'
-import ErrorPage from "../../routes/ErrorPage/ErrorPage";
-import RootLayout from "../../routes/Root/RootLayout";
-import Home from "../../routes/dashboard/pages/Home";
-import Users from "../../routes/dashboard/pages/Users";
-// delete
-import Orders from "../../routes/dashboard/pages/Orders";
 import ProtectedGuard from "../../guard/ProtectedGuard";
 import ProductLayout from "../../features/product/ProductLayout";
 import ProductList from "../../features/product/ProductList";
@@ -22,18 +15,24 @@ import ProductDetails from "../../features/product/ProductDetails";
 
 import BlogPage from "../../features/Blog/BlogPage";
 //blog
-import BlogEntry from '../../routes/dashboard/pages/Blog/BlogEntry/BlogEntry'
-import BlogLayout from "../../routes/dashboard/pages/Blog/BlogLayout";
-import BlogList from '../../routes/dashboard/pages/Blog/BlogList/BlogList';
 import BlogPost from "../../features/Blog/BlogPost/BlogPost";
 import MainBlogLayout from "../../features/Blog/MainBlogLayout";
-import BlogDetails from "../../routes/dashboard/pages/Blog/BlogDetails/BlogDetails";
-import BlogEdit from "../../routes/dashboard/pages/Blog/BlogEdit/BlogEdit";
 import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
-import AdminLayout from "../../routes/Admin/AdminLayout";
 import DoosetrainStore from "../../features/store/DoosetrainStore";
 import CartPage from "../../features/cart/CartPage";
 import ResetPassword from "../../features/authentication/forgot-password/ResetPassword";
+import Splash from "../../features/splash/splash.component";
+import Home from "../../features/dashboard/pages/Home";
+import Users from "../../features/dashboard/pages/Users";
+import BlogLayout from "../../features/dashboard/pages/Blog/BlogLayout";
+import BlogList from "../../features/dashboard/pages/Blog/BlogList/BlogList";
+import BlogEntry from "../../features/dashboard/pages/Blog/BlogEntry/BlogEntry";
+import BlogDetails from "../../features/dashboard/pages/Blog/BlogDetails/BlogDetails";
+import BlogEdit from "../../features/dashboard/pages/Blog/BlogEdit/BlogEdit";
+import Orders from "../../features/dashboard/pages/Orders";
+import AdminLayout from "../../features/admin/AdminLayout";
+import RootLayout from "../layout/root/RootLayout";
+import ErrorPage from "../pages/error/ErrorPage";
 
 export const router = createBrowserRouter([
     {

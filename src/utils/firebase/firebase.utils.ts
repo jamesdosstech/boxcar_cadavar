@@ -37,7 +37,7 @@ import {
 } from "firebase/firestore";
 
 import { getStorage } from "firebase/storage";
-import { BlogPost, BlogPostInput } from "../../routes/dashboard/pages/Blog/blog.types";
+import { BlogPost, BlogPostInput } from "../../features/dashboard/pages/Blog/blog.types";
 
 // -------------------- Firebase init --------------------
 export const doosetrainApp =
@@ -48,7 +48,8 @@ export const db = getFirestore(doosetrainApp);
 export const storage = getStorage(doosetrainApp);
 
 // -------------------- Orders --------------------
-export type OrderStatus = "pending" | "paid" | "failed" | "refunded";
+export type OrderStatus = "pending" | "paid" | "failed" | "refunded" | "needs_attention"
+  | "oversold";;
 
 type MinimalUser = {
   uid: string;
@@ -128,7 +129,18 @@ const toDate = (v: unknown): Date | null => {
 
 const normalizeStatus = (v: unknown): OrderStatus => {
   const s = String(v ?? "pending").toLowerCase();
-  if (s === "pending" || s === "paid" || s === "failed" || s === "refunded") return s;
+
+  if (
+    s === "pending" ||
+    s === "paid" ||
+    s === "failed" ||
+    s === "refunded" ||
+    s === "needs_attention" ||
+    s === "oversold"
+  ) {
+    return s;
+  }
+
   return "pending";
 };
 
@@ -357,4 +369,47 @@ export const updateBlogPost = async (id: string, data: BlogPostInput): Promise<v
 export const deleteBlogPost = async (id: string): Promise<void> => {
   const ref = doc(db, "blogPosts", id);
   await deleteDoc(ref);
+};
+
+export const subscribeToOrderById = (
+  orderId: string,
+  callback: (order: Order | null) => void
+) => {
+  const ref = doc(db, "orders", orderId);
+
+  return onSnapshot(ref, (snap) => {
+    if (!snap.exists()) {
+      callback(null);
+      return;
+    }
+
+    const data = snap.data() as Record<string, unknown>;
+    const contactRaw = (data.contact ?? {}) as Record<string, unknown>;
+
+    callback({
+      id: snap.id,
+      uid: String(data.uid ?? ""),
+
+      createdAt: toDate(data.createdAt),
+      status: String(data.status ?? "pending") as OrderStatus,
+      currency: String(data.currency ?? "usd"),
+
+      totalCents: Number(data.totalCents ?? 0),
+      subtotalCents: Number(data.subtotalCents ?? 0),
+      shippingCents: Number(data.shippingCents ?? 0),
+
+      contact: {
+        name: (contactRaw.name as string) ?? null,
+        email: (contactRaw.email as string) ?? null,
+        phone: (contactRaw.phone as string) ?? null,
+      },
+
+      items: (data.items as OrderItemSnapshot[]) ?? [],
+      shippingAddress: (data.shippingAddress as ShippingAddress) ?? undefined,
+
+      deliveryNotes: (data.deliveryNotes as string) ?? "",
+      inventoryApplied: Boolean(data.inventoryApplied ?? false),
+      paymentIntentId: (data.paymentIntentId as string) ?? "",
+    });
+  });
 };

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import DashboardNavigation from "../dashboard/DashboardNavigation/DashboardNavigation";
 import "./AdminLayout.styles.scss";
+import DashboardNavigation from "../../features/dashboard/DashboardNavigation/DashboardNavigation";
 
 export default function AdminLayout() {
   return (
