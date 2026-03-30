@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import { stripePromise } from "../../utils/stripe/stripe.utils";
 import CheckoutForm from "./Checkout-Form/CheckoutForm";
-import { auth } from "../../utils/firebase/firebase.utils";
+import { auth, validateCartItems } from "../../utils/firebase/firebase.utils";
 
 const genOrderId = () =>
   crypto?.randomUUID?.() ?? `oid_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -151,7 +151,18 @@ export default function Checkout() {
       setError("Cart is empty");
       return;
     }
+    // 🔥 NEW: Validate cart before anything else
+    try {
+      const { validItems, invalidItems } = await validateCartItems(cartItems);
 
+      if (invalidItems.length > 0) {
+        setError("inactive product or insufficient stock");        return;
+      }
+
+    } catch (err) {
+      setError("Unable to verify cart items. Please try again.");
+      return;
+    }
     const isShippingValid = validateClientShipping();
     if (!isShippingValid) {
       setError("Please correct the highlighted fields.");

@@ -8,11 +8,13 @@ type Props = {
   onSave: (data: ProductInput) => Promise<void> | void;
 };
 
+const EMPTY_INITIAL_DATA: Partial<Product> = {};
+
 const DEFAULT_CATEGORIES = ["shirts", "canvas", "prints", "stickers"] as const;
 type Category = (typeof DEFAULT_CATEGORIES)[number] | "";
 
 export default function ProductForm({
-  initialData = {},
+  initialData = EMPTY_INITIAL_DATA,
   mode = "create",
   onSave,
 }: Props) {
@@ -26,29 +28,55 @@ export default function ProductForm({
 
   const [name, setName] = useState(initialData.name ?? "");
   const [description, setDescription] = useState(initialData.description ?? "");
-  const [price, setPrice] = useState<number>(Number(initialData.price ?? 0));
+  const [price, setPrice] = useState(String(initialData.price ?? ""));
   const [currency, setCurrency] = useState(initialData.currency ?? "usd");
   const [imageUrl, setImageUrl] = useState(initialData.imageUrl ?? "");
   const [category, setCategory] = useState<Category>(
     (initialData.category as Category) ?? ""
   );
-  const [quantity, setQuantity] = useState<number>(Number(initialData.quantity ?? 0));
+  const [quantity, setQuantity] = useState(String(initialData.quantity ?? ""));
   const [active, setActive] = useState<boolean>(initialData.active ?? true);
+  const [showInGallery, setShowInGallery] = useState(
+    initialData.showInGallery ?? false
+  );
+
+  const [showInStore, setShowInStore] = useState(
+    initialData.showInStore ?? true
+  );
+
+  const [isPublished, setIsPublished] = useState(
+    initialData.isPublished ?? true
+  );
+
+  const [featured, setFeatured] = useState(
+    initialData.featured ?? false
+  );
+
+  const [status, setStatus] = useState<
+    "available" | "sold" | "archive" | "coming_soon"
+  >(initialData.status ?? "available");
+  
 
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   // If initialData changes (edit loads async), update form once
   useEffect(() => {
+    if(mode !== 'edit') return;
     setName(initialData.name ?? "");
     setDescription(initialData.description ?? "");
-    setPrice(Number(initialData.price ?? 0));
+    setPrice(String(initialData.price ?? ""));
     setCurrency(initialData.currency ?? "usd");
     setImageUrl(initialData.imageUrl ?? "");
     setCategory(((initialData.category as Category) ?? "") as Category);
-    setQuantity(Number(initialData.quantity ?? 0));
+    setQuantity(String(initialData.quantity ?? ""));
     setActive(initialData.active ?? true);
-  }, [initialData]);
+    setShowInGallery(initialData.showInGallery ?? false);
+    setShowInStore(initialData.showInStore ?? true);
+    setIsPublished(initialData.isPublished ?? true);
+    setFeatured(initialData.featured ?? false);
+    setStatus(initialData.status ?? "available");
+  }, [initialData, mode]);
 
   const categories = useMemo(() => DEFAULT_CATEGORIES, []);
 
@@ -59,20 +87,36 @@ export default function ProductForm({
     const trimmedName = name.trim();
     if (!trimmedName) return setError("Name is required.");
 
-    if (price < 0) return setError("Price must be 0 or greater.");
-    if (quantity < 0) return setError("Quantity must be 0 or greater.");
+    const parsedPrice = Number(price);
+    const parsedQuantity = Number(quantity);
 
+    if (price !== "" && Number.isNaN(parsedPrice)) {
+      return setError("Price must be a valid number.");
+    }
+
+    if (quantity !== "" && Number.isNaN(parsedQuantity)) {
+      return setError("Quantity must be a valid number.");
+    }
+
+    if (parsedPrice < 0) return setError("Price must be 0 or greater.");
+    if (parsedQuantity < 0) return setError("Quantity must be 0 or greater.");
     setIsSaving(true);
     try {
       await onSave({
         name: trimmedName,
         description: description.trim(),
-        price: Number(price),
+        price: parsedPrice || 0,
         currency: currency.trim() || "usd",
         imageUrl: imageUrl.trim(),
         category: category || undefined,
-        quantity: Number(quantity),
+        quantity: parsedQuantity || 0,
         active,
+        showInGallery,
+        // 🔥 NEW
+        isPublished,
+        showInStore,
+        featured,
+        status,
       });
     } catch (err) {
       setError("Failed to save product.");
@@ -131,7 +175,7 @@ export default function ProductForm({
             inputMode="numeric"
             min={0}
             value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
 
@@ -154,7 +198,7 @@ export default function ProductForm({
             type="number"
             min={0}
             value={quantity}
-            onChange={(e) => setQuantity(Number(e.target.value))}
+            onChange={(e) => setQuantity(e.target.value)}
           />
         </div>
 
@@ -196,6 +240,68 @@ export default function ProductForm({
             Active (visible in shop)
           </label>
         </div>
+      </div>
+
+      <div className={styles.fieldFull}>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={isPublished}
+            onChange={(e) => setIsPublished(e.target.checked)}
+          />
+          Published
+        </label>
+      </div>
+
+      <div className={styles.fieldFull}>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={showInStore}
+            onChange={(e) => setShowInStore(e.target.checked)}
+          />
+          Show in Store
+        </label>
+      </div>
+
+      <div className={styles.fieldFull}>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={showInGallery}
+            onChange={(e) => setShowInGallery(e.target.checked)}
+          />
+          Show in Gallery
+        </label>
+      </div>
+
+      <div className={styles.fieldFull}>
+        <label className={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={featured}
+            onChange={(e) => setFeatured(e.target.checked)}
+          />
+          Featured
+        </label>
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label}>Status</label>
+        <select
+          className={styles.select}
+          value={status}
+          onChange={(e) =>
+            setStatus(
+              e.target.value as "available" | "sold" | "archive" | "coming_soon"
+            )
+          }
+        >
+          <option value="available">Available</option>
+          <option value="sold">Sold</option>
+          <option value="coming_soon">Coming Soon</option>
+          <option value="archive">Archive</option>
+        </select>
       </div>
 
       <div className={styles.actions}>

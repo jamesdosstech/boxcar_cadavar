@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { db } from "../../utils/firebase/firebase.utils";
+import { db, getHomepageArtwork, getHomepageGalleryPreview } from "../../utils/firebase/firebase.utils";
 import Loading from "../../components/loading/loading.component";
 import { Link } from "react-router-dom";
 import "./splash.styles.scss";
@@ -39,8 +39,9 @@ const excerpt = (text = "", max = 160) =>
 
 export default function Splash() {
   const [latestPost, setLatestPost] = useState(null);
-  const [latestProduct, setLatestProduct] = useState(null);
-  const [timeText, setTimeText] = useState("");
+  const [heroArtwork, setHeroArtwork] = useState(null);
+  const [galleryPreview, setGalleryPreview] = useState([]);  const [timeText, setTimeText] = useState("");
+  const [isLoadingContent, setIsLoadingContent] = useState(true)
 
   // Timer
   useEffect(() => {
@@ -66,28 +67,42 @@ export default function Splash() {
   // Fetch featured content
   useEffect(() => {
     const fetchLatest = async () => {
-      const blogQ = query(collection(db, "blogPosts"), orderBy("createdAt", "desc"), limit(1));
-      const prodQ = query(collection(db, "products"), orderBy("createdAt", "desc"), limit(1));
+      setIsLoadingContent(true);
 
-      const [blogSnap, prodSnap] = await Promise.all([getDocs(blogQ), getDocs(prodQ)]);
+      try {
+        const blogQ = query(collection(db, "blogPosts"), orderBy("createdAt", "desc"), limit(1));
 
-      const blogDoc = blogSnap.docs[0];
-      const prodDoc = prodSnap.docs[0];
+        const [blogSnap, artwork, preview] = await Promise.all([
+          getDocs(blogQ),
+          getHomepageArtwork(),
+          getHomepageGalleryPreview(3),
+        ]);
 
-      if (blogDoc) setLatestPost({ id: blogDoc.id, ...blogDoc.data() });
-      if (prodDoc) setLatestProduct({ id: prodDoc.id, ...prodDoc.data() });
+        const blogDoc = blogSnap.docs[0];
+
+        setLatestPost(blogDoc ? { id: blogDoc.id, ...blogDoc.data() } : null);
+        setHeroArtwork(artwork);
+        setGalleryPreview(preview);
+      } catch (error) {
+        console.error(error);
+        setLatestPost(null);
+        setHeroArtwork(null);
+        setGalleryPreview([]);
+      } finally {
+        setIsLoadingContent(false);
+      }
     };
 
-    fetchLatest().catch(console.error);
+    fetchLatest();
   }, []);
 
-  const productPrice = useMemo(() => {
-    if (!latestProduct) return null;
-    const dollars = (Number(latestProduct.price || 0) / 100).toFixed(2);
-    return `${dollars} ${(latestProduct.currency || "usd").toUpperCase()}`;
-  }, [latestProduct]);
+  const heroArtworkPrice = useMemo(() => {
+    if (!heroArtwork) return null;
+    const dollars = (Number(heroArtwork.price || 0) / 100).toFixed(2);
+    return `${dollars} ${(heroArtwork.currency || "usd").toUpperCase()}`;
+  }, [heroArtwork]);
 
-  if (!latestPost || !latestProduct) {
+  if (isLoadingContent) {
     return (
       <div className="splash-loader-container">
         <Loading />
@@ -126,123 +141,126 @@ export default function Splash() {
             </Link>
           </div>
 
-          <div className="blog-preview">
-            <div className="blog-body">
-              <h4>{latestPost.title}</h4>
-              <p className="muted">{excerpt(latestPost.content, 220)}</p>
-              <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
-                Read more
-              </Link>
+          {latestPost ? (
+            <div className="blog-preview">
+              <div className="blog-body">
+                <h4>{latestPost.title}</h4>
+                <p className="muted">{excerpt(latestPost.content, 220)}</p>
+                <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
+                  Read more
+                </Link>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="blog-preview">
+              <div className="blog-body">
+                <h4>No blog posts yet</h4>
+                <p className="muted">Check back soon for updates.</p>
+              </div>
+            </div>
+          )}
         </section>
       </div>
 
       {/* RIGHT COLUMN */}
       <div className="hero-right">
-        <div className="feature-card">
-          <div className="feature-image">
-            <img src={latestProduct.imageUrl} alt={latestProduct.name} />
-          </div>
-          <div className="feature-meta">
-            <div className="badge">Latest Drop</div>
-            <h2>{latestProduct.name}</h2>
-            <p className="muted">{latestProduct.description}</p>
-
-            <div className="price-row">
-              <span className="price">{productPrice}</span>
-              <span className="stock">
-                {Number(latestProduct.quantity) > 0 ? "In stock" : "Sold out"}
-              </span>
+        {heroArtwork ? (
+          <div className="feature-card">
+            <div className="feature-image">
+              <img src={heroArtwork.imageUrl} alt={heroArtwork.name} />
             </div>
+            <div className="feature-meta">
+              <div className="badge">{heroArtwork.featured ? "Featured Artwork" : "Latest Artwork"}</div>
+              <h2>{heroArtwork.name}</h2>
+              <p className="muted">{heroArtwork.description}</p>
 
-            <div className="feature-actions">
-              <Link className="btn primary" to={`/product/${latestProduct.id}`}>
-                View Details
-              </Link>
-              <Link className="btn ghost" to="/shop">
-                Browse All
-              </Link>
+              {(heroArtwork.collection || heroArtwork.medium) ? (
+                <div className="muted">
+                  {[heroArtwork.collection, heroArtwork.medium].filter(Boolean).join(" • ")}
+                </div>
+              ) : null}
+
+              <div className="price-row">
+                <span className="price">
+                  {heroArtwork.showInStore ? heroArtworkPrice : "Gallery Piece"}
+                </span>
+                <span className="stock">
+                  {heroArtwork.status === "sold"
+                    ? "Sold"
+                    : heroArtwork.status === "coming_soon"
+                    ? "Coming Soon"
+                    : Number(heroArtwork.quantity) > 0
+                    ? "Available"
+                    : "Unavailable"}
+                </span>
+              </div>
+
+              <div className="feature-actions">
+                <Link className="btn primary" to={`/gallery/${heroArtwork.id}`}>
+                  View Artwork
+                </Link>
+
+                {heroArtwork.showInStore ? (
+                  <Link className="btn ghost" to={`/product/${heroArtwork.id}`}>
+                    Shop This Piece
+                  </Link>
+                ) : (
+                  <Link className="btn ghost" to="/gallery">
+                    Browse Gallery
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="feature-card">
+            <div className="feature-meta">
+              <div className="badge">Featured Artwork</div>
+              <h2>No artwork yet</h2>
+              <p className="muted">New work will appear here soon.</p>
+
+              <div className="feature-actions">
+                <Link className="btn ghost" to="/gallery">
+                  Visit Gallery
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
+    <section className="latest">
+      <div className="section-head">
+        <h3>Featured Gallery</h3>
+        <Link className="link" to="/gallery">
+          View gallery
+        </Link>
+      </div>
+
+      {galleryPreview.length > 0 ? (
+        <div className="gallery-preview-grid">
+          {galleryPreview.map((item) => (
+            <article key={item.id} className="gallery-preview-card">
+              <Link to={`/gallery/${item.id}`}>
+                <img src={item.imageUrl} alt={item.name} />
+              </Link>
+              <div className="gallery-preview-body">
+                <h4>{item.name}</h4>
+                <p className="muted">
+                  {[item.collection, item.year].filter(Boolean).join(" • ")}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="blog-preview">
+          <div className="blog-body">
+            <h4>No gallery pieces yet</h4>
+            <p className="muted">Featured artwork will appear here soon.</p>
+          </div>
+        </div>
+      )}
+    </section>
   </div>
-);
-
-
-  // return (
-  //   <div className="splash">
-  //     {/* HERO */}
-  //     <section className="hero">
-  //       <div className="hero-left">
-  //         <div className="hero-title">
-  //           <h1>Doosetrain</h1>
-  //           <p>Live sets • Original paintings • Blog updates</p>
-  //         </div>
-
-  //         <div className="timer-card">
-  //           <div className="timer-label">Next show</div>
-  //           <div className="timer-value">{timeText}</div>
-  //           <div className="timer-actions">
-  //             <Link className="btn primary" to="/showroom">
-  //               View Showroom
-  //             </Link>
-  //             <Link className="btn ghost" to="/shop">
-  //               Shop Paintings
-  //             </Link>
-  //           </div>
-  //         </div>
-  //       </div>
-
-  //       <div className="hero-right">
-  //         <div className="feature-card">
-  //           <div className="feature-image">
-  //             <img src={latestProduct.imageUrl} alt={latestProduct.name} />
-  //           </div>
-  //           <div className="feature-meta">
-  //             <div className="badge">Latest Drop</div>
-  //             <h2>{latestProduct.name}</h2>
-  //             <p className="muted">{latestProduct.description}</p>
-  //             <div className="price-row">
-  //               <span className="price">{productPrice}</span>
-  //               <span className="stock">
-  //                 {Number(latestProduct.quantity) > 0 ? "In stock" : "Sold out"}
-  //               </span>
-  //             </div>
-  //             <div className="feature-actions">
-  //               <Link className="btn primary" to={`/product/${latestProduct.id}`}>
-  //                 View Details
-  //               </Link>
-  //               <Link className="btn ghost" to="/shop">
-  //                 Browse All
-  //               </Link>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </section>
-
-  //     {/* LATEST BLOG */}
-  //     <section className="latest">
-  //       <div className="section-head">
-  //         <h3>Latest Blog</h3>
-  //         <Link className="link" to="/blog">
-  //           View all
-  //         </Link>
-  //       </div>
-
-  //       <div className="blog-preview">
-  //         <div className="blog-body">
-  //           <h4>{latestPost.title}</h4>
-  //           <p className="muted">{excerpt(latestPost.content, 220)}</p>
-  //           <Link className="btn ghost" to={`/blog/${latestPost.id}`}>
-  //             Read more
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </section>
-  //   </div>
-  // );
-}
+);}

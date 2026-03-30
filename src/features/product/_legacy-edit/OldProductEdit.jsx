@@ -13,7 +13,7 @@ const OldProductEdit = () => {
   const [editedProduct, setEditedProduct] = useState(product);
   const [errorMessage, setErrorMessage] = useState(null);  // Error state for feedback
 
-  const productDetailRef = doc(db, "Products", id);
+  const productDetailRef = doc(db, "products", id);
 
   useEffect(() => {
     const getProduct = async () => {

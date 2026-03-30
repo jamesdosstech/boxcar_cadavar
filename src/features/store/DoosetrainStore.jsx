@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import "./DoosetrainStore.styles.scss";
-import { getAllProducts } from "../../utils/firebase/firebase.utils";
+import { getStoreProducts, isPurchasable } from "../../utils/firebase/firebase.utils";
 import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import { NavLink, Link } from "react-router-dom";
 import ProductCard from "../product/ProductCard/ProductCard";
@@ -28,7 +28,7 @@ const DoosetrainStore = () => {
     setLoading(true);
     setError("");
 
-    getAllProducts()
+    getStoreProducts()
       .then((data) => {
         if (!mounted) return;
         setProducts(Array.isArray(data) ? data : []);
@@ -79,8 +79,23 @@ const DoosetrainStore = () => {
   const toastTimeoutRef = useRef(null);
 
   const handleAddToCart = (product) => {
+    // This matters because even if the button UI is wrong someday, your cart logic still stays protected.
+    if (!isPurchasable(product)) {
+      setToast({
+        type: "error",
+        message: `${product?.name || "This item"} is not currently available for purchase`,
+      });
+
+      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = setTimeout(() => setToast(null), 1800);
+      return;
+    }
+
     addItem(product);
-    setToast({ type: "success", message: `Added ${product?.name || "item"} to cart` });
+    setToast({
+      type: "success",
+      message: `Added ${product?.name || "item"} to cart`,
+    });
 
     if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
     toastTimeoutRef.current = setTimeout(() => setToast(null), 1800);
@@ -141,8 +156,24 @@ const DoosetrainStore = () => {
             const cartItem = cartItems.find((item) => item.id === product.id);
             const stock = Number(product.quantity ?? 0);
             const quantityInCart = cartItem ? Number(cartItem.quantity ?? 0) : 0;
-            const isOutOfStock = stock > 0 ? quantityInCart >= stock : stock === 0;
 
+            const basePurchasable = isPurchasable(product);
+            const isOutOfStock = stock <= 0 || quantityInCart >= stock;
+            const isSold = product.status === "sold";
+            const isComingSoon = product.status === "coming_soon";
+
+            const isDisabled =
+              !basePurchasable || isOutOfStock || isSold || isComingSoon;
+
+            let buttonLabel = "Add to Cart";
+
+            if (isSold) {
+              buttonLabel = "Sold";
+            } else if (isComingSoon) {
+              buttonLabel = "Coming Soon";
+            } else if (isOutOfStock) {
+              buttonLabel = "Out of Stock";
+            }            
             return (
               <ProductCard
                 key={product.id}
@@ -152,13 +183,12 @@ const DoosetrainStore = () => {
                     <button
                       className="shop-btn primary"
                       onClick={() => handleAddToCart(product)}
-                      disabled={isOutOfStock}
-                      aria-disabled={isOutOfStock}
-                      title={isOutOfStock ? "Out of stock" : "Add to cart"}
+                      disabled={isDisabled}
+                      aria-disabled={isDisabled}
+                      title={isDisabled ? buttonLabel : "Add to cart"}
                     >
-                      {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+                      {buttonLabel}
                     </button>
-
                     <NavLink className="shop-btn ghost" to={`/product/${product.id}`}>
                       Details
                     </NavLink>

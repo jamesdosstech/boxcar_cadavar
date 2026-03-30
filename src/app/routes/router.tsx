@@ -33,6 +33,8 @@ import Orders from "../../features/dashboard/pages/Orders";
 import AdminLayout from "../../features/admin/AdminLayout";
 import RootLayout from "../layout/root/RootLayout";
 import ErrorPage from "../pages/error/ErrorPage";
+import Gallery from "../../features/gallery/Gallery";
+import ArtworkDetails from "../../features/artwork-details/ArtworkDetails";
 
 export const router = createBrowserRouter([
     {
@@ -90,6 +92,14 @@ export const router = createBrowserRouter([
             {
                 path: 'checkout/success',
                 element: <CheckoutSuccess />
+            },
+            {
+                path: 'gallery',
+                element: <Gallery />,
+            },
+            {
+                path: 'gallery/:artworkId',
+                element: <ArtworkDetails />
             },
             {
                 path: "admin",

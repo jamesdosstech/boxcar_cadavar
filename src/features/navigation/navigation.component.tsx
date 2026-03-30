@@ -29,6 +29,9 @@ export default function Navigation() {
       { title: "Showroom", link: "/showroom" },
       { title: "Blog", link: "/blog" },
       { title: "Shop", link: "/shop" },
+      {
+        title: "Gallery", link: "/gallery"
+      }
     ],
     []
   );

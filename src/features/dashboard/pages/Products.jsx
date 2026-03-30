@@ -11,24 +11,38 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../../../utils/firebase/firebase.utils";
 import "./Products.styles.scss";
 
+const initialFormState = {
+  name: "",
+  type: "",
+  description: "",
+  price: "",
+  quantity: "",
+  image: null,
+
+  // NEW ARTWORK FIELDS
+  isPublished: true,
+  showInGallery: false,
+  showInStore: true,
+  featured: false,
+  status: "available",
+  collection: "",
+  medium: "",
+  dimensions: "",
+  year: "",
+  tags: [],
+};
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    type: "",
-    description: "",
-    price: "",
-    quantity: "",
-    image: null, // Updated to handle file uploads
-  });
+  const [formData, setFormData] = useState(initialFormState);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   // Fetch products from Firestore
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getDocs(collection(db, "Products"));
+      const data = await getDocs(collection(db, "products"));
       setProducts(
         data.docs.map((doc) => ({
           id: doc.id,
@@ -83,12 +97,16 @@ const Products = () => {
 
       const productData = {
         ...formData,
-        image: imageUrl, // Save the image URL in Firestore
+        price: Number(formData.price),
+        quantity: Number(formData.quantity),
+        year: String(formData.year).trim(),
+        tags: Array.isArray(formData.tags) ? formData.tags : [],
+        image: imageUrl,
       };
 
       if (isEditing) {
         // Update product
-        const productRef = doc(db, "Products", currentProduct.id);
+        const productRef = doc(db, "products", currentProduct.id);
         await updateDoc(productRef, productData);
         setProducts(
           products.map((product) =>
@@ -97,7 +115,7 @@ const Products = () => {
         );
       } else {
         // Add new product
-        const docRef = await addDoc(collection(db, "Products"), productData);
+        const docRef = await addDoc(collection(db, "products"), productData);
         setProducts([...products, { id: docRef.id, ...productData }]);
       }
 
@@ -109,14 +127,7 @@ const Products = () => {
 
   // Reset form to default state
   const resetForm = () => {
-    setFormData({
-      name: "",
-      type: "",
-      description: "",
-      price: "",
-      quantity: "",
-      image: null,
-    });
+    setFormData(initialFormState);
     setUploadProgress(0);
     setIsEditing(false);
     setCurrentProduct(null);
@@ -126,13 +137,18 @@ const Products = () => {
   const handleEdit = (product) => {
     setIsEditing(true);
     setCurrentProduct(product);
-    setFormData(product);
+
+    setFormData({
+      ...initialFormState,
+      ...product,
+      tags: Array.isArray(product.tags) ? product.tags : [],
+    });
   };
 
   // Handle product deletion
   const handleDelete = async (productId) => {
     try {
-      await deleteDoc(doc(db, "Products", productId));
+      await deleteDoc(doc(db, "products", productId));
       setProducts(products.filter((product) => product.id !== productId));
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -228,6 +244,112 @@ const Products = () => {
               required
             />
           </div>
+
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.isPublished}
+                onChange={(e) =>
+                  setFormData({ ...formData, isPublished: e.target.checked })
+                }
+              />
+              Published
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.showInStore}
+                onChange={(e) =>
+                  setFormData({ ...formData, showInStore: e.target.checked })
+                }
+              />
+              Show in Store
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.showInGallery}
+                onChange={(e) =>
+                  setFormData({ ...formData, showInGallery: e.target.checked })
+                }
+              />
+              Show in Gallery
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={formData.featured}
+                onChange={(e) =>
+                  setFormData({ ...formData, featured: e.target.checked })
+                }
+              />
+              Featured
+            </label>
+          </div>
+          <div className="form-group">
+            <label>Status</label>
+            <select
+              name="status"
+              value={formData.status}
+              onChange={handleInputChange}
+            >
+              <option value="available">Available</option>
+              <option value="sold">Sold</option>
+              <option value="archive">Archive</option>
+              <option value="coming_soon">Coming Soon</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Collection</label>
+            <input
+              type="text"
+              name="collection"
+              value={formData.collection}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Medium</label>
+            <input
+              type="text"
+              name="medium"
+              value={formData.medium}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Dimensions</label>
+            <input
+              type="text"
+              name="dimensions"
+              value={formData.dimensions}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Year</label>
+            <input
+              type="text"
+              name="year"
+              value={formData.year}
+              onChange={handleInputChange}
+            />
+          </div>
+
           <div className="form-group">
             <label>Image</label>
             <input type="file" onChange={handleFileChange} required />
