@@ -1,0 +1,160 @@
+.artwork-details {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 2rem;
+  color: white;
+}
+
+.artwork-back {
+  margin-bottom: 1.25rem;
+  background: transparent;
+  border: none;
+  color: white;
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.artwork-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1.15fr) minmax(280px, 0.85fr);
+  gap: 2rem;
+}
+
+.artwork-media {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 420px;
+
+  img,
+  .artwork-placeholder {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .artwork-placeholder {
+    display: grid;
+    place-items: center;
+    opacity: 0.7;
+  }
+}
+
+.artwork-info {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.artwork-badges {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.artwork-pill {
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.artwork-title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.artwork-meta-block {
+  display: grid;
+  gap: 0.45rem;
+  opacity: 0.88;
+}
+
+.artwork-description {
+  line-height: 1.7;
+  opacity: 0.94;
+}
+
+.artwork-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.artwork-tag {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.82rem;
+}
+
+.artwork-purchase-panel,
+.artwork-note {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.artwork-price {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.artwork-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.85rem;
+}
+
+.artwork-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: white;
+  background: transparent;
+  cursor: pointer;
+
+  &.primary {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  &.ghost {
+    background: transparent;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.artwork-state {
+  padding: 2rem 0;
+  opacity: 0.85;
+
+  &.error {
+    color: #ffb3b3;
+  }
+}
+
+.artwork-toast {
+  margin-top: 0.75rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+  .artwork-grid {
+    grid-template-columns: 1fr;
+  }
+}

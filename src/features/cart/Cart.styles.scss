@@ -1,0 +1,228 @@
+/* Cart.styles.scss */
+
+.cart-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 0, 20, 0.85); // dark overlay
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  /* Prevent background scroll when modal is open */
+  overscroll-behavior: contain;
+}
+
+.cart-modal {
+  color: #ffe0f7;
+  border: 2px solid #ff99cc;
+  border-radius: 20px;
+  padding: 2rem;
+  width: min(92vw, 600px);
+  max-height: min(82vh, 760px);
+  overflow-y: auto;
+  box-shadow: 0 0 25px #ffb3ec88;
+  position: relative;
+
+  /* Subtle glassy card */
+  background: rgba(0, 0, 0, 0.35);
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.45rem;
+    letter-spacing: 0.2px;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffb3ec;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+
+  &:hover {
+    border-color: rgba(255, 153, 204, 0.55);
+  }
+}
+
+/* ✅ Buttons used in multiple places inside the modal */
+.checkout-btn {
+  background-color: #ff66cc;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 153, 204, 0.45);
+  transition: transform 0.15s ease, background 0.3s;
+
+  &:hover {
+    background-color: #d450a3;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+/* Optional alternate button (e.g. View Cart) */
+.checkout-btn--alt {
+  background-color: #7a1c6e;
+
+  &:hover {
+    background-color: #ff69b4;
+  }
+}
+
+/* Item rows */
+.cart-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 214, 243, 0.7);
+  padding-bottom: 1rem;
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .cart-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    flex: 0 0 auto;
+  }
+
+  .cart-details {
+    flex: 1;
+    min-width: 0;
+
+    h4 {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0.35rem 0 0.6rem;
+      opacity: 0.95;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    /* Make "Remove" look like a subtle danger action */
+    .remove-btn {
+      appearance: none;
+      background: rgba(255, 0, 90, 0.12);
+      border: 1px solid rgba(255, 0, 90, 0.18);
+      color: #ffd1e6;
+      border-radius: 10px;
+      padding: 0.45rem 0.7rem;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      width: fit-content;
+      transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 0, 90, 0.18);
+        border-color: rgba(255, 0, 90, 0.28);
+        transform: translateY(-1px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+  }
+}
+
+/* Quantity control (if you still use it anywhere) */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.55rem 0 0.35rem;
+  flex-wrap: wrap;
+
+  button {
+    background-color: #7a1c6e;
+    color: #fff;
+    border: none;
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    box-shadow: 0 0 10px rgba(255, 153, 204, 0.25);
+
+    &:hover {
+      background-color: #ff69b4;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    font-weight: bold;
+    color: #ffe0f7;
+  }
+}
+
+/* Footer layout only */
+.cart-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+
+  .cart-total {
+    margin-top: 0.25rem;
+    font-size: 1.15rem;
+    color: #f5c1ff;
+  }
+}
+
+/* Better spacing on small screens */
+@media (max-width: 520px) {
+  .cart-modal {
+    padding: 1.25rem;
+  }
+
+  .cart-item {
+    gap: 0.85rem;
+
+    .cart-img {
+      width: 72px;
+      height: 72px;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+.ds-app-shell {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-app-main {
+  flex: 1;
+  width: 100%;
+}

@@ -1,44 +1,36 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import React from "react";
-
-import { db } from "../../utils/firebase/firebase.utils";
+import React, { createContext, useContext, useCallback, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../utils/firebase/firebase.utils";
 
-export const ProductsContext = createContext();
+export const ProductsContext = createContext(null);
 
 export function useProductsContext() {
-    return useContext(ProductsContext)
+  const ctx = useContext(ProductsContext);
+  if (!ctx) throw new Error("useProductsContext must be used within ProductsProvider");
+  return ctx;
 }
 
-// export const editProductInfo = () => {
+export const ProductsProvider = ({ children, collectionName = "products" }) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-// }
+  const refreshProducts = useCallback(async () => {
+    setLoading(true);
+    try {
+      const q = collection(db, collectionName);
+      const snap = await getDocs(q);
+      setProducts(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    } catch (e) {
+      console.error("Error fetching products:", e);
+    } finally {
+      setLoading(false);
+    }
+  }, [collectionName]);
 
-export const ProductsProvider = ({children, collectionName}) => {
-    const [productsMap, setProductsMap] = useState([]);
-    const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    refreshProducts();
+  }, [refreshProducts]);
 
-    useEffect(() => {
-        const getProductsMap = async () => {
-            const q = collection(db, collectionName);
-            try {
-                const querySnapshot = await getDocs(q);
-                const collectionData = [];
-                querySnapshot.forEach((doc) => {
-                    collectionData.push({ id: doc.id, ...doc.data() });
-                });
-                setProductsMap(collectionData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }finally {
-                setLoading(false);
-            }
-        }
-        getProductsMap();
-    }, []);
-    const value = { productsMap, loading }
-    return (
-        <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>
-    )
-}
-
+  const value = { products, loading, refreshProducts };
+  return <ProductsContext.Provider value={value}>{children}</ProductsContext.Provider>;
+};

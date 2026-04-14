@@ -1,0 +1,69 @@
+@use "../../../../shared/styles/tokens.scss";
+
+.ds-admin-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ds-admin-section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ds-admin-section-title h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.ds-admin-section-subtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.ds-admin-section-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ds-admin-subnav {
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  width: fit-content;
+}
+
+.ds-admin-subnav-link {
+  text-decoration: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ds-admin-subnav-link:hover,
+.ds-admin-subnav-link:focus-visible {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+
+.ds-admin-subnav-link.is-active {
+  color: var(--text);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 121, 198, 0.18),
+    rgba(68, 177, 255, 0.18)
+  );
+}
+
+.ds-admin-section-body {
+  padding-top: 6px;
+}

@@ -1,0 +1,240 @@
+.
+├── .env
+├── .gitignore
+├── .netlify
+│   ├── edge-functions-import-map.json
+│   ├── edge-functions-serve
+│   │   └── dev.js
+│   └── state.json
+├── .nvmrc
+├── README.md
+├── file-tree.txt
+├── index.html
+├── netlify
+│   └── functions
+│       ├── create-payment-intent.js
+│       └── stripe-webhook.js
+├── package-lock.json
+├── package.json
+├── public
+│   ├── _redirects
+│   ├── manifest.json
+│   ├── robots.txt
+│   └── train-icon.svg
+├── scripts
+│   ├── serviceAccount.json
+│   └── setAdmin.js
+├── src
+│   ├── App.scss
+│   ├── App.test.js
+│   ├── App.tsx
+│   ├── app
+│   │   ├── providers
+│   │   │   └── AppProviders.tsx
+│   │   └── routes
+│   │       └── router.tsx
+│   ├── assets
+│   │   ├── DarkBGAlt.jpg
+│   │   ├── dark-dj-set.jpg
+│   │   ├── shopping-cart.svg
+│   │   └── train-icon.svg
+│   ├── components
+│   │   ├── NavigationLink
+│   │   │   ├── NavigationLink.styles.scss
+│   │   │   └── NavigationLink.tsx
+│   │   ├── PageContent
+│   │   │   ├── PageContent.module.css
+│   │   │   └── PageContent.tsx
+│   │   ├── admin
+│   │   │   ├── ActivityLog.tsx
+│   │   │   ├── AdminSection
+│   │   │   │   ├── AdminSection.styles.scss
+│   │   │   │   └── AdminSection.tsx
+│   │   │   ├── RecentOrders.tsx
+│   │   │   └── StatCard.tsx
+│   │   ├── button
+│   │   │   ├── button.component.tsx
+│   │   │   └── button.styles.scss
+│   │   ├── cart-icon
+│   │   │   ├── cart-icon.component.jsx
+│   │   │   └── cart-icon.styles.scss
+│   │   ├── form-input
+│   │   │   ├── form-input.component.jsx
+│   │   │   └── form-input.styles.jsx
+│   │   ├── image-icon
+│   │   │   ├── image-icon.component.jsx
+│   │   │   └── image-icon.styles.scss
+│   │   ├── loading
+│   │   │   ├── loading.component.jsx
+│   │   │   └── loading.styles.css
+│   │   ├── splash-timer
+│   │   │   ├── splash-timer.component.jsx
+│   │   │   └── splash-timer.styles.scss
+│   │   └── under-construction
+│   │       └── under-contstruction.component.jsx
+│   ├── constants.js
+│   ├── context
+│   │   ├── VideoPlayer
+│   │   │   └── VideoPlayerContext.tsx
+│   │   ├── product
+│   │   │   └── product.context.jsx
+│   │   ├── shoppingCart
+│   │   │   └── shoppingCart.context.jsx
+│   │   └── user
+│   │       └── user.context.tsx
+│   ├── guard
+│   │   └── ProtectedGuard.tsx
+│   ├── hooks
+│   │   ├── useIsAdmin.hook.js
+│   │   ├── useMessages.hook.jsx
+│   │   └── usecountdown.component.jsx
+│   ├── logo.svg
+│   ├── main.css
+│   ├── main.tsx
+│   ├── reportWebVitals.js
+│   ├── routes
+│   │   ├── Admin
+│   │   │   ├── AdminLayout.styles.scss
+│   │   │   ├── AdminLayout.tsx
+│   │   │   ├── AdminNavigation.module.css
+│   │   │   └── AdminNavigation.tsx
+│   │   ├── Blog
+│   │   │   ├── BlogPage.jsx
+│   │   │   ├── BlogPage.styles.scss
+│   │   │   ├── BlogPost
+│   │   │   │   ├── BlogPost.jsx
+│   │   │   │   └── BlogPost.styles.scss
+│   │   │   └── MainBlogLayout.jsx
+│   │   ├── Cart
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Cart.styles.scss
+│   │   │   ├── CartPage.jsx
+│   │   │   └── CartPage.styles.scss
+│   │   ├── ErrorPage
+│   │   │   └── ErrorPage.tsx
+│   │   ├── Product
+│   │   │   ├── ProductCard
+│   │   │   │   ├── ProductCard.scss
+│   │   │   │   └── ProductCard.tsx
+│   │   │   ├── ProductDetails.jsx
+│   │   │   ├── ProductDetails.styles.scss
+│   │   │   ├── ProductEdit.tsx
+│   │   │   ├── ProductForm
+│   │   │   │   ├── ProductForm.module.scss
+│   │   │   │   └── ProductForm.tsx
+│   │   │   ├── ProductLayout.styles.scss
+│   │   │   ├── ProductLayout.tsx
+│   │   │   ├── ProductList.styles.scss
+│   │   │   ├── ProductList.tsx
+│   │   │   ├── ProductNavigation.module.css
+│   │   │   ├── ProductNavigation.tsx
+│   │   │   ├── ProductNew.tsx
+│   │   │   └── product.types.ts
+│   │   ├── ProductEdit
+│   │   │   ├── OldProductEdit.jsx
+│   │   │   └── ProductEdit.styles.scss
+│   │   ├── Root
+│   │   │   ├── RootLayout.styles.scss
+│   │   │   └── RootLayout.tsx
+│   │   ├── authentication
+│   │   │   ├── authentication.component.jsx
+│   │   │   ├── authentication.styles.scss
+│   │   │   ├── sign-in-form
+│   │   │   │   ├── sign-in-form.component.tsx
+│   │   │   │   └── sign-in-form.styles.scss
+│   │   │   └── sign-up-form
+│   │   │       ├── SignUpForm.styles.scss
+│   │   │       └── sign-up-form.component.tsx
+│   │   ├── checkout
+│   │   │   ├── Checkout-Form
+│   │   │   │   └── CheckoutForm.jsx
+│   │   │   ├── CheckoutSuccess.jsx
+│   │   │   ├── checkout.component.jsx
+│   │   │   └── checkout.styles.scss
+│   │   ├── dashboard
+│   │   │   ├── DashboardNavigation
+│   │   │   │   ├── DashboardNavigation.styles.scss
+│   │   │   │   └── DashboardNavigation.tsx
+│   │   │   └── pages
+│   │   │       ├── Blog
+│   │   │       │   ├── BlogDetails
+│   │   │       │   ├── BlogEdit
+│   │   │       │   ├── BlogEntry
+│   │   │       │   ├── BlogLayout.styles.scss
+│   │   │       │   ├── BlogLayout.tsx
+│   │   │       │   ├── BlogList
+│   │   │       │   ├── BlogNavigation.jsx
+│   │   │       │   └── blog.types.ts
+│   │   │       ├── Home.tsx
+│   │   │       ├── Orders.tsx
+│   │   │       ├── Products.jsx
+│   │   │       ├── Products.styles.scss
+│   │   │       ├── Users.styles.scss
+│   │   │       ├── Users.tsx
+│   │   │       └── dashboard-overview.scss
+│   │   ├── forgot-password
+│   │   │   ├── ResetPassword.jsx
+│   │   │   └── ResetPassword.styles.scss
+│   │   ├── navigation
+│   │   │   ├── AccountButton
+│   │   │   │   └── AccountButton.tsx
+│   │   │   ├── AccountModal
+│   │   │   │   ├── AccountModal.styles.scss
+│   │   │   │   ├── AccountModal.tsx
+│   │   │   │   ├── StepLayout.component.tsx
+│   │   │   │   └── StepLayout.styles.scss
+│   │   │   ├── CartIcon
+│   │   │   │   └── CartIcon.jsx
+│   │   │   ├── DesktopMenu
+│   │   │   │   └── DesktopMenu.tsx
+│   │   │   ├── MobileMenu
+│   │   │   │   └── MobileMenu.tsx
+│   │   │   ├── NavbarContainer
+│   │   │   │   └── NavbarContainer.tsx
+│   │   │   ├── UserDropdown
+│   │   │   │   └── UserDropdown.jsx
+│   │   │   ├── navReducer.ts
+│   │   │   ├── navigation.component.tsx
+│   │   │   └── navigation.styles.scss
+│   │   ├── showroom
+│   │   │   ├── comment-container
+│   │   │   │   ├── comment-container.component.tsx
+│   │   │   │   ├── comment-container.styles.scss
+│   │   │   │   └── message
+│   │   │   │       ├── message.component.tsx
+│   │   │   │       └── message.styles.scss
+│   │   │   ├── showroom.component.tsx
+│   │   │   ├── showroom.styles.scss
+│   │   │   └── stream-container
+│   │   │       ├── stream-container.component.tsx
+│   │   │       └── stream-container.styles.scss
+│   │   ├── splash
+│   │   │   ├── splash.component.jsx
+│   │   │   └── splash.styles.scss
+│   │   └── store
+│   │       ├── DoosetrainStore.jsx
+│   │       └── DoosetrainStore.styles.scss
+│   ├── setupTests.js
+│   ├── shared
+│   │   ├── components
+│   │   │   └── layout
+│   │   │       ├── Container.tsx
+│   │   │       ├── PageHeader.tsx
+│   │   │       └── layout.scss
+│   │   └── styles
+│   │       └── tokens.scss
+│   ├── styles
+│   │   └── admin.components.scss
+│   ├── types
+│   │   └── store.ts
+│   ├── utils
+│   │   ├── dateUtils.js
+│   │   ├── firebase
+│   │   │   └── firebase.utils.ts
+│   │   └── stripe
+│   │       └── stripe.utils.js
+│   └── vite.config.js
+├── tsconfig.json
+└── yarn.lock
+
+79 directories, 159 files

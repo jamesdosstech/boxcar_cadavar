@@ -1,0 +1,28 @@
+:root {
+  /* Theatre */
+  --bg: #0b0c10;
+  --surface: #121722;
+  --surface-2: #1a2232;
+
+  /* Text */
+  --text: #f3f5f7;
+  --text-muted: #b8c0cc;
+
+  /* Cotton candy accents */
+  --accent-pink: #ff79c6;
+  --accent-blue: #44b1ff;
+  --accent-purple: #d1a6ff;
+
+  /* Semantic */
+  --success: #48d597;
+  --warning: #f3d24f;
+  --danger: #ff5c7a;
+
+  /* Accessibility */
+  --focus-ring: 0 0 0 3px rgba(68, 177, 255, 0.55);
+
+  /* Layout rhythm */
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --container: 1100px;
+}

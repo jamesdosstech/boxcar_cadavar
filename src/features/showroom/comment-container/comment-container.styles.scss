@@ -1,0 +1,142 @@
+/* comment-container.styles.scss */
+.ds-chat {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+
+  color: #f8f8f2;
+  background: linear-gradient(to bottom, #44475a, #282a36);
+
+  // divider between stream and chat on desktop
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+
+  // mobile divider
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+
+  @media (min-width: 768px) {
+    border-top: none;
+  }
+}
+
+.ds-chat__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+
+  padding: 0.85rem 1rem;
+  background: rgba(0, 0, 0, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ds-chat__title {
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.ds-chat__meta {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.ds-chat__list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(97, 218, 251, 0.8) transparent;
+}
+
+.ds-chat__listInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ds-chat__empty {
+  text-align: center;
+  opacity: 0.85;
+  margin: 1rem 0 0;
+}
+
+.ds-chat__composer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+
+  background: rgba(0, 0, 0, 0.35);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.ds-chat__input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(40, 42, 54, 0.75);
+  color: #f8f8f2;
+  outline: none;
+
+  &:focus {
+    border-color: rgba(139, 233, 253, 0.65);
+    box-shadow: 0 0 0 3px rgba(139, 233, 253, 0.12);
+  }
+}
+
+/* Your Button component styles still apply; this just nudges layout */
+.ds-chat__send {
+  flex-shrink: 0;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.ds-chat__composer,
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ds-chat__input,
+.input-field {
+  flex: 1 1 auto;
+  min-width: 0; // ✅ allows it to actually shrink/grow correctly
+}
+
+.ds-chat__send,
+.send-button {
+  flex: 0 0 auto;     // ✅ button will NOT take leftover space
+  width: auto !important;
+  min-width: fit-content;
+  white-space: nowrap;
+}
+
+
+.ds-chat__authGate {
+  padding: 0.85rem 1rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.28);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+
+  a {
+    color: #8be9fd;
+    font-weight: 800;
+    text-decoration: none;
+
+    &:hover {
+      color: #ffbde4;
+      text-decoration: underline;
+    }
+  }
+}

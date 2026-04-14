@@ -1,0 +1,60 @@
+.ds-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.ds-input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.ds-input:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ds-btn {
+  width: 100%;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  color: var(--text);
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(to right, var(--accent-pink), var(--accent-blue)) border-box;
+}
+.ds-btn:hover { color: var(--accent-blue); }
+.ds-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.ds-link-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-blue);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 6px;
+}
+.ds-link-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 8px;
+}
+
+.ds-error { color: var(--danger); text-align: center; }
+.ds-status { color: var(--success); text-align: center; }

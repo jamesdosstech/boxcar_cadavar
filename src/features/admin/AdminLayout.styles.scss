@@ -1,0 +1,59 @@
+.ds-admin-shell {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+
+.ds-admin-sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);  backdrop-filter: blur(10px);
+  padding: 12px;
+}
+
+.ds-admin-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ds-admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+.ds-admin-title {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+}
+
+.ds-admin-content {
+  padding: 16px;
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .ds-admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .ds-admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .ds-admin-content {
+    padding: 12px;
+  }
+}

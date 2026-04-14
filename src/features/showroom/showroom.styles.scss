@@ -1,0 +1,29 @@
+.showroom-container {
+  background: linear-gradient(to bottom right, #282a36, #1a1a1a);
+  color: #f8f8f2;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  width: 100%;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.showroom-stream {
+  flex: 2;
+  min-height: 0;
+}
+
+.showroom-chat {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+  }
+}

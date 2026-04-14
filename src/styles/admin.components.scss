@@ -1,0 +1,159 @@
+.ds-admin-card {
+  border-radius: var(--radius);
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
+  padding: 14px;
+}
+
+.ds-admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ds-admin-card-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.ds-muted {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.ds-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.ds-table th,
+.ds-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  text-align: left;
+}
+
+.ds-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.ds-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+}
+
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.ds-badge-pending { background: rgba(243,210,79,0.14); color: var(--warning); }
+.ds-badge-paid { background: rgba(72,213,151,0.14); color: var(--success); }
+.ds-badge-failed { background: rgba(255,92,122,0.14); color: var(--danger); }
+.ds-badge-refunded { background: rgba(209,166,255,0.14); color: var(--accent-purple); }
+
+
+.ds-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: var(--shadow);
+}
+
+.ds-stat-card-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+.ds-stat-card-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.ds-stat-card-sub {
+  font-size: 0.8rem;
+  color: var(--accent-blue);
+}
+
+.ds-activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ds-activity-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+}
+
+.ds-activity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-top: 6px;
+  flex: 0 0 auto;
+}
+
+.ds-activity-dot-info {
+  background: rgba(68,177,255,0.9);
+}
+
+.ds-activity-dot-success {
+  background: rgba(72,213,151,0.9);
+}
+
+.ds-activity-dot-warning {
+  background: rgba(243,210,79,0.9);
+}
+
+.ds-activity-dot-danger {
+  background: rgba(255,92,122,0.9);
+}
+
+.ds-activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ds-activity-message {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+
+.ds-activity-date {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+

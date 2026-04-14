@@ -1,0 +1,221 @@
+/* AccountModal.styles.scss */
+
+/* Backdrop */
+.ds-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200; /* above nav/cart overlay */
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+
+  background: rgba(10, 0, 20, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+/* Dialog */
+.ds-modal {
+  width: 100%;
+  max-width: 520px;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 121, 198, 0.12);
+
+  color: #f8f8f2;
+}
+
+/* Header */
+.ds-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  padding: 1rem 1rem 0.75rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    to right,
+    rgba(98, 114, 164, 0.22),
+    rgba(255, 121, 198, 0.12)
+  );
+}
+
+.ds-modal-title {
+  margin: 0;
+  font-size: 1.1rem;
+  letter-spacing: 0.2px;
+}
+
+/* Close icon */
+.ds-icon-button {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8f8f2;
+
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+
+  display: inline-grid;
+  place-items: center;
+
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(139, 233, 253, 0.35);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+/* Step container */
+.ds-step {
+  padding: 0.9rem 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Center helper */
+.ds-center {
+  text-align: center;
+  margin: 0.2rem 0;
+}
+
+/* Error */
+.ds-error {
+  margin: 0.75rem 1rem 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+
+  background: rgba(255, 0, 0, 0.12);
+  border: 1px solid rgba(255, 0, 0, 0.22);
+  color: #ffd1d1;
+}
+
+/* Label + input (scoped!) */
+.ds-label {
+  display: grid;
+  gap: 0.4rem;
+
+  font-size: 0.9rem;
+  opacity: 0.92;
+}
+
+.ds-input {
+  width: 100%;
+  padding: 0.72rem 0.85rem;
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8f8f2;
+
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+  &:focus {
+    border-color: rgba(139, 233, 253, 0.45);
+    box-shadow: 0 0 0 3px rgba(139, 233, 253, 0.12);
+  }
+}
+
+/* Buttons (scoped!) */
+.ds-btn {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 207, 255, 0.9),
+    rgba(255, 121, 198, 0.65)
+  );
+  color: #0b0f14;
+
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;
+
+  &:hover {
+    filter: brightness(1.03);
+    box-shadow: 0 10px 26px rgba(0, 207, 255, 0.18);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.ds-btn-ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8f8f2;
+  border-color: rgba(255, 255, 255, 0.14);
+
+  &:hover {
+    box-shadow: none;
+    filter: none;
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Horizontal button row */
+.ds-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+
+  @media (max-width: 420px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Link-style button */
+.ds-link-btn {
+  border: none;
+  background: transparent;
+  color: #9bdcff;
+  font-weight: 800;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+
+  &:hover {
+    color: #ffbde4;
+  }
+}
+
+/* Optional: normalize form spacing inside modal */
+.ds-modal form {
+  margin: 0;
+}
+
+.ds-modal input,
+.ds-modal button,
+.ds-modal textarea,
+.ds-modal select {
+  font: inherit;
+}
+
+.ds-row > :only-child {
+  grid-column: 1 / -1;
+}
