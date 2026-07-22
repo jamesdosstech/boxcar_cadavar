@@ -36,7 +36,7 @@ import {
   type UpdateData
 } from "firebase/firestore";
 
-import { getStorage } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { BlogPost, BlogPostInput } from "../../features/dashboard/pages/Blog/blog.types";
 
 // -------------------- Firebase init --------------------
@@ -690,3 +690,25 @@ export const subscribeToOrderById = (
     });
   });
 };
+
+// upload Images
+
+const MAX_IMAGE_BYTES = 10 * 1024 * 1024; // keep in sync with storage.rules
+
+export const uploadProductImage = async (file: File): Promise<string> => {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Please choose an image file.");
+  }
+  if (file.size > MAX_IMAGE_BYTES) {
+    throw new Error("Image must be smaller than 10MB.");
+  }
+
+  // Prefix with a timestamp so re-uploading a file with the same name
+  // (e.g.) "painting.pg" never overwrites a previous products image.
+  const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
+  const path = `product_images/${Date.now()}_${safeName}`;
+
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file, {contentType: file.type});
+  return getDownloadURL(storageRef);
+}

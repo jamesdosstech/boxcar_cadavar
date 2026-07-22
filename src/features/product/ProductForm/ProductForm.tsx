@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import styles from "./ProductForm.module.scss";
 import type { Product, ProductInput } from "../product.types";
+import { uploadProductImage } from "../../../utils/firebase/firebase.utils";
 
 type Props = {
   initialData?: Partial<Product>;
@@ -31,6 +32,8 @@ export default function ProductForm({
   const [price, setPrice] = useState(String(initialData.price ?? ""));
   const [currency, setCurrency] = useState(initialData.currency ?? "usd");
   const [imageUrl, setImageUrl] = useState(initialData.imageUrl ?? "");
+  const [isUploading, setIsUploading] = useState(false)
+  const [upladError, setUploadError] = useState('')
   const [category, setCategory] = useState<Category>(
     (initialData.category as Category) ?? ""
   );
@@ -79,6 +82,26 @@ export default function ProductForm({
   }, [initialData, mode]);
 
   const categories = useMemo(() => DEFAULT_CATEGORIES, []);
+
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if(!file) return;
+
+    setUploadError("");
+    setIsUploading(true);
+    try {
+      const url = await uploadProductImage(file);
+      setImageUrl(url);
+    } catch (err) {
+      setUploadError(
+        err instanceof Error ? err.message : "Upload failed. Please try again."
+      );
+    } finally {
+      setIsUploading(false);
+      // allow re-selecting the same file later if needed
+      e.target.value = "";
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -223,11 +246,45 @@ export default function ProductForm({
           <label className={styles.label} htmlFor={imageId}>Image URL</label>
           <input
             id={imageId}
+            type="file"
             className={styles.input}
-            value={imageUrl}
-            onChange={(e) => setImageUrl(e.target.value)}
+            accept="image/*"
+            onChange={handleFileSelect}
+            disabled={isUploading}
             placeholder="https://…"
           />
+          {isUploading && (
+            <p className={styles.label} role="status">Uplading...</p>
+          )}
+          {upladError && (
+            <p className="ds-error" role="alert">{upladError}</p>
+          )}
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="Product preview"
+              style={{
+                marginTop: 8,
+                maxWidth: 160,
+                maxHeight: 160,
+                borderRadius: 8,
+                objectFit: "cover",
+              }}
+            />
+          )}
+
+          <details style={{ marginTop: 6 }}>
+            <summary className={styles.label} style={{ cursor: "pointer" }}>
+              Paste an image URL instead
+            </summary>
+            <input
+              className={styles.input}
+              style={{ marginTop: 6 }}
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://…"
+            />
+          </details>
         </div>
 
         <div className={styles.fieldFull}>
