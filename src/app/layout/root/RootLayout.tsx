@@ -1,9 +1,15 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Navigation from '../../../features/navigation/navigation.component';
+import Navigation from "../../../features/navigation/navigation.component";
 import StreamContainer from "../../../features/showroom/stream-container/stream-container.component";
+import Footer from "../../../components/Footer/Footer";
 import "./RootLayout.styles.scss";
 
-const HIDE_PLAYER_PREFIXES = ["/sign-in", "/pass-reset", "/checkout", "/admin"] as const;
+const HIDE_PLAYER_PREFIXES = [
+  "/sign-in",
+  "/pass-reset",
+  "/checkout",
+  "/admin",
+] as const;
 
 export default function RootLayout() {
   const { pathname } = useLocation();
@@ -22,6 +28,7 @@ export default function RootLayout() {
       <main className="ds-app-main" role="main">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

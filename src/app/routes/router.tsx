@@ -5,7 +5,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Showroom from "../../features/showroom/showroom.component";
 import Authentication from "../../features/authentication/authentication.component";
 import Checkout from "../../features/checkout/checkout.component";
-import { splashMessage } from '../../constants'
+import { splashMessage } from "../../constants";
 import ProtectedGuard from "../../guard/ProtectedGuard";
 import ProductLayout from "../../features/product/ProductLayout";
 import ProductList from "../../features/product/ProductList";
@@ -35,105 +35,119 @@ import RootLayout from "../layout/root/RootLayout";
 import ErrorPage from "../pages/error/ErrorPage";
 import Gallery from "../../features/gallery/Gallery";
 import ArtworkDetails from "../../features/artwork-details/ArtworkDetails";
+import TermsOfService from "../../features/legal/TermsOfService";
+import PrivacyPolicy from "../../features/legal/PrivacyPolicy";
+import RefundPolicy from "../../features/legal/RefundPolicy";
 
 export const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <RootLayout />,
-        errorElement: <ErrorPage />,
+  {
+    path: "/",
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Splash />,
+      },
+      {
+        path: "blog",
+        element: <MainBlogLayout />,
         children: [
-            {
-                index: true,
-                element: <Splash
-                />
-            },
-            {
-                path: 'blog',
-                element: <MainBlogLayout />,
+          {
+            index: true,
+            element: <BlogPage />,
+          },
+          {
+            path: ":postId",
+            element: <BlogPost />,
+          },
+        ],
+      },
+      {
+        path: "showroom",
+        element: <Showroom />,
+      },
+      {
+        path: "pass-reset",
+        element: <ResetPassword />,
+      },
+      {
+        path: "sign-in",
+        element: <Authentication />,
+      },
+      {
+        path: "shop",
+        element: <DoosetrainStore />,
+      },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
+      {
+        path: "product/:productId",
+        element: <ProductDetails />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "checkout/success",
+        element: <CheckoutSuccess />,
+      },
+      {
+        path: "gallery",
+        element: <Gallery />,
+      },
+      {
+        path: "gallery/:artworkId",
+        element: <ArtworkDetails />,
+      },
+      {
+        path: "terms",
+        element: <TermsOfService />,
+      },
+      {
+        path: "privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "refund-policy",
+        element: <RefundPolicy />,
+      },
+      {
+        path: "admin",
+        element: <ProtectedGuard />,
+        children: [
+          {
+            element: <AdminLayout />,
+            children: [
+              { index: true, element: <Home /> },
+              { path: "users", element: <Users /> },
+              {
+                path: "products",
+                element: <ProductLayout />,
                 children: [
-                    {
-                        index: true,
-                        element: <BlogPage />
-                    },
-                    {
-                        path: ':postId',
-                        element: <BlogPost />
-                    }
-                ]
-            },
-            {
-                path: 'showroom',
-                element: <Showroom />
-            },
-            {
-                path: 'pass-reset',
-                element: <ResetPassword />
-            },
-            {
-                path: 'sign-in',
-                element: <Authentication />
-            },
-            {
-                path: 'shop',
-                element: <DoosetrainStore />,
-            },
-            {
-                path: 'cart',
-                element: <CartPage />
-            },
-            {
-                path: 'product/:productId',
-                element: <ProductDetails />
-            },
-            {
-                path: 'checkout',
-                element: <Checkout />
-            },
-            {
-                path: 'checkout/success',
-                element: <CheckoutSuccess />
-            },
-            {
-                path: 'gallery',
-                element: <Gallery />,
-            },
-            {
-                path: 'gallery/:artworkId',
-                element: <ArtworkDetails />
-            },
-            {
-                path: "admin",
-                element: <ProtectedGuard />,
-                children: [
-                    {
-                        element: <AdminLayout />,
-                        children: [
-                            { index: true, element: <Home /> },
-                            { path: "users", element: <Users /> },
-                            {
-                            path: "products",
-                            element: <ProductLayout />,
-                            children: [
-                                { index: true, element: <ProductList /> },
-                                { path: "new-product", element: <ProductNew /> },
-                                { path: "edit/:productId", element: <ProductEdit /> },
-                            ],
-                            },
-                            {
-                            path: "blog",
-                            element: <BlogLayout />,
-                            children: [
-                                { index: true, element: <BlogList /> },
-                                { path: "new-post", element: <BlogEntry /> },
-                                { path: ":postId", element: <BlogDetails /> },
-                                { path: ":postId/edit", element: <BlogEdit /> },
-                            ],
-                            },
-                            { path: "orders", element: <Orders /> },
-                        ],
-                    },
+                  { index: true, element: <ProductList /> },
+                  { path: "new-product", element: <ProductNew /> },
+                  { path: "edit/:productId", element: <ProductEdit /> },
                 ],
-            }
-        ]
-    }
-])
+              },
+              {
+                path: "blog",
+                element: <BlogLayout />,
+                children: [
+                  { index: true, element: <BlogList /> },
+                  { path: "new-post", element: <BlogEntry /> },
+                  { path: ":postId", element: <BlogDetails /> },
+                  { path: ":postId/edit", element: <BlogEdit /> },
+                ],
+              },
+              { path: "orders", element: <Orders /> },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
