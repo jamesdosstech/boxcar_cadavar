@@ -1,5 +1,12 @@
 import { NavLink } from "react-router-dom";
-import { useContext, useEffect, useMemo, useReducer, useState } from "react";
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import "./navigation.styles.scss";
 
 import { UserContext } from "../../context/user/user.context";
@@ -9,7 +16,7 @@ import { useCart } from "../../context/shoppingCart/shoppingCart.context";
 import AccountModal, { Step } from "./AccountModal/AccountModal";
 import AccountButton from "./AccountButton/AccountButton";
 
-import { initialState, reducer} from "./navReducer";
+import { initialState, reducer } from "./navReducer";
 import CartModal from "../cart/Cart";
 
 type NavItem = { title: string; link: string };
@@ -30,11 +37,27 @@ export default function Navigation() {
       { title: "Blog", link: "/blog" },
       { title: "Shop", link: "/shop" },
       {
-        title: "Gallery", link: "/gallery"
-      }
+        title: "Gallery",
+        link: "/gallery",
+      },
     ],
     []
   );
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!navRef.current) return;
+    const setHeightVar = () => {
+      const height = navRef.current?.offsetHeight ?? 0;
+      document.documentElement.style.setProperty("--nav-height", `${height}px`);
+    };
+
+    setHeightVar();
+
+    const observer = new ResizeObserver(setHeightVar);
+    observer.observe(navRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setStep(currentUser ? 1 : 4);
@@ -42,7 +65,7 @@ export default function Navigation() {
 
   return (
     <>
-      <nav className="ds-nav" aria-label="Primary">
+      <nav ref={navRef} className="ds-nav" aria-label="Primary">
         <div className="ds-nav-scroll">
           {navItems.map(({ title, link }) => (
             <NavLink
@@ -61,7 +84,9 @@ export default function Navigation() {
             type="button"
             className="ds-nav-link ds-nav-button"
             onClick={() => setIsCartOpen(true)}
-            aria-label={`Open cart. ${itemCount} item${itemCount === 1 ? "" : "s"} in cart.`}
+            aria-label={`Open cart. ${itemCount} item${
+              itemCount === 1 ? "" : "s"
+            } in cart.`}
           >
             <span aria-hidden="true">
               <i className="bi bi-cart" /> {itemCount}

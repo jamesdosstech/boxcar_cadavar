@@ -2,28 +2,78 @@
   background: linear-gradient(to bottom right, #282a36, #1a1a1a);
   color: #f8f8f2;
   display: flex;
-  flex-direction: column;
-  height: 100dvh;
-  width: 100%;
-  overflow: hidden;
+  flex-direction: column; // stacked by default: phone AND iPad get this
+  height: calc(
+    100dvh - var(--nav-height, 60px)
+  ); // locks the whole showroom to exactly one screen —
+  width: 100%; // this is what guarantees chat+input+button are
+  overflow: hidden; // always visible without scrolling *inside* the showroom
 
-  @media (min-width: 768px) {
+  // Row (side-by-side) layout only kicks in on genuinely wide screens —
+  // laptop/desktop. Raised from the old 768px breakpoint specifically so
+  // iPads (portrait ~810px, landscape ~1024-1194px) still get the stacked
+  // mobile treatment instead of a cramped side-by-side split.
+  @media (min-width: 1024px) {
     flex-direction: row;
     align-items: stretch;
   }
 }
 
 .showroom-stream {
-  flex: 2;
+  // Stacked (phone/iPad): video gets a deliberate, fixed 45% of the
+  // screen — "an important amount of space" without crowding out chat.
+  // flex: 0 0 45% means don't grow, don't shrink, always exactly 45%.
+  flex: 0 0 45%;
   min-height: 0;
+
+  @media (min-width: 1024px) {
+    // Side-by-side (desktop): revert to a proportional width split
+    // instead of a height percentage — 2 parts stream, 1 part chat.
+    flex: 2 1 0%;
+    min-height: 0;
+  }
 }
 
 .showroom-chat {
-  flex: 1;
+  // Stacked (phone/iPad): fills all remaining height below the video.
+  // flex: 1 1 auto with min-height:0 lets it shrink correctly and lets
+  // its own internal message list (not this element) do the scrolling.
+  flex: 1 1 auto;
   min-height: 0;
   overflow: hidden;
 
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
+    flex: 1 1 0%;
     border-left: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
+// Old original style
+// .showroom-container {
+//   background: linear-gradient(to bottom right, #282a36, #1a1a1a);
+//   color: #f8f8f2;
+//   display: flex;
+//   flex-direction: column;
+//   height: 100dvh;
+//   width: 100%;
+//   overflow: hidden;
+
+//   @media (min-width: 768px) {
+//     flex-direction: row;
+//     align-items: stretch;
+//   }
+// }
+
+// .showroom-stream {
+//   flex: 2;
+//   min-height: 0;
+// }
+
+// .showroom-chat {
+//   flex: 1;
+//   min-height: 0;
+//   overflow: hidden;
+
+//   @media (min-width: 768px) {
+//     border-left: 1px solid rgba(255, 255, 255, 0.12);
+//   }
+// }
