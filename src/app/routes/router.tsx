@@ -1,149 +1,196 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 
 import { createBrowserRouter } from "react-router-dom";
-
-import Showroom from "../../features/showroom/showroom.component";
-import Authentication from "../../features/authentication/authentication.component";
-import Checkout from "../../features/checkout/checkout.component";
-import { splashMessage } from "../../constants";
-import ProtectedGuard from "../../guard/ProtectedGuard";
-import ProductLayout from "../../features/product/ProductLayout";
-import ProductList from "../../features/product/ProductList";
-import ProductNew from "../../features/product/ProductNew";
-import ProductEdit from "../../features/product/ProductEdit";
-import ProductDetails from "../../features/product/ProductDetails";
-
-import BlogPage from "../../features/Blog/BlogPage";
-//blog
-import BlogPost from "../../features/Blog/BlogPost/BlogPost";
-import MainBlogLayout from "../../features/Blog/MainBlogLayout";
-import CheckoutSuccess from "../../features/checkout/CheckoutSuccess";
-import DoosetrainStore from "../../features/store/DoosetrainStore";
-import CartPage from "../../features/cart/CartPage";
-import ResetPassword from "../../features/authentication/forgot-password/ResetPassword";
-import Splash from "../../features/splash/splash.component";
-import Home from "../../features/dashboard/pages/Home";
-import Users from "../../features/dashboard/pages/Users";
-import BlogLayout from "../../features/dashboard/pages/Blog/BlogLayout";
-import BlogList from "../../features/dashboard/pages/Blog/BlogList/BlogList";
-import BlogEntry from "../../features/dashboard/pages/Blog/BlogEntry/BlogEntry";
-import BlogDetails from "../../features/dashboard/pages/Blog/BlogDetails/BlogDetails";
-import BlogEdit from "../../features/dashboard/pages/Blog/BlogEdit/BlogEdit";
-import Orders from "../../features/dashboard/pages/Orders";
-import AdminLayout from "../../features/admin/AdminLayout";
 import RootLayout from "../layout/root/RootLayout";
 import ErrorPage from "../pages/error/ErrorPage";
-import Gallery from "../../features/gallery/Gallery";
-import ArtworkDetails from "../../features/artwork-details/ArtworkDetails";
-import TermsOfService from "../../features/legal/TermsOfService";
-import PrivacyPolicy from "../../features/legal/PrivacyPolicy";
-import RefundPolicy from "../../features/legal/RefundPolicy";
+import ProtectedGuard from "../../guard/ProtectedGuard";
+
+const Showroom = lazy(
+  () => import("../../features/showroom/showroom.component")
+);
+const Authentication = lazy(
+  () => import("../../features/authentication/authentication.component")
+);
+const Checkout = lazy(
+  () => import("../../features/checkout/checkout.component")
+);
+const ProductLayout = lazy(
+  () => import("../../features/product/ProductLayout")
+);
+const ProductList = lazy(() => import("../../features/product/ProductList"));
+const ProductNew = lazy(() => import("../../features/product/ProductNew"));
+const ProductEdit = lazy(() => import("../../features/product/ProductEdit"));
+const ProductDetails = lazy(
+  () => import("../../features/product/ProductDetails")
+);
+const BlogPage = lazy(() => import("../../features/Blog/BlogPage"));
+const BlogPost = lazy(() => import("../../features/Blog/BlogPost/BlogPost"));
+const MainBlogLayout = lazy(() => import("../../features/Blog/MainBlogLayout"));
+const CheckoutSuccess = lazy(
+  () => import("../../features/checkout/CheckoutSuccess")
+);
+const DoosetrainStore = lazy(
+  () => import("../../features/store/DoosetrainStore")
+);
+const CartPage = lazy(() => import("../../features/cart/CartPage"));
+const ResetPassword = lazy(
+  () => import("../../features/authentication/forgot-password/ResetPassword")
+);
+const Splash = lazy(() => import("../../features/splash/splash.component"));
+const Home = lazy(() => import("../../features/dashboard/pages/Home"));
+const Users = lazy(() => import("../../features/dashboard/pages/Users"));
+const BlogLayout = lazy(
+  () => import("../../features/dashboard/pages/Blog/BlogLayout")
+);
+const BlogList = lazy(
+  () => import("../../features/dashboard/pages/Blog/BlogList/BlogList")
+);
+const BlogEntry = lazy(
+  () => import("../../features/dashboard/pages/Blog/BlogEntry/BlogEntry")
+);
+const BlogDetails = lazy(
+  () => import("../../features/dashboard/pages/Blog/BlogDetails/BlogDetails")
+);
+const BlogEdit = lazy(
+  () => import("../../features/dashboard/pages/Blog/BlogEdit/BlogEdit")
+);
+const Orders = lazy(() => import("../../features/dashboard/pages/Orders"));
+const AdminLayout = lazy(() => import("../../features/admin/AdminLayout"));
+const Gallery = lazy(() => import("../../features/gallery/Gallery"));
+const ArtworkDetails = lazy(
+  () => import("../../features/artwork-details/ArtworkDetails")
+);
+const TermsOfService = lazy(
+  () => import("../../features/legal/TermsOfService")
+);
+const PrivacyPolicy = lazy(() => import("../../features/legal/PrivacyPolicy"));
+const RefundPolicy = lazy(() => import("../../features/legal/RefundPolicy"));
+
+// Small wrapper so every route gets a loading fallback without repeating
+// <Suspense> around each one individually below.
+const withSuspense = (element: React.ReactNode) => (
+  <Suspense
+    fallback={
+      <div style={{ padding: "3rem", textAlign: "center", color: "white" }}>
+        Loading…
+      </div>
+    }
+  >
+    {element}
+  </Suspense>
+);
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
-    errorElement: <ErrorPage />,
+    element: withSuspense(<RootLayout />),
+    errorElement: withSuspense(<ErrorPage />),
     children: [
       {
         index: true,
-        element: <Splash />,
+        element: withSuspense(<Splash />),
       },
       {
         path: "blog",
-        element: <MainBlogLayout />,
+        element: withSuspense(<MainBlogLayout />),
         children: [
           {
             index: true,
-            element: <BlogPage />,
+            element: withSuspense(<BlogPage />),
           },
           {
             path: ":postId",
-            element: <BlogPost />,
+            element: withSuspense(<BlogPost />),
           },
         ],
       },
       {
         path: "showroom",
-        element: <Showroom />,
+        element: withSuspense(<Showroom />),
       },
       {
         path: "pass-reset",
-        element: <ResetPassword />,
+        element: withSuspense(<ResetPassword />),
       },
       {
         path: "sign-in",
-        element: <Authentication />,
+        element: withSuspense(<Authentication />),
       },
       {
         path: "shop",
-        element: <DoosetrainStore />,
+        element: withSuspense(<DoosetrainStore />),
       },
       {
         path: "cart",
-        element: <CartPage />,
+        element: withSuspense(<CartPage />),
       },
       {
         path: "product/:productId",
-        element: <ProductDetails />,
+        element: withSuspense(<ProductDetails />),
       },
       {
         path: "checkout",
-        element: <Checkout />,
+        element: withSuspense(<Checkout />),
       },
       {
         path: "checkout/success",
-        element: <CheckoutSuccess />,
+        element: withSuspense(<CheckoutSuccess />),
       },
       {
         path: "gallery",
-        element: <Gallery />,
+        element: withSuspense(<Gallery />),
       },
       {
         path: "gallery/:artworkId",
-        element: <ArtworkDetails />,
+        element: withSuspense(<ArtworkDetails />),
       },
       {
         path: "terms",
-        element: <TermsOfService />,
+        element: withSuspense(<TermsOfService />),
       },
       {
         path: "privacy",
-        element: <PrivacyPolicy />,
+        element: withSuspense(<PrivacyPolicy />),
       },
       {
         path: "refund-policy",
-        element: <RefundPolicy />,
+        element: withSuspense(<RefundPolicy />),
       },
       {
         path: "admin",
-        element: <ProtectedGuard />,
+        element: withSuspense(<ProtectedGuard />),
         children: [
           {
-            element: <AdminLayout />,
+            element: withSuspense(<AdminLayout />),
             children: [
-              { index: true, element: <Home /> },
-              { path: "users", element: <Users /> },
+              { index: true, element: withSuspense(<Home />) },
+              { path: "users", element: withSuspense(<Users />) },
               {
                 path: "products",
-                element: <ProductLayout />,
+                element: withSuspense(<ProductLayout />),
                 children: [
-                  { index: true, element: <ProductList /> },
-                  { path: "new-product", element: <ProductNew /> },
-                  { path: "edit/:productId", element: <ProductEdit /> },
+                  { index: true, element: withSuspense(<ProductList />) },
+                  {
+                    path: "new-product",
+                    element: withSuspense(<ProductNew />),
+                  },
+                  {
+                    path: "edit/:productId",
+                    element: withSuspense(<ProductEdit />),
+                  },
                 ],
               },
               {
                 path: "blog",
-                element: <BlogLayout />,
+                element: withSuspense(<BlogLayout />),
                 children: [
-                  { index: true, element: <BlogList /> },
-                  { path: "new-post", element: <BlogEntry /> },
-                  { path: ":postId", element: <BlogDetails /> },
-                  { path: ":postId/edit", element: <BlogEdit /> },
+                  { index: true, element: withSuspense(<BlogList />) },
+                  { path: "new-post", element: withSuspense(<BlogEntry />) },
+                  { path: ":postId", element: withSuspense(<BlogDetails />) },
+                  { path: ":postId/edit", element: withSuspense(<BlogEdit />) },
                 ],
               },
-              { path: "orders", element: <Orders /> },
+              { path: "orders", element: withSuspense(<Orders />) },
             ],
           },
         ],
